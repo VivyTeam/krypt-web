@@ -20,7 +20,7 @@ export async function generateKey(bits = 4096) {
 }
 
 /*
-  Decrypts text.
+  Encrypts text.
 */
 export async function encryptMessage(publicKey, text) {
   const buffer = stringToArrayBuffer(text);
