@@ -1,1 +1,1 @@
-export { generateKey, decryptMessage, encryptMessage } from "krypt";
+export { generateKey, decryptMessage, encryptMessage } from "./krypt";
