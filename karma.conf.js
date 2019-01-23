@@ -12,7 +12,6 @@ module.exports = function(config) {
       'karma-spec-reporter'
     ],
     reporters : ['spec'],
-    logLevel: config.LOG_INFO,
     browsers: ["ChromeHeadless"],
     preprocessors: {
       "src/**/*.js": ["webpack"]
