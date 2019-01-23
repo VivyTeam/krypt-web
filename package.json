@@ -1,0 +1,38 @@
+{
+  "name": "@vivy/krypt-web",
+  "version": "0.0.0",
+  "private": false,
+  "repository": {
+    "type": "git",
+    "url": "git://github.com/UvitaTeam/krypt-web"
+  },
+  "main": "dist/index.js",
+  "license": "MIT",
+  "files": [
+    "/dist",
+    "index.js",
+    "README.md"
+  ],
+  "scripts": {
+    "build": "babel --copy-files --out-dir dist",
+    "prebuild": "rimraf dist",
+    "linter:fix": "prettier --write '{,!(node_modules|.git)/**/}*.{js,json,md}'",
+    "linter:check": "eslint src/**/*",
+    "test": "jest",
+    "test:watch": "npm run test -- --watchAll"
+  },
+  "dependencies": {
+    "rxjs": "6.3.3",
+    "scrypt-async": "2.0.1"
+  },
+  "devDependencies": {
+    "@babel/cli": "^7.2.3",
+    "@babel/core": "^7.2.2",
+    "@babel/preset-env": "^7.3.1",
+    "babel-eslint": "^10.0.1",
+    "eslint": "^5.12.1",
+    "eslint-config-prettier": "^3.6.0",
+    "prettier": "^1.16.1",
+    "rimraf": "^2.6.3"
+  }
+}
