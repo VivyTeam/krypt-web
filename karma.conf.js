@@ -2,13 +2,16 @@ module.exports = function(config) {
   config.set({
     frameworks: ["mocha", "chai"],
     files: ["src/**/*.test.js"],
+    colors: true,
+    logLevel: config.LOG_INFO,
     plugins: [
       "karma-mocha",
       "karma-chai",
       "karma-chrome-launcher",
-      "karma-webpack"
+      "karma-webpack",
+      'karma-spec-reporter'
     ],
-    reporters: ["progress"],
+    reporters : ['spec'],
     logLevel: config.LOG_INFO,
     browsers: ["ChromeHeadless"],
     preprocessors: {
