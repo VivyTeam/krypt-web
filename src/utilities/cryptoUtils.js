@@ -1,27 +1,50 @@
+import { arrayBufferToString, stringToArrayBuffer } from "./basicUtils";
 
+/*
+  Generate an encryption key pair.
+*/
 export async function generateKey(bits = 4096) {
-  // Generate the RSA-OAEP 4096 bit Keys using SHA-256 Algorithms
-  const key = await window.crypto.subtle.generateKey(
+  const keyPair = await window.crypto.subtle.generateKey(
     {
       name: "RSA-OAEP",
       modulusLength: bits,
       publicExponent: new Uint8Array([0x01, 0x00, 0x01]),
       hash: { name: "SHA-256" }
     },
-    false,
+    true,
     ["encrypt", "decrypt"]
   );
 
-  const publicKey = await window.crypto.subtle.exportKey("spki", key.publicKey);
-
-  return { key, publicKey };
+  return keyPair;
 }
 
-export async function getKeyIVPair(privateKey, cipher) {
-  const decoded = window.atob(cipher);
+/*
+  Decrypts text.
+*/
+export async function encryptMessage(publicKey, text) {
+  const buffer = stringToArrayBuffer(text);
+
+  const ciphertext = await window.crypto.subtle.encrypt(
+    {
+      name: "RSA-OAEP"
+    },
+    publicKey,
+    buffer
+  );
+  const string = arrayBufferToString(ciphertext);
+  const encrypted = window.btoa(string);
+
+  return encrypted;
+}
+
+/*
+  Decrypts ciphertext.
+*/
+export async function decryptMessage(privateKey, ciphertext) {
+  const decoded = window.atob(ciphertext);
   const buffer = stringToArrayBuffer(decoded);
 
-  const decrypted = await window.crypto.subtle.decrypt(
+  let decrypted = await window.crypto.subtle.decrypt(
     {
       name: "RSA-OAEP"
     },
@@ -29,31 +52,5 @@ export async function getKeyIVPair(privateKey, cipher) {
     buffer
   );
 
-  const envelope = arrayBufferToString(decrypted);
-  const { base64EncodedKey, base64EncodedIV } = JSON.parse(envelope);
-  const key = stringToArrayBuffer(window.atob(base64EncodedKey));
-  const iv = stringToArrayBuffer(window.atob(base64EncodedIV));
-
-  return { key, iv };
-}
-
-export async function decryptData(key, iv, data) {
-  const importedKey = await window.crypto.subtle.importKey(
-    "raw",
-    key,
-    {
-      name: "AES-GCM"
-    },
-    false,
-    ["decrypt"]
-  );
-
-  return window.crypto.subtle.decrypt(
-    {
-      name: "AES-GCM",
-      iv
-    },
-    importedKey,
-    data
-  );
+  return arrayBufferToString(decrypted);
 }

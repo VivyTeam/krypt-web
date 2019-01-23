@@ -6,29 +6,15 @@ export function stringToArrayBuffer(data) {
     bytes[i] += data.charCodeAt(i);
   }
 
-  console.log(bytes.buffer)
   return bytes.buffer;
 }
 
 export function arrayBufferToString(buffer) {
-  let binary = "";
-  const bytes = new Uint8Array(buffer);
-
-  for (let i = 0; i < bytes.byteLength; i += 1) {
-    binary += String.fromCharCode(bytes[i]);
-  }
-  return binary;
+  return String.fromCharCode.apply(null, new Uint8Array(buffer));
 }
 
 export function keyBufferToPEM(keyBuffer) {
-  const bufferString = arrayBufferToString(keyBuffer);
-  const base64Key = window.btoa(bufferString);
-  let formatted = "";
-
-  for (let i = 0; i < base64Key.length; i += 64) {
-    const pemRow = base64Key.slice(i, i + 64);
-    formatted += `${pemRow}\n`;
-  }
-
-  return `-----BEGIN PUBLIC KEY-----\n${formatted}-----END PUBLIC KEY-----`;
+  const exportedAsString = arrayBufferToString(keyBuffer);
+  const exportedAsBase64 = window.btoa(exportedAsString);
+  return `-----BEGIN PRIVATE KEY-----\n${exportedAsBase64}\n-----END PRIVATE KEY-----`;
 }

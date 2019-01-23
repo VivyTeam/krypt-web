@@ -1,29 +1,21 @@
-
-import {
-  stringToArrayBuffer,
-  arrayBufferToString,
-  keyBufferToPEM
-} from "./basicUtils";
-
-import { generateKey } from "./cryptoUtils";
+import { stringToArrayBuffer, arrayBufferToString } from "./basicUtils";
 
 describe("basic utilities", () => {
-  var expect = window.expect;
+  const expect = window.expect;
 
-  it("should convert a string to array buffer", async () => {
-    const arrayBuffer = stringToArrayBuffer("Mock secret message");
-    expect(arrayBuffer.byteLength).to.be(5);
+  it("should convert a String to ArrayBuffer and back. Result should be equal.", async () => {
+    const originalString = "Mock secret message";
+    const arrayBuffer = stringToArrayBuffer(originalString);
+    const result = arrayBufferToString(arrayBuffer);
+
+    expect(result).to.equal(originalString);
   });
 
-  it("should convert an array buffer to string", async () => {
-    var buffer = new ArrayBuffer(100);
-    const binary = arrayBufferToString(buffer);
-    expect(binary.length).to.be(100);
-  });
+  it("should convert an ArrayBuffer to String and back. Result should be the equal", async () => {
+    const originalArrayBuffer = new ArrayBuffer(100);
+    const string = arrayBufferToString(originalArrayBuffer);
+    const result = stringToArrayBuffer(string);
 
-  it("should convert a key buffer to PEM format", async () => {
-    const { key, publicKey } = await generateKey();
-    const pemEncodedKey = keyBufferToPEM(publicKey)
-    console.log(pemEncodedKey)
+    expect(result).to.deep.equal(originalArrayBuffer);
   });
 });
