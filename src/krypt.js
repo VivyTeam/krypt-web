@@ -1,10 +1,13 @@
-import { arrayBufferToString, stringToArrayBuffer } from "./basicUtils";
+import {
+  arrayBufferToString,
+  stringToArrayBuffer
+} from "./utilities/convertions";
 
 /*
   Generate an encryption key pair.
 */
 export async function generateKey(bits = 4096) {
-  const keyPair = await window.crypto.subtle.generateKey(
+  return await window.crypto.subtle.generateKey(
     {
       name: "RSA-OAEP",
       modulusLength: bits,
@@ -14,8 +17,6 @@ export async function generateKey(bits = 4096) {
     true,
     ["encrypt", "decrypt"]
   );
-
-  return keyPair;
 }
 
 /*
@@ -23,7 +24,6 @@ export async function generateKey(bits = 4096) {
 */
 export async function encryptMessage(publicKey, text) {
   const buffer = stringToArrayBuffer(text);
-
   const ciphertext = await window.crypto.subtle.encrypt(
     {
       name: "RSA-OAEP"
@@ -32,9 +32,8 @@ export async function encryptMessage(publicKey, text) {
     buffer
   );
   const string = arrayBufferToString(ciphertext);
-  const encrypted = window.btoa(string);
 
-  return encrypted;
+  return window.btoa(string);
 }
 
 /*
@@ -43,8 +42,7 @@ export async function encryptMessage(publicKey, text) {
 export async function decryptMessage(privateKey, ciphertext) {
   const decoded = window.atob(ciphertext);
   const buffer = stringToArrayBuffer(decoded);
-
-  let decrypted = await window.crypto.subtle.decrypt(
+  const decrypted = await window.crypto.subtle.decrypt(
     {
       name: "RSA-OAEP"
     },

@@ -1,4 +1,4 @@
-import { generateKey, encryptMessage, decryptMessage } from "./cryptoUtils";
+import { generateKey, encryptMessage, decryptMessage } from "./index";
 
 describe("crypto utilities", () => {
   const expect = window.expect;

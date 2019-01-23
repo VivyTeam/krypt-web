@@ -13,6 +13,7 @@ export function arrayBufferToString(buffer) {
   return String.fromCharCode.apply(null, new Uint8Array(buffer));
 }
 
+// this stills need to be tested and used. just ignore for now.
 export function keyBufferToPEM(keyBuffer) {
   const exportedAsString = arrayBufferToString(keyBuffer);
   const exportedAsBase64 = window.btoa(exportedAsString);
