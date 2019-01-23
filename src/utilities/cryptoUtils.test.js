@@ -16,8 +16,6 @@ describe("crypto utilities", () => {
 
     const encrypted = await encryptMessage(mockPublicKey, originalString);
     const result = await decryptMessage(mockPrivateKey, encrypted);
-    console.log(encrypted);
-    console.log(result);
 
     expect(result).to.equal(originalString);
   });
