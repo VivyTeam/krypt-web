@@ -1,7 +1,7 @@
 module.exports = function(config) {
   config.set({
     frameworks: ["mocha", "chai"],
-    files: ["src/**/*.test.js"],
+    files: ["src/tests/**/*.test.js"],
     colors: true,
     logLevel: config.LOG_INFO,
     plugins: [
@@ -9,9 +9,9 @@ module.exports = function(config) {
       "karma-chai",
       "karma-chrome-launcher",
       "karma-webpack",
-      'karma-spec-reporter'
+      "karma-spec-reporter"
     ],
-    reporters : ['spec'],
+    reporters: ["spec"],
     browsers: ["ChromeHeadless"],
     preprocessors: {
       "src/**/*.js": ["webpack"]
