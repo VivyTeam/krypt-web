@@ -1,7 +1,7 @@
 import {
   stringToArrayBuffer,
   arrayBufferToString
-} from "../../lib/utilities/convertions";
+} from "../lib/utilities";
 
 describe("basic utilities", () => {
   const expect = window.expect;
