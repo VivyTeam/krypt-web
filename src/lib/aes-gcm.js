@@ -7,7 +7,7 @@ export async function generateKey() {
       name: "AES-GCM",
       length: 256
     },
-    false,
+    true,
     ["encrypt", "decrypt"]
   );
 }
@@ -23,6 +23,13 @@ export async function importKey(rawKey) {
     false,
     ["decrypt"]
   );
+}
+
+/*
+  AES-GCM - exportKey
+*/
+export async function exportKey(key) {
+  return await window.crypto.subtle.exportKey("raw", key);
 }
 
 /*

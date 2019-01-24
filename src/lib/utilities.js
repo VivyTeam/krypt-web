@@ -20,7 +20,12 @@ export async function generateInitialVector(bytes = 12) {
 export function toPem(keyAsArrayBuffer) {
   const keyAsString = arrayBufferToString(keyAsArrayBuffer);
   const keyAsBase64 = window.btoa(keyAsString);
-  var formatted = sliceInRows(keyAsBase64);
+
+  let formatted = "\n";
+  for (let i = 0; i < keyAsBase64.length; i += 64) {
+    const row = keyAsBase64.slice(i, i + 64);
+    formatted += `${row}\n`;
+  }
 
   return `-----BEGIN PUBLIC KEY-----${formatted}-----END PUBLIC KEY-----`;
 }
@@ -33,14 +38,4 @@ export function toArrayBuffer(keyAsPem) {
 
   const string = window.atob(key);
   return stringToArrayBuffer(string);
-}
-
-function sliceInRows(keyAsBase64) {
-  let finalString = "\n";
-  for (let i = 0; i < keyAsBase64.length; i += 64) {
-    const row = keyAsBase64.slice(i, i + 64);
-    finalString += `${row}\n`;
-  }
-
-  return finalString;
 }

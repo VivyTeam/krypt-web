@@ -1,4 +1,10 @@
-import { generateKey, encrypt, decrypt } from "../../src/lib/aes-gcm";
+import {
+  generateKey,
+  encrypt,
+  decrypt,
+  exportKey,
+  importKey
+} from "../../src/lib/aes-gcm";
 import {
   arrayBufferToString,
   stringToArrayBuffer,
@@ -36,6 +42,18 @@ describe("aes-gcm", () => {
     const originalString = "Encrypted secret message";
     const encryptedMessage = await encryptStringIntoBase64(originalString);
     const result = await decryptBase64IntoString(encryptedMessage);
+
+    expect(result).to.equal(originalString);
+  });
+
+  it("should generate key. encrypt. export it. import key. decrypt.", async () => {
+    const originalString = "Encrypted secret message";
+    const encryptedMessage = await encryptStringIntoBase64(originalString);
+
+    const rawKey = await exportKey(mockKey);
+    const importedKey = await importKey(rawKey);
+
+    const result = await decryptBase64IntoString(encryptedMessage, importedKey);
 
     expect(result).to.equal(originalString);
   });
