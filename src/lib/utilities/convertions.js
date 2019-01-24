@@ -13,9 +13,20 @@ export function arrayBufferToString(buffer) {
   return String.fromCharCode.apply(null, new Uint8Array(buffer));
 }
 
-// this stills need to be tested and used. just ignore for now.
-export function keyBufferToPEM(keyBuffer) {
-  const exportedAsString = arrayBufferToString(keyBuffer);
-  const exportedAsBase64 = window.btoa(exportedAsString);
-  return `-----BEGIN PRIVATE KEY-----\n${exportedAsBase64}\n-----END PRIVATE KEY-----`;
+export function toPem(keyAsArrayBuffer) {
+  const keyAsString = arrayBufferToString(keyAsArrayBuffer);
+  const keyAsBase64 = window.btoa(keyAsString);
+  var formatted = sliceInRows(keyAsBase64);
+
+  return `-----BEGIN PUBLIC KEY-----${formatted}-----END PUBLIC KEY-----`;
+}
+
+function sliceInRows(keyAsBase64) {
+  let finalString = "\n";
+  for (let i = 0; i < keyAsBase64.length; i += 64) {
+    const row = keyAsBase64.slice(i, i + 64);
+    finalString += `${row}\n`;
+  }
+
+  return finalString;
 }
