@@ -19,9 +19,7 @@ export async function generateKey(bits = 4096) {
 */
 export async function encrypt(publicKey, buffer) {
   return await window.crypto.subtle.encrypt(
-    {
-      name: "RSA-OAEP"
-    },
+    { name: "RSA-OAEP" },
     publicKey,
     buffer
   );
@@ -32,9 +30,7 @@ export async function encrypt(publicKey, buffer) {
 */
 export async function decrypt(privateKey, buffer) {
   return await window.crypto.subtle.decrypt(
-    {
-      name: "RSA-OAEP"
-    },
+    { name: "RSA-OAEP" },
     privateKey,
     buffer
   );
