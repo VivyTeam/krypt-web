@@ -1,7 +1,15 @@
-import { generateKey, encrypt, decrypt } from "../../src/lib/rsa-oaep";
+import {
+  generateKey,
+  encrypt,
+  decrypt,
+  exportKey,
+  importKey
+} from "../../src/lib/rsa-oaep";
 import {
   arrayBufferToString,
-  stringToArrayBuffer
+  stringToArrayBuffer,
+  toArrayBuffer,
+  toPem
 } from "../lib/utilities";
 
 describe("rsa-oaep", () => {
@@ -15,9 +23,9 @@ describe("rsa-oaep", () => {
     mockPublicKey = publicKey;
   });
 
-  async function encryptStringIntoBase64(originalString) {
+  async function encryptStringIntoBase64(originalString, key = mockPublicKey) {
     const buffer = stringToArrayBuffer(originalString);
-    const cipherText = await encrypt(mockPublicKey, buffer);
+    const cipherText = await encrypt(key, buffer);
     const string = arrayBufferToString(cipherText);
     return window.btoa(string);
   }
@@ -33,6 +41,21 @@ describe("rsa-oaep", () => {
     const originalString = "Encrypted secret message";
     const encryptedMessage = await encryptStringIntoBase64(originalString);
     const result = await decryptBase64IntoString(encryptedMessage);
+
+    expect(result).to.equal(originalString);
+  });
+
+  it("should generate key. encrypt. export it. transform it to pem. transform it back to buffer. import key. decrypt.", async () => {
+    const originalString = "Encrypted secret message";
+    const encryptedMessage = await encryptStringIntoBase64(originalString);
+
+    const exportedKey = await exportKey(mockPublicKey);
+    const pem = toPem(exportedKey);
+
+    const arrayBuffer = toArrayBuffer(pem);
+    const importedKey = await importKey(arrayBuffer);
+
+    const result = await decryptBase64IntoString(encryptedMessage, importedKey);
 
     expect(result).to.equal(originalString);
   });

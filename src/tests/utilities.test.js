@@ -1,7 +1,4 @@
-import {
-  stringToArrayBuffer,
-  arrayBufferToString
-} from "../lib/utilities";
+import { stringToArrayBuffer, arrayBufferToString } from "../lib/utilities";
 
 describe("basic utilities", () => {
   const expect = window.expect;
