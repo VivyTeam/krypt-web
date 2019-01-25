@@ -10,8 +10,12 @@ describe("vivy-encryption", () => {
     const originalString = "Encrypted secret message";
     const buffer = stringToArrayBuffer(originalString);
 
-    const encryptedData = await encrypt(publicKey, buffer);
-    const arrayBufferData = await decrypt(privateKey, encryptedData);
+    const { cipherSecrets, cipherData } = await encrypt(publicKey, buffer);
+    const arrayBufferData = await decrypt(
+      privateKey,
+      cipherSecrets,
+      cipherData
+    );
 
     const result = arrayBufferToString(arrayBufferData);
     expect(result).to.deep.equal(originalString);

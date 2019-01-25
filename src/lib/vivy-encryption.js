@@ -33,14 +33,13 @@ export async function encrypt(publicKey, buffer) {
   const cipherSecrets = await rsaEncrypt(publicKey, bufferSecrets);
   const cipherData = await aesEncrypt(aesKey, iv, buffer);
 
-  return { cipherSecrets, cipherData, iv, aesExportedKey, aesKey };
+  return { cipherSecrets, cipherData };
 }
 
 /*
    Vivy-Encryption - Decrypt
 */
-export async function decrypt(privateKey, items) {
-  const { cipherSecrets, cipherData } = items;
+export async function decrypt(privateKey, cipherSecrets, cipherData) {
   const { key, iv } = await decryptCipherSecrets(privateKey, cipherSecrets);
   return await decryptCipherData(key, iv, cipherData);
 }
