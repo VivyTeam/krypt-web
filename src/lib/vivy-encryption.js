@@ -30,17 +30,17 @@ export async function encrypt(publicKey, buffer) {
   });
   const bufferSecrets = stringToArrayBuffer(jsonString);
 
-  const cipherSecrets = await rsaEncrypt(publicKey, bufferSecrets);
+  const cipherKeyIv = await rsaEncrypt(publicKey, bufferSecrets);
   const cipherData = await aesEncrypt(aesKey, iv, buffer);
 
-  return { cipherSecrets, cipherData };
+  return { cipherKeyIv, cipherData };
 }
 
 /*
    Vivy-Encryption - Decrypt
 */
-export async function decrypt(privateKey, cipherSecrets, cipherData) {
-  const { key, iv } = await decryptCipherSecrets(privateKey, cipherSecrets);
+export async function decrypt(privateKey, cipherKeyIv, cipherData) {
+  const { key, iv } = await decryptCipherKeyIv(privateKey, cipherKeyIv);
   return await decryptCipherData(key, iv, cipherData);
 }
 
@@ -48,8 +48,8 @@ export async function decrypt(privateKey, cipherSecrets, cipherData) {
    Vivy-Encryption - Decrypts cipher secrets (key, iv) via RSA-OAEP.
    Returned format is ArrayBuffer.
 */
-async function decryptCipherSecrets(privateKey, cipherSecrets) {
-  const secretsArrayBuffer = await rsaDecrypt(privateKey, cipherSecrets);
+async function decryptCipherKeyIv(privateKey, cipherKeyIv) {
+  const secretsArrayBuffer = await rsaDecrypt(privateKey, cipherKeyIv);
   const secretsJsonString = arrayBufferToString(secretsArrayBuffer);
   const { base64EncodedKey, base64EncodedIV } = JSON.parse(secretsJsonString);
   const key = stringToArrayBuffer(window.atob(base64EncodedKey));
