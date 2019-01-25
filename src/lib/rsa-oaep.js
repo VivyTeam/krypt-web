@@ -35,3 +35,23 @@ export async function decrypt(privateKey, buffer) {
     buffer
   );
 }
+
+/*
+  RSA-OAEP - exportKey
+*/
+export async function exportKey(publicKey) {
+  return await window.crypto.subtle.exportKey("spki", publicKey);
+}
+
+/*
+  RSA-OAEP - importKey
+*/
+export async function importKey(buffer) {
+  return await window.crypto.subtle.importKey(
+    "spki",
+    buffer,
+    { name: "RSA-OAEP", hash: { name: "SHA-256" } },
+    false,
+    ["encrypt"]
+  );
+}
