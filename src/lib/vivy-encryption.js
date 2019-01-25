@@ -61,8 +61,8 @@ async function decryptCipherSecrets(privateKey, cipherSecrets) {
    Vivy-Encryption - Decrypts cipher data via AES-GCM.
    Returned format is ArrayBuffer.
 */
-async function decryptCipherData(rawKey, arrayBufferIv, cipherData) {
-  const key = await aesImportKey(rawKey);
+async function decryptCipherData(arrayBufferKey, arrayBufferIv, cipherData) {
+  const key = await aesImportKey(arrayBufferKey);
   const iv = new Uint8Array(arrayBufferIv);
 
   return await aesDecrypt(key, iv, cipherData);
