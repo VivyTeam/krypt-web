@@ -7,12 +7,13 @@ import create from "./factory";
 
 const aes = create("AES-GCM");
 const rsa = create("RSA-OAEP");
-/*
-  Vivy-Encryption - Encrypt
-  Encrypts aesKey and iv using RSA-OAEP to create a so called 'envelope'.
-  Encrypts data using AES-GCM.
-  Returns an object with the encrypted secrets (key,iv) and the data.
-*/
+
+/**
+ * Encrypts aesKey and iv using RSA-OAEP to create a so called 'envelope'. Encrypts data using AES-GCM.
+ * @param publicKey {arrayBuffer}
+ * @param buffer {arrayBuffer}
+ * @returns {Promise<{cipher: ArrayBuffer, cipherData: ArrayBuffer}>}
+ */
 export async function encrypt(publicKey, buffer) {
   const iv = await generateInitialVector();
   const aesKey = await aes.generateKey();
@@ -30,18 +31,24 @@ export async function encrypt(publicKey, buffer) {
   return { cipher, cipherData };
 }
 
-/*
-   Vivy-Encryption - Decrypt
-*/
+/**
+ *
+ * @param privateKey
+ * @param cipher
+ * @param cipherData
+ * @returns {Promise<*>}
+ */
 export async function decrypt(privateKey, { cipher, cipherData }) {
   const { key, iv } = await decryptCipherKeyIv(privateKey, cipher);
   return await decryptCipherData(key, iv, cipherData);
 }
 
-/*
-   Vivy-Encryption - Decrypts cipher secrets (key, iv) via RSA-OAEP.
-   Returned format is ArrayBuffer.
-*/
+/**
+ * Decrypts cipher secrets (key, iv) via RSA-OAEP.
+ * @param privateKey
+ * @param cipher
+ * @returns {Promise<{key: *, iv: *}>}
+ */
 async function decryptCipherKeyIv(privateKey, cipher) {
   const secretsArrayBuffer = await rsa.decrypt(privateKey, cipher);
   const secretsJsonString = arrayBufferToString(secretsArrayBuffer);
@@ -51,10 +58,13 @@ async function decryptCipherKeyIv(privateKey, cipher) {
   return { key, iv };
 }
 
-/*
-   Vivy-Encryption - Decrypts cipher data via AES-GCM.
-   Returned format is ArrayBuffer.
-*/
+/**
+ * Decrypts data via AES-GCM.
+ * @param arrayBufferKey
+ * @param arrayBufferIv
+ * @param cipherData
+ * @returns {Promise<ArrayBuffer>}
+ */
 async function decryptCipherData(arrayBufferKey, arrayBufferIv, cipherData) {
   const key = await aes.importKey(arrayBufferKey);
   const iv = new Uint8Array(arrayBufferIv);
@@ -62,11 +72,21 @@ async function decryptCipherData(arrayBufferKey, arrayBufferIv, cipherData) {
   return await aes.decrypt(key, iv, cipherData);
 }
 
+/**
+ * Transforms key array buffer to base 64 string.
+ * @param key
+ * @returns {string}
+ */
 function transformKeyToBase64(key) {
   const string = arrayBufferToString(key);
   return window.btoa(string);
 }
 
+/**
+ * Transforms iv array buffer to base 64 string.
+ * @param iv
+ * @returns {string}
+ */
 function transformIvToBase64(iv) {
   const buffer = iv.buffer;
   const string = arrayBufferToString(buffer);

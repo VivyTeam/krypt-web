@@ -7,6 +7,9 @@ export default type => {
   switch (type) {
     case "aes-gcm":
       return {
+        /**
+         * @returns {PromiseLike<CryptoKey>}
+         */
         generateKey: () =>
           window.crypto.subtle.generateKey(
             {
@@ -16,6 +19,10 @@ export default type => {
             true,
             ["encrypt", "decrypt"]
           ),
+        /**
+         * @param arrayBufferKey {arrayBuffer}
+         * @returns {PromiseLike<CryptoKey>}
+         */
         importKey: arrayBufferKey =>
           window.crypto.subtle.importKey(
             "raw",
@@ -25,6 +32,12 @@ export default type => {
             ["decrypt"]
           ),
         exportKey: key => window.crypto.subtle.exportKey("raw", key),
+        /**
+         * @param key {arrayBuffer}
+         * @param iv {arrayBuffer}
+         * @param data {arrayBuffer}
+         * @returns {PromiseLike<ArrayBuffer>}
+         */
         encrypt: (key, iv, data) =>
           window.crypto.subtle.encrypt(
             {
@@ -34,6 +47,12 @@ export default type => {
             key,
             data
           ),
+        /**
+         * @param key {arrayBuffer}
+         * @param iv {arrayBuffer}
+         * @param data {arrayBuffer}
+         * @returns {PromiseLike<ArrayBuffer>}
+         */
         decrypt: (key, iv, data) =>
           window.crypto.subtle.decrypt(
             {
@@ -46,6 +65,10 @@ export default type => {
       };
     case "rsa-oaep":
       return {
+        /**
+         * @param bits {number}
+         * @returns {PromiseLike<CryptoKeyPair>}
+         */
         generateKey: (bits = 4096) =>
           window.crypto.subtle.generateKey(
             {
@@ -57,6 +80,11 @@ export default type => {
             false,
             ["encrypt", "decrypt"]
           ),
+        /**
+         *
+         * @param arrayBufferKey {arrayBuffer}
+         * @returns {PromiseLike<CryptoKey>}
+         */
         importKey: arrayBufferKey =>
           window.crypto.subtle.importKey(
             "spki",
@@ -65,8 +93,17 @@ export default type => {
             false,
             ["encrypt"]
           ),
+        /**
+         * @param publicKey {arrayBuffer}
+         * @returns {PromiseLike<ArrayBuffer>}
+         */
         exportKey: publicKey =>
           window.crypto.subtle.exportKey("spki", publicKey),
+        /**
+         * @param publicKey {arrayBuffer}
+         * @param jsonString {string}
+         * @returns {PromiseLike<ArrayBuffer>}
+         */
         encrypt: (publicKey, jsonString) => {
           const arrayBuffer = stringToArrayBuffer(jsonString);
           return window.crypto.subtle.encrypt(
@@ -75,6 +112,11 @@ export default type => {
             arrayBuffer
           );
         },
+        /**
+         * @param privateKey {arrayBuffer}
+         * @param arrayBuffer {arrayBuffer}
+         * @returns {PromiseLike<ArrayBuffer>}
+         */
         decrypt: (privateKey, arrayBuffer) =>
           window.crypto.subtle.decrypt(
             { name: "RSA-OAEP" },
