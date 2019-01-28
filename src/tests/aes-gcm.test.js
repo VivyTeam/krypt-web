@@ -1,10 +1,5 @@
-import {
-  generateKey,
-  encrypt,
-  decrypt,
-  exportKey,
-  importKey
-} from "../../src/lib/aes-gcm";
+import create from "../../src/lib/factory";
+
 import {
   arrayBufferToString,
   stringToArrayBuffer,
@@ -13,20 +8,21 @@ import {
 
 describe("aes-gcm", () => {
   const expect = window.expect;
+  let aes = null;
   let mockKey = null;
   let mockIv = null;
 
   before(async () => {
+    aes = create("aes-gcm");
     const iv = await generateInitialVector();
-    const key = await generateKey();
-
+    const key = await aes.generateKey();
     mockIv = iv;
     mockKey = key;
   });
 
   async function encryptStringIntoBase64(originalString) {
     const buffer = stringToArrayBuffer(originalString);
-    const cipherText = await encrypt(mockKey, mockIv, buffer);
+    const cipherText = await aes.encrypt(mockKey, mockIv, buffer);
     const string = arrayBufferToString(cipherText);
     return window.btoa(string);
   }
@@ -34,7 +30,7 @@ describe("aes-gcm", () => {
   async function decryptBase64IntoString(base64) {
     const decoded = window.atob(base64);
     const buffer = stringToArrayBuffer(decoded);
-    const decrypted = await decrypt(mockKey, mockIv, buffer);
+    const decrypted = await aes.decrypt(mockKey, mockIv, buffer);
     return arrayBufferToString(decrypted);
   }
 
@@ -50,8 +46,8 @@ describe("aes-gcm", () => {
     const originalString = "Encrypted secret message";
     const encryptedMessage = await encryptStringIntoBase64(originalString);
 
-    const rawKey = await exportKey(mockKey);
-    const importedKey = await importKey(rawKey);
+    const rawKey = await aes.exportKey(mockKey);
+    const importedKey = await aes.importKey(rawKey);
 
     const result = await decryptBase64IntoString(encryptedMessage, importedKey);
 

@@ -1,10 +1,5 @@
-import {
-  generateKey,
-  encrypt,
-  decrypt,
-  exportKey,
-  importKey
-} from "../../src/lib/rsa-oaep";
+import create from "../../src/lib/factory";
+
 import {
   arrayBufferToString,
   stringToArrayBuffer,
@@ -14,18 +9,20 @@ import {
 
 describe("rsa-oaep", () => {
   const expect = window.expect;
+  let rsa = null;
   let mockPrivateKey = null;
   let mockPublicKey = null;
 
   before(async () => {
-    const { privateKey, publicKey } = await generateKey();
+    rsa = create("RSA-OAEP");
+    const { privateKey, publicKey } = await rsa.generateKey();
     mockPrivateKey = privateKey;
     mockPublicKey = publicKey;
   });
 
   async function encryptStringIntoBase64(originalString, key = mockPublicKey) {
     const buffer = stringToArrayBuffer(originalString);
-    const cipherText = await encrypt(key, buffer);
+    const cipherText = await rsa.encrypt(key, buffer);
     const string = arrayBufferToString(cipherText);
     return window.btoa(string);
   }
@@ -33,7 +30,7 @@ describe("rsa-oaep", () => {
   async function decryptBase64IntoString(base64) {
     const decoded = window.atob(base64);
     const buffer = stringToArrayBuffer(decoded);
-    const decrypted = await decrypt(mockPrivateKey, buffer);
+    const decrypted = await rsa.decrypt(mockPrivateKey, buffer);
     return arrayBufferToString(decrypted);
   }
 
@@ -49,11 +46,11 @@ describe("rsa-oaep", () => {
     const originalString = "Encrypted secret message";
     const encryptedMessage = await encryptStringIntoBase64(originalString);
 
-    const exportedKey = await exportKey(mockPublicKey);
+    const exportedKey = await rsa.exportKey(mockPublicKey);
     const pem = toPem(exportedKey);
 
     const arrayBuffer = toArrayBuffer(pem);
-    const importedKey = await importKey(arrayBuffer);
+    const importedKey = await rsa.importKey(arrayBuffer);
 
     const result = await decryptBase64IntoString(encryptedMessage, importedKey);
 
