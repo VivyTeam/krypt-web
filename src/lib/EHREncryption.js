@@ -42,7 +42,7 @@ export async function decrypt(privKey, encryptedData) {
   try {
     return await aes.decrypt(importedKey, uint8Iv, data);
   } catch {
-    throw new Error("EncryptionFailed");
+    throw new Error("DecryptionFailed");
   }
 }
 
