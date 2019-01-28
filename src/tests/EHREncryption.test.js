@@ -1,4 +1,4 @@
-import { encrypt, decrypt } from "../../src/lib/vivy-encryption";
+import { encrypt, decrypt } from "../lib/EHREncryption";
 import { arrayBufferToString, stringToArrayBuffer } from "../lib/utilities";
 import create from "../lib/factory";
 

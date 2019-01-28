@@ -1,3 +1,5 @@
+import { stringToArrayBuffer } from "./utilities";
+
 export default type => {
   const types = ["aes-gcm", "rsa-oaep"];
   type = type.toLowerCase();
@@ -65,12 +67,14 @@ export default type => {
           ),
         exportKey: publicKey =>
           window.crypto.subtle.exportKey("spki", publicKey),
-        encrypt: (publicKey, arrayBuffer) =>
-          window.crypto.subtle.encrypt(
+        encrypt: (publicKey, jsonString) => {
+          const arrayBuffer = stringToArrayBuffer(jsonString);
+          return window.crypto.subtle.encrypt(
             { name: "RSA-OAEP" },
             publicKey,
             arrayBuffer
-          ),
+          );
+        },
         decrypt: (privateKey, arrayBuffer) =>
           window.crypto.subtle.decrypt(
             { name: "RSA-OAEP" },

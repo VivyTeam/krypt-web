@@ -1,1 +1,1 @@
-export { encrypt, decrypt } from "./vivy-encryption";
+export { encrypt, decrypt } from "./EHREncryption";

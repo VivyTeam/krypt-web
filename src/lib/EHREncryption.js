@@ -17,15 +17,14 @@ export async function encrypt(publicKey, buffer) {
   const iv = await generateInitialVector();
   const aesKey = await aes.generateKey();
   const aesExportedKey = await aes.exportKey(aesKey);
-  const ivBase64 = transformIvToBase64(iv);
-  const aesKeyBase64 = transformKeyToBase64(aesExportedKey);
-  const jsonString = JSON.stringify({
-    base64EncodedIV: ivBase64,
-    base64EncodedKey: aesKeyBase64
+  const base64EncodedIV = transformIvToBase64(iv);
+  const base64EncodedKey = transformKeyToBase64(aesExportedKey);
+  const jsonStringSecrets = JSON.stringify({
+    base64EncodedIV,
+    base64EncodedKey
   });
-  const bufferSecrets = stringToArrayBuffer(jsonString);
 
-  const cipher = await rsa.encrypt(publicKey, bufferSecrets);
+  const cipher = await rsa.encrypt(publicKey, jsonStringSecrets);
   const cipherData = await aes.encrypt(aesKey, iv, buffer);
 
   return { cipher, cipherData };
@@ -34,7 +33,7 @@ export async function encrypt(publicKey, buffer) {
 /*
    Vivy-Encryption - Decrypt
 */
-export async function decrypt(privateKey, {cipher, cipherData}) {
+export async function decrypt(privateKey, { cipher, cipherData }) {
   const { key, iv } = await decryptCipherKeyIv(privateKey, cipher);
   return await decryptCipherData(key, iv, cipherData);
 }
