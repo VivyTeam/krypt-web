@@ -18,10 +18,13 @@ export async function encrypt(publicKey, buffer) {
   const iv = await generateInitialVector();
   const key = await aes.generateKey();
 
-  const cipher = await encryptKeyIv(publicKey, key, iv);
-  const cipherData = await aes.encrypt(key, iv, buffer);
-
-  return { cipher, cipherData };
+  try {
+    const cipher = await encryptKeyIv(publicKey, key, iv);
+    const cipherData = await aes.encrypt(key, iv, buffer);
+    return { cipher, cipherData };
+  } catch {
+    throw new Error("EncryptionFailed");
+  }
 }
 
 /**
@@ -36,7 +39,11 @@ export async function decrypt(privateKey, { cipher, cipherData }) {
   const importedKey = await aes.importKey(key);
   const uint8Iv = new Uint8Array(iv);
 
-  return await aes.decrypt(importedKey, uint8Iv, cipherData);
+  try {
+    return await aes.decrypt(importedKey, uint8Iv, cipherData);
+  } catch {
+    throw new Error("EncryptionFailed");
+  }
 }
 
 /**
