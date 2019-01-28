@@ -10,18 +10,18 @@ const rsa = create("RSA-OAEP");
 
 /**
  * Encrypts aesKey and iv using RSA-OAEP to create a so called 'envelope'. Encrypts data using AES-GCM.
- * @param publicKey {arrayBuffer}
- * @param buffer {arrayBuffer}
+ * @param pubKey {arrayBuffer}
+ * @param toEncryptBytes {arrayBuffer}
  * @returns {Promise<{cipher: ArrayBuffer, cipherData: ArrayBuffer}>}
  */
-export async function encrypt(publicKey, buffer) {
+export async function encrypt(pubKey, toEncryptBytes) {
   const iv = await generateInitialVector();
   const key = await aes.generateKey();
 
   try {
-    const cipher = await encryptKeyIv(publicKey, key, iv);
-    const cipherData = await aes.encrypt(key, iv, buffer);
-    return { cipher, cipherData };
+    const cipher = await encryptKeyIv(pubKey, key, iv);
+    const cipherData = await aes.encrypt(key, iv, toEncryptBytes);
+    return { cipher, cipherData, version: "AES-GCM" };
   } catch {
     throw new Error("EncryptionFailed");
   }
@@ -29,13 +29,13 @@ export async function encrypt(publicKey, buffer) {
 
 /**
  * Decrypts data
- * @param privateKey {arrayBuffer}
- * @param cipher {arrayBuffer}
- * @param cipherData {arrayBuffer}
- * @returns {Promise<*>}
+ * @param privKey {arrayBuffer}
+ * @param encryptedData {object}
+ * @returns {Promise<ArrayBuffer>}
  */
-export async function decrypt(privateKey, { cipher, cipherData }) {
-  const { key, iv } = await decryptKeyIv(privateKey, cipher);
+export async function decrypt(privKey, encryptedData) {
+  const { cipher, cipherData } = encryptedData;
+  const { key, iv } = await decryptKeyIv(privKey, cipher);
   const importedKey = await aes.importKey(key);
   const uint8Iv = new Uint8Array(iv);
 
