@@ -39,7 +39,7 @@ export async function encrypt(publicKey, buffer) {
  * @returns {Promise<*>}
  */
 export async function decrypt(privateKey, { cipher, cipherData }) {
-  const { key, iv } = await decryptCipherKeyIv(privateKey, cipher);
+  const { key, iv } = await decryptCipher(privateKey, cipher);
   return await decryptCipherData(key, iv, cipherData);
 }
 
@@ -49,7 +49,7 @@ export async function decrypt(privateKey, { cipher, cipherData }) {
  * @param cipher {arrayBuffer}
  * @returns {Promise<{key: *, iv: *}>}
  */
-async function decryptCipherKeyIv(privateKey, cipher) {
+async function decryptCipher(privateKey, cipher) {
   const secretsArrayBuffer = await rsa.decrypt(privateKey, cipher);
   const secretsJsonString = arrayBufferToString(secretsArrayBuffer);
   const { base64EncodedKey, base64EncodedIV } = JSON.parse(secretsJsonString);
