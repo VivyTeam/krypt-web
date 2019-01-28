@@ -33,9 +33,9 @@ export async function encrypt(publicKey, buffer) {
 
 /**
  *
- * @param privateKey
- * @param cipher
- * @param cipherData
+ * @param privateKey {arrayBuffer}
+ * @param cipher {arrayBuffer}
+ * @param cipherData {arrayBuffer}
  * @returns {Promise<*>}
  */
 export async function decrypt(privateKey, { cipher, cipherData }) {
@@ -44,9 +44,9 @@ export async function decrypt(privateKey, { cipher, cipherData }) {
 }
 
 /**
- * Decrypts cipher secrets (key, iv) via RSA-OAEP.
- * @param privateKey
- * @param cipher
+ * Decrypts cipher (key, iv) via RSA-OAEP.
+ * @param privateKey {arrayBuffer}
+ * @param cipher {arrayBuffer}
  * @returns {Promise<{key: *, iv: *}>}
  */
 async function decryptCipherKeyIv(privateKey, cipher) {
@@ -60,9 +60,9 @@ async function decryptCipherKeyIv(privateKey, cipher) {
 
 /**
  * Decrypts data via AES-GCM.
- * @param arrayBufferKey
- * @param arrayBufferIv
- * @param cipherData
+ * @param arrayBufferKey {arrayBuffer}
+ * @param arrayBufferIv {arrayBuffer}
+ * @param cipherData {arrayBuffer}
  * @returns {Promise<ArrayBuffer>}
  */
 async function decryptCipherData(arrayBufferKey, arrayBufferIv, cipherData) {
@@ -74,7 +74,7 @@ async function decryptCipherData(arrayBufferKey, arrayBufferIv, cipherData) {
 
 /**
  * Transforms key array buffer to base 64 string.
- * @param key
+ * @param key {arrayBuffer}
  * @returns {string}
  */
 function transformKeyToBase64(key) {
@@ -84,7 +84,7 @@ function transformKeyToBase64(key) {
 
 /**
  * Transforms iv array buffer to base 64 string.
- * @param iv
+ * @param iv {arrayBuffer}
  * @returns {string}
  */
 function transformIvToBase64(iv) {
