@@ -19,9 +19,9 @@ export async function encrypt(pubKey, toEncryptBytes) {
   const key = await aes.generateKey();
 
   try {
-    const cipher = await encryptKeyIv(pubKey, key, iv);
-    const cipherData = await aes.encrypt(key, iv, toEncryptBytes);
-    return { cipher, cipherData, version: "AES-GCM" };
+    const cipherKey = await encryptKeyIv(pubKey, key, iv);
+    const data = await aes.encrypt(key, iv, toEncryptBytes);
+    return { cipherKey, data, version: "AES-GCM" };
   } catch {
     throw new Error("EncryptionFailed");
   }
@@ -34,13 +34,13 @@ export async function encrypt(pubKey, toEncryptBytes) {
  * @returns {Promise<ArrayBuffer>}
  */
 export async function decrypt(privKey, encryptedData) {
-  const { cipher, cipherData } = encryptedData;
-  const { key, iv } = await decryptKeyIv(privKey, cipher);
+  const { cipherKey, data } = encryptedData;
+  const { key, iv } = await decryptKeyIv(privKey, cipherKey);
   const importedKey = await aes.importKey(key);
   const uint8Iv = new Uint8Array(iv);
 
   try {
-    return await aes.decrypt(importedKey, uint8Iv, cipherData);
+    return await aes.decrypt(importedKey, uint8Iv, data);
   } catch {
     throw new Error("EncryptionFailed");
   }
