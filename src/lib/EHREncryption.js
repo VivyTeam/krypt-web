@@ -16,8 +16,38 @@ const rsa = create("RSA-OAEP");
  */
 export async function encrypt(publicKey, buffer) {
   const iv = await generateInitialVector();
-  const aesKey = await aes.generateKey();
-  const aesExportedKey = await aes.exportKey(aesKey);
+  const key = await aes.generateKey();
+
+  const cipher = await encryptKeyIv(publicKey, key, iv);
+  const cipherData = await aes.encrypt(key, iv, buffer);
+
+  return { cipher, cipherData };
+}
+
+/**
+ * Decrypts data
+ * @param privateKey {arrayBuffer}
+ * @param cipher {arrayBuffer}
+ * @param cipherData {arrayBuffer}
+ * @returns {Promise<*>}
+ */
+export async function decrypt(privateKey, { cipher, cipherData }) {
+  const { key, iv } = await decryptKeyIv(privateKey, cipher);
+  const importedKey = await aes.importKey(key);
+  const uint8Iv = new Uint8Array(iv);
+
+  return await aes.decrypt(importedKey, uint8Iv, cipherData);
+}
+
+/**
+ * Encrypts cipher (key, iv) via RSA-OAEP.
+ * @param publicKey {arrayBuffer}
+ * @param key {arrayBuffer}
+ * @param iv {arrayBuffer}
+ * @returns {Promise<*|PromiseLike<ArrayBuffer>>}
+ */
+async function encryptKeyIv(publicKey, key, iv) {
+  const aesExportedKey = await aes.exportKey(key);
   const base64EncodedIV = transformIvToBase64(iv);
   const base64EncodedKey = transformKeyToBase64(aesExportedKey);
   const jsonStringSecrets = JSON.stringify({
@@ -25,22 +55,7 @@ export async function encrypt(publicKey, buffer) {
     base64EncodedKey
   });
 
-  const cipher = await rsa.encrypt(publicKey, jsonStringSecrets);
-  const cipherData = await aes.encrypt(aesKey, iv, buffer);
-
-  return { cipher, cipherData };
-}
-
-/**
- *
- * @param privateKey {arrayBuffer}
- * @param cipher {arrayBuffer}
- * @param cipherData {arrayBuffer}
- * @returns {Promise<*>}
- */
-export async function decrypt(privateKey, { cipher, cipherData }) {
-  const { key, iv } = await decryptCipher(privateKey, cipher);
-  return await decryptCipherData(key, iv, cipherData);
+  return rsa.encrypt(publicKey, jsonStringSecrets);
 }
 
 /**
@@ -49,27 +64,13 @@ export async function decrypt(privateKey, { cipher, cipherData }) {
  * @param cipher {arrayBuffer}
  * @returns {Promise<{key: *, iv: *}>}
  */
-async function decryptCipher(privateKey, cipher) {
+async function decryptKeyIv(privateKey, cipher) {
   const secretsArrayBuffer = await rsa.decrypt(privateKey, cipher);
   const secretsJsonString = arrayBufferToString(secretsArrayBuffer);
   const { base64EncodedKey, base64EncodedIV } = JSON.parse(secretsJsonString);
   const key = stringToArrayBuffer(window.atob(base64EncodedKey));
   const iv = stringToArrayBuffer(window.atob(base64EncodedIV));
   return { key, iv };
-}
-
-/**
- * Decrypts data via AES-GCM.
- * @param arrayBufferKey {arrayBuffer}
- * @param arrayBufferIv {arrayBuffer}
- * @param cipherData {arrayBuffer}
- * @returns {Promise<ArrayBuffer>}
- */
-async function decryptCipherData(arrayBufferKey, arrayBufferIv, cipherData) {
-  const key = await aes.importKey(arrayBufferKey);
-  const iv = new Uint8Array(arrayBufferIv);
-
-  return await aes.decrypt(key, iv, cipherData);
 }
 
 /**
