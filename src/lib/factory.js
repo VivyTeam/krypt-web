@@ -5,8 +5,8 @@ export default type => {
   switch (type) {
     case "aes-gcm":
       return {
-        generateKey: async () =>
-          await window.crypto.subtle.generateKey(
+        generateKey: () =>
+          window.crypto.subtle.generateKey(
             {
               name: "AES-GCM",
               length: 256
@@ -14,18 +14,17 @@ export default type => {
             true,
             ["encrypt", "decrypt"]
           ),
-        importKey: async arrayBufferKey =>
-          await window.crypto.subtle.importKey(
+        importKey: arrayBufferKey =>
+          window.crypto.subtle.importKey(
             "raw",
             arrayBufferKey,
             { name: "AES-GCM" },
             false,
             ["decrypt"]
           ),
-        exportKey: async key =>
-          await window.crypto.subtle.exportKey("raw", key),
-        encrypt: async (key, iv, data) =>
-          await window.crypto.subtle.encrypt(
+        exportKey: key => window.crypto.subtle.exportKey("raw", key),
+        encrypt: (key, iv, data) =>
+          window.crypto.subtle.encrypt(
             {
               name: "AES-GCM",
               iv
@@ -33,8 +32,8 @@ export default type => {
             key,
             data
           ),
-        decrypt: async (key, iv, data) =>
-          await window.crypto.subtle.decrypt(
+        decrypt: (key, iv, data) =>
+          window.crypto.subtle.decrypt(
             {
               name: "AES-GCM",
               iv
@@ -45,8 +44,8 @@ export default type => {
       };
     case "rsa-oaep":
       return {
-        generateKey: async (bits = 4096) =>
-          await window.crypto.subtle.generateKey(
+        generateKey: (bits = 4096) =>
+          window.crypto.subtle.generateKey(
             {
               name: "RSA-OAEP",
               modulusLength: bits,
@@ -56,24 +55,24 @@ export default type => {
             false,
             ["encrypt", "decrypt"]
           ),
-        importKey: async arrayBufferKey =>
-          await window.crypto.subtle.importKey(
+        importKey: arrayBufferKey =>
+          window.crypto.subtle.importKey(
             "spki",
             arrayBufferKey,
             { name: "RSA-OAEP", hash: { name: "SHA-256" } },
             false,
             ["encrypt"]
           ),
-        exportKey: async publicKey =>
-          await window.crypto.subtle.exportKey("spki", publicKey),
-        encrypt: async (publicKey, arrayBuffer) =>
-          await window.crypto.subtle.encrypt(
+        exportKey: publicKey =>
+          window.crypto.subtle.exportKey("spki", publicKey),
+        encrypt: (publicKey, arrayBuffer) =>
+          window.crypto.subtle.encrypt(
             { name: "RSA-OAEP" },
             publicKey,
             arrayBuffer
           ),
-        decrypt: async (privateKey, arrayBuffer) =>
-          await window.crypto.subtle.decrypt(
+        decrypt: (privateKey, arrayBuffer) =>
+          window.crypto.subtle.decrypt(
             { name: "RSA-OAEP" },
             privateKey,
             arrayBuffer
