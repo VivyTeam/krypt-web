@@ -12,7 +12,7 @@ const rsa = create("RSA-OAEP");
  * Encrypts aesKey and iv using RSA-OAEP to create a so called 'envelope'. Encrypts data using AES-GCM.
  * @param pubKey {arrayBuffer}
  * @param toEncryptBytes {arrayBuffer}
- * @returns {Promise<{cipher: ArrayBuffer, cipherData: ArrayBuffer}>}
+ * @returns {Promise<{cipherKey: (*|PromiseLike<ArrayBuffer>), data: ArrayBuffer, version: string}>}
  */
 export async function encrypt(pubKey, toEncryptBytes) {
   const iv = await generateInitialVector();
