@@ -35,7 +35,7 @@ export async function encrypt(pubKey, toEncryptBytes) {
  */
 export async function decrypt(privKey, encryptedData) {
   const { cipherKey, data } = encryptedData;
-  const { key, iv } = await decryptKeyIv(privKey, cipherKey);
+  const { key, iv, version } = await decryptKeyIv(privKey, cipherKey);
   const importedKey = await aes.importKey(key);
   const uint8Iv = new Uint8Array(iv);
 
