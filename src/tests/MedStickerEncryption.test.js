@@ -1,22 +1,15 @@
-import { encrypt, decrypt } from "../lib/EHREncryption";
+import { encrypt, decrypt } from "../lib/MedStickerEncryption";
 import { arrayBufferToString, stringToArrayBuffer } from "../lib/utilities";
-import create from "../lib/factory";
 
-describe("EHREncryption", () => {
+describe("MedStickerEncryption", () => {
   const expect = window.expect;
-  let rsa = null;
-
-  before(async () => {
-    rsa = create("RSA-OAEP");
-  });
 
   it("should encrypt data and decrypt it back.", async () => {
-    const { privateKey, publicKey } = await rsa.generateKey();
     const originalString = "Encrypted secret message";
     const buffer = stringToArrayBuffer(originalString);
 
-    const data = await encrypt(publicKey, buffer);
-    const arrayBufferData = await decrypt(privateKey, data);
+    const data = await encrypt("foobar", "barfoo", buffer);
+    const arrayBufferData = await decrypt("foobar", "barfoo", data);
 
     const result = arrayBufferToString(arrayBufferData);
     expect(result).to.deep.equal(originalString);
