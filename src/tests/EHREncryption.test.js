@@ -2,7 +2,7 @@ import { encrypt, decrypt } from "../lib/EHREncryption";
 import { arrayBufferToString, stringToArrayBuffer } from "../lib/utilities";
 import create from "../lib/factory";
 
-describe("vivy-encryption", () => {
+describe("EHREncryption", () => {
   const expect = window.expect;
   let rsa = null;
 
