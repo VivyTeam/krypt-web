@@ -20,20 +20,25 @@ export default type => {
             ["encrypt", "decrypt"]
           ),
         /**
-         * @param arrayBufferKey {arrayBuffer}
+         * @param key {arrayBuffer}
          * @returns {PromiseLike<CryptoKey>}
          */
-        importKey: arrayBufferKey =>
+        importKey: key =>
           window.crypto.subtle.importKey(
             "raw",
-            arrayBufferKey,
+            key,
             { name: "AES-GCM" },
             false,
             ["decrypt"]
           ),
+        /**
+         *
+         * @param key {CryptoKey}
+         * @returns {PromiseLike<ArrayBuffer>}
+         */
         exportKey: key => window.crypto.subtle.exportKey("raw", key),
         /**
-         * @param key {arrayBuffer}
+         * @param key {CryptoKey}
          * @param iv {arrayBuffer}
          * @param data {arrayBuffer}
          * @returns {PromiseLike<ArrayBuffer>}
@@ -48,7 +53,7 @@ export default type => {
             data
           ),
         /**
-         * @param key {arrayBuffer}
+         * @param key {CryptoKey}
          * @param iv {arrayBuffer}
          * @param data {arrayBuffer}
          * @returns {PromiseLike<ArrayBuffer>}
@@ -57,7 +62,7 @@ export default type => {
           window.crypto.subtle.decrypt(
             {
               name: "AES-GCM",
-              iv
+              iv: new Uint8Array(iv)
             },
             key,
             data
@@ -82,25 +87,25 @@ export default type => {
           ),
         /**
          *
-         * @param arrayBufferKey {arrayBuffer}
+         * @param key {arrayBuffer}
          * @returns {PromiseLike<CryptoKey>}
          */
-        importKey: arrayBufferKey =>
+        importKey: key =>
           window.crypto.subtle.importKey(
             "spki",
-            arrayBufferKey,
+            key,
             { name: "RSA-OAEP", hash: { name: "SHA-256" } },
             false,
             ["encrypt"]
           ),
         /**
-         * @param publicKey {arrayBuffer}
+         * @param publicKey {CryptoKey}
          * @returns {PromiseLike<ArrayBuffer>}
          */
         exportKey: publicKey =>
           window.crypto.subtle.exportKey("spki", publicKey),
         /**
-         * @param publicKey {arrayBuffer}
+         * @param publicKey {CryptoKey}
          * @param jsonString {string}
          * @returns {PromiseLike<ArrayBuffer>}
          */
@@ -113,7 +118,7 @@ export default type => {
           );
         },
         /**
-         * @param privateKey {arrayBuffer}
+         * @param privateKey {CryptoKey}
          * @param arrayBuffer {arrayBuffer}
          * @returns {PromiseLike<ArrayBuffer>}
          */
