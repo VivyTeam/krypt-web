@@ -187,7 +187,6 @@ export default type => {
             data
           )
       };
-
     case "scrypt":
       return {
         /**
@@ -216,11 +215,10 @@ export default type => {
           return derivedKey.buffer;
         }
       };
-
     default:
       throw {
         type: "Not found",
-        message: `The algorythm you requested is not currently supported. 
+        message: `The algorithm you requested is not currently supported. 
         Supported are ${types.map(type => ` ${type}`)}.`
       };
   }
