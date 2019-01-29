@@ -20,7 +20,9 @@
     "test": "karma start --single-run --browsers ChromeHeadless karma.conf.js",
     "test:watch": "karma start --auto-watch --browsers ChromeHeadless karma.conf.js"
   },
-  "dependencies": {},
+  "dependencies": {
+    "scrypt-async": "2.0.1"
+  },
   "devDependencies": {
     "@babel/cli": "7.2.3",
     "@babel/core": "7.2.2",

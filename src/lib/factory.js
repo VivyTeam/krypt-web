@@ -1,7 +1,8 @@
 import { stringToArrayBuffer } from "./utilities";
+import scrypt from "scrypt-async";
 
 export default type => {
-  const types = ["aes-gcm", "rsa-oaep"];
+  const types = ["aes-gcm", "rsa-oaep", "aes-cbc", "scrypt"];
   type = type.toLowerCase();
 
   switch (type) {
@@ -124,6 +125,98 @@ export default type => {
             arrayBuffer
           )
       };
+    case "aes-cbc":
+      return {
+        /**
+         * @returns {PromiseLike<CryptoKey>}
+         */
+        generateKey: () =>
+          window.crypto.subtle.generateKey(
+            {
+              name: "AES-CBC",
+              length: 256
+            },
+            true,
+            ["encrypt", "decrypt"]
+          ),
+        /**
+         * @param key {arrayBuffer}
+         * @returns {PromiseLike<CryptoKey>}
+         */
+        importKey: key =>
+          window.crypto.subtle.importKey(
+            "raw",
+            key,
+            { name: "AES-CBC" },
+            false,
+            ["encrypt", "decrypt"]
+          ),
+        /**
+         * @param key {CryptoKey}
+         * @returns {PromiseLike<ArrayBuffer>}
+         */
+        exportKey: key => window.crypto.subtle.exportKey("raw", key),
+        /**
+         * @param key {CryptoKey}
+         * @param iv {arrayBuffer}
+         * @param data {arrayBuffer}
+         * @returns {PromiseLike<ArrayBuffer>}
+         */
+        encrypt: (key, iv, data) =>
+          window.crypto.subtle.encrypt(
+            {
+              name: "AES-CBC",
+              iv
+            },
+            key,
+            data
+          ),
+        /**
+         * @param key {CryptoKey}
+         * @param iv {arrayBuffer}
+         * @param data {arrayBuffer}
+         * @returns {PromiseLike<ArrayBuffer>}
+         */
+        decrypt: (key, iv, data) =>
+          window.crypto.subtle.decrypt(
+            {
+              name: "AES-CBC",
+              iv
+            },
+            key,
+            data
+          )
+      };
+
+    case "scrypt":
+      return {
+        /**
+         * @param password {string}
+         * @param salt {string}
+         * @param options {object}
+         * @returns {arrayBuffer}
+         */
+        generateKey: (password, salt, options = {}) => {
+          let derivedKey;
+          scrypt(
+            password,
+            salt,
+            {
+              N: 16384,
+              r: 8,
+              p: 1,
+              dkLen: 32,
+              encoding: "binary",
+              ...options
+            },
+            key => {
+              derivedKey = key;
+            }
+          );
+          return derivedKey.buffer;
+        }
+      };
+
     default:
       throw {
         type: "Not found",
