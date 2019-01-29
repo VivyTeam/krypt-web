@@ -37,10 +37,9 @@ export async function decrypt(privKey, encryptedData) {
   const { cipherKey, data } = encryptedData;
   const { key, iv, version } = await decryptKeyIv(privKey, cipherKey);
   const importedKey = await aes.importKey(key);
-  const uint8Iv = new Uint8Array(iv);
 
   try {
-    return await aes.decrypt(importedKey, uint8Iv, data);
+    return await aes.decrypt(importedKey, iv, data);
   } catch {
     throw new Error("DecryptionFailed");
   }
