@@ -8,8 +8,8 @@ describe("MedStickerEncryption", () => {
     const originalString = "Encrypted secret message";
     const buffer = stringToArrayBuffer(originalString);
 
-    const data = await encrypt("christos", "christos", buffer);
-    const arrayBufferData = await decrypt("christos", "christos", data);
+    const data = await encrypt("foobar", "barfoo", buffer);
+    const arrayBufferData = await decrypt("foobar", "barfoo", data);
 
     const result = arrayBufferToString(arrayBufferData);
     expect(result).to.deep.equal(originalString);
