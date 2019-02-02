@@ -117,11 +117,11 @@ export function deriveKey(code, pin, version) {
 }
 
 /**
- * @param key
- * @param iv
- * @param version
- * @param salt
- * @returns {Promise<void>}
+ * @param key {ArrayBuffer}
+ * @param iv {ArrayBuffer}
+ * @param version {string}
+ * @param salt {string}
+ * @returns {Promise<string>}
  */
 export async function accessSignature({ key, iv, version }, salt) {
   const utf8Key = new Uint8Array(key);
