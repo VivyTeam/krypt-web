@@ -18,15 +18,19 @@ export async function adamEncrypt(code, pin, toEncryptBytes) {
 
   const key = await cbc.importKey(arrayBufferKey);
 
-  const data = await cbc.encrypt(key, arrayBufferIv, toEncryptBytes);
-  return {
-    data,
-    MedStickerCipherAttr: {
-      key: arrayBufferKey,
-      iv: arrayBufferIv,
-      version: ADAM
-    }
-  };
+  try {
+    const data = await cbc.encrypt(key, arrayBufferIv, toEncryptBytes);
+    return {
+      data,
+      MedStickerCipherAttr: {
+        key: arrayBufferKey,
+        iv: arrayBufferIv,
+        version: ADAM
+      }
+    };
+  } catch {
+    throw new Error("EncryptionFailed");
+  }
 }
 
 /**
