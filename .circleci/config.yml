@@ -63,6 +63,7 @@ jobs:
       - run: npm version $CIRCLE_TAG && git push origin HEAD:master
       - run: npm install
       - run: npm run build:package
+      - run: npm run build:documentation
       - run: echo '//registry.npmjs.org/:_authToken=${NPM_TOKEN}' > ~/repo/.npmrc
       - run: npm publish --access public
 
