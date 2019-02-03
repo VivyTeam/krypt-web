@@ -15,8 +15,8 @@
   ],
   "scripts": {
     "build:package": "babel src/lib --presets @babel/env --copy-files --out-dir dist --ignore tests",
-    "prebuild": "rimraf dist/ out/",
-    "build:documentation": "jsdoc src/lib git-directory-deploy --directory out/",
+    "prebuild": "rimraf dist",
+    "build:documentation": "jsdoc src/lib && git-directory-deploy --directory out/",
     "linter:check": "eslint src/**/*",
     "test": "karma start --single-run --browsers ChromeHeadless karma.conf.js",
     "test:watch": "karma start --auto-watch --browsers ChromeHeadless karma.conf.js"
