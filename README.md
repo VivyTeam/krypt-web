@@ -18,13 +18,13 @@ npm i krypt-web
 import create from 'krypt-web/factory.js'
 import { encrypt, decrypt, accessSignature, deriveKey } from 'krypt-web/EHREncryption.js'
 
-function myEncryptionModule(publicKey, bytesToEncrypt){
+async function myEncryptionModule(publicKey, bytesToEncrypt){
     return await encrypt(publicKey, bytesToEncrypt);
 }
 
 ....
 
-function myDecryptionModule(privateKey, data){
+async function myDecryptionModule(privateKey, data){
     return await decrypt(privateKey, data)
 }
 ```
@@ -35,7 +35,7 @@ function myDecryptionModule(privateKey, data){
 import create from 'krypt-web/factory.js'
 import { encrypt, decrypt, deriveKey } from 'krypt-web/MedStickerEncryption.js'
 
-function myEncryptionModule(code, pin, bytesToEncrypt){
+async function myEncryptionModule(code, pin, bytesToEncrypt){
     const { key, iv } = deriveKey(code, pin);
 
     const { data } = await encrypt(code, pin, bytesToEncrypt);
@@ -44,7 +44,7 @@ function myEncryptionModule(code, pin, bytesToEncrypt){
 
 ....
 
-function myDecryptionModule(code, pin, data){
+async function myDecryptionModule(code, pin, data){
     const { key, iv, version } = deriveKey(code, pin); // version will be britney by default when no version given. 
 
     return await decrypt({ key, iv, version }, data);
