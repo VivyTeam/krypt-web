@@ -96,7 +96,7 @@ export async function decrypt({ key, iv, version }, encryptedData) {
  * @param version {string}
  * @returns {{key: *, iv: *, version: *}}
  */
-export function deriveKey(code, pin, version) {
+export function deriveKey(code, pin, version = BRITNEY) {
   let key, iv;
   switch (version) {
     case ADAM:

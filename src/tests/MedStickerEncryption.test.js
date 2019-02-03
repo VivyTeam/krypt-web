@@ -27,7 +27,7 @@ describe("MedStickerEncryption", () => {
   it("BRITNEY: should encrypt data and decrypt it back", async () => {
     const originalString = "Encrypted secret message from britney";
     const buffer = stringToArrayBuffer(originalString);
-    const { key, iv } = deriveKey("foobar", "barfoo", "britney");
+    const { key, iv } = deriveKey("foobar", "barfoo");
 
     const {
       data,
@@ -40,7 +40,7 @@ describe("MedStickerEncryption", () => {
   });
 
   it("should return a signature in the form of sha256+${base64EncodedSignature}", async () => {
-    const { key, iv } = deriveKey("foobar", "barfoo", "britney");
+    const { key, iv } = deriveKey("foobar", "barfoo");
     const salt = stringToArrayBuffer("811247BC075144859010335F20D28C5E");
 
     const signature = await accessSignature({ key, iv }, salt);
