@@ -30,7 +30,7 @@ export default type => {
             key,
             { name: "AES-GCM" },
             false,
-            ["decrypt"]
+            ["encrypt", "decrypt"]
           ),
         /**
          *
