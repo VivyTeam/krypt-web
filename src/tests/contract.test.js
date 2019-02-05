@@ -14,7 +14,7 @@ import {
 } from "../lib/utilities";
 import { ADAM, BRITNEY } from "../lib/constants";
 
-it("ADAM: test deriveKey", async () => {
+it("ADAM: deriveKey value should match the value on the contract", async () => {
   const code = "7i6XA2zz";
   const pin = "qmHuG263";
   const { key, iv } = deriveKey(code, pin, ADAM);
@@ -28,7 +28,7 @@ it("ADAM: test deriveKey", async () => {
   expect(ivBase64).to.deep.equal(givenIvBase64);
 });
 
-it("ADAM: encrypts", async () => {
+it("ADAM: encrypted data should match the values on the contract", async () => {
   const message = "A Healthier Life is a Happier Life";
   const messageBuffer = stringToArrayBuffer(message);
   const code = "7i6XA2zz";
@@ -41,7 +41,7 @@ it("ADAM: encrypts", async () => {
   );
 });
 
-it("ADAM: decrypts", async () => {
+it("ADAM: decrypted data should match the values on the contract", async () => {
   const resultKeyBase64 = "Pivil9wBlqECOP8qulkJnHFnIiIwSffQt4rXo27X4Uk=";
   const resultIvBase64 = "gi44bZGuBBdLpMISpeppWQ==";
   const encryptedDataBase64 =
@@ -57,7 +57,7 @@ it("ADAM: decrypts", async () => {
   expect(plainText).to.deep.equal("A Healthier Life is a Happier Life");
 });
 
-it("BRITNEY: test deriveKey", async () => {
+it("BRITNEY: deriveKey value should match the value on the contract", async () => {
   const code = "7i6XA2zz";
   const pin = "qmHuG263";
   const { key, iv } = deriveKey(code, pin, BRITNEY);
@@ -71,7 +71,7 @@ it("BRITNEY: test deriveKey", async () => {
   expect(ivBase64).to.deep.equal(givenIvBase64);
 });
 
-it("BRITNEY: encrypts", async () => {
+it("BRITNEY: encrypted data should match the values on the contract", async () => {
   const message = "A Healthier Life is a Happier Life";
   const messageBuffer = stringToArrayBuffer(message);
   const code = "7i6XA2zz";
@@ -84,7 +84,7 @@ it("BRITNEY: encrypts", async () => {
   );
 });
 
-it("BRITNEY: decrypts", async () => {
+it("BRITNEY: decrypted data should match the values on the contract", async () => {
   const resultKeyBase64 = "1v6YGdN6BW2AR1uEylOmjSwKu/kUr5qNYR42X0Che3U=";
   const resultIvBase64 = "aoiywBzTwYxzKQz45UxWaQ==";
   const encryptedDataBase64 =
