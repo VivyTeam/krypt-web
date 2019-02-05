@@ -5,7 +5,7 @@ import {
   deriveKey,
   accessSignature
 } from "../lib/MedStickerEncryption";
-import { BRITNEY } from "../lib/constants";
+import { ADAM, BRITNEY } from "../lib/constants";
 import { arrayBufferToString, stringToArrayBuffer } from "../lib/utilities";
 
 describe("MedStickerEncryption", () => {
@@ -13,7 +13,7 @@ describe("MedStickerEncryption", () => {
   it("ADAM: should encrypt data and decrypt it back", async () => {
     const originalString = "Encrypted secret message from adam";
     const buffer = stringToArrayBuffer(originalString);
-    const { key, iv, version } = deriveKey("7i6XA2zz", "qmHuG263", "adam");
+    const { key, iv, version } = deriveKey("7i6XA2zz", "qmHuG263", ADAM);
 
     const { data } = await adamEncrypt("7i6XA2zz", "qmHuG263", buffer);
     const arrayBufferData = await decrypt({ key, iv, version }, data);
