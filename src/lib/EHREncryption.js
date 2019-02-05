@@ -33,9 +33,8 @@ export async function encrypt(pubKey, toEncryptBytes) {
  * @param encryptedData {object}
  * @returns {Promise<ArrayBuffer>}
  */
-export async function decrypt(privKey, encryptedData) {
-  const { cipherKey, data } = encryptedData;
-  const { key, iv, version } = await decryptKeyIv(privKey, cipherKey);
+export async function decrypt(privKey, { cipherKey, data }) {
+  const { key, iv } = await decryptKeyIv(privKey, cipherKey);
   const importedKey = await aes.importKey(key);
 
   try {
