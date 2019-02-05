@@ -5,6 +5,7 @@ import {
   deriveKey,
   accessSignature
 } from "../lib/MedStickerEncryption";
+import { ADAM, BRITNEY } from "../lib/constants";
 import { arrayBufferToString, stringToArrayBuffer } from "../lib/utilities";
 
 describe("MedStickerEncryption", () => {
@@ -12,12 +13,9 @@ describe("MedStickerEncryption", () => {
   it("ADAM: should encrypt data and decrypt it back", async () => {
     const originalString = "Encrypted secret message from adam";
     const buffer = stringToArrayBuffer(originalString);
-    const { key, iv } = deriveKey("foobar", "barfoo", "adam");
+    const { key, iv, version } = deriveKey("7i6XA2zz", "qmHuG263", ADAM);
 
-    const {
-      data,
-      MedStickerCipherAttr: { version }
-    } = await adamEncrypt("foobar", "barfoo", buffer);
+    const { data } = await adamEncrypt("7i6XA2zz", "qmHuG263", buffer);
     const arrayBufferData = await decrypt({ key, iv, version }, data);
 
     const result = arrayBufferToString(arrayBufferData);
@@ -27,12 +25,9 @@ describe("MedStickerEncryption", () => {
   it("BRITNEY: should encrypt data and decrypt it back", async () => {
     const originalString = "Encrypted secret message from britney";
     const buffer = stringToArrayBuffer(originalString);
-    const { key, iv } = deriveKey("foobar", "barfoo");
+    const { key, iv, version } = deriveKey("7i6XA2zz", "qmHuG263", BRITNEY);
 
-    const {
-      data,
-      MedStickerCipherAttr: { version }
-    } = await encrypt("foobar", "barfoo", buffer);
+    const { data } = await encrypt("7i6XA2zz", "qmHuG263", buffer);
     const arrayBufferData = await decrypt({ key, iv, version }, data);
 
     const result = arrayBufferToString(arrayBufferData);
@@ -40,7 +35,7 @@ describe("MedStickerEncryption", () => {
   });
 
   it("should return a signature in the form of sha256+${base64EncodedSignature}", async () => {
-    const { key, iv } = deriveKey("foobar", "barfoo");
+    const { key, iv } = deriveKey("7i6XA2zz", "qmHuG263", BRITNEY);
     const salt = stringToArrayBuffer("811247BC075144859010335F20D28C5E");
 
     const signature = await accessSignature({ key, iv }, salt);

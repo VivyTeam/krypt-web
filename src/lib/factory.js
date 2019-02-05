@@ -186,7 +186,7 @@ export default type => {
           window.crypto.subtle.decrypt(
             {
               name: "AES-CBC",
-              iv
+              iv: new Uint8Array(iv)
             },
             key,
             data
@@ -201,7 +201,7 @@ export default type => {
          * @returns {arrayBuffer}
          */
         generateKey: (password, salt, options = {}) => {
-          let derivedKey;
+          let derivedKey = null;
           scrypt(
             password,
             salt,
@@ -210,14 +210,13 @@ export default type => {
               r: 8,
               p: 1,
               dkLen: 32,
-              encoding: "binary",
               ...options
             },
             key => {
               derivedKey = key;
             }
           );
-          return derivedKey.buffer;
+          return derivedKey;
         }
       };
     default:

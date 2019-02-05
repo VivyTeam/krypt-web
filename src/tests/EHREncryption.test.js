@@ -15,8 +15,8 @@ describe("EHREncryption", () => {
     const originalString = "Encrypted secret message";
     const buffer = stringToArrayBuffer(originalString);
 
-    const data = await encrypt(publicKey, buffer);
-    const arrayBufferData = await decrypt(privateKey, data);
+    const { cipherKey, data } = await encrypt(publicKey, buffer);
+    const arrayBufferData = await decrypt(privateKey, { cipherKey, data });
 
     const result = arrayBufferToString(arrayBufferData);
     expect(result).to.deep.equal(originalString);

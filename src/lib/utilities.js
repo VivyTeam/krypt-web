@@ -39,3 +39,17 @@ export function toArrayBuffer(keyAsPem) {
   const string = window.atob(key);
   return stringToArrayBuffer(string);
 }
+
+export function arrayBufferToBase64(buffer) {
+  const string = arrayBufferToString(buffer);
+  return encode(string);
+}
+
+export function base64ToArrayBuffer(base64) {
+  const decoded = decode(base64);
+  return stringToArrayBuffer(decoded);
+}
+
+export const encode = data => btoa(data);
+
+export const decode = data => atob(data);

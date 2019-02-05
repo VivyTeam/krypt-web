@@ -45,7 +45,7 @@ async function myEncryptionModule(code, pin, bytesToEncrypt){
 ....
 
 async function myDecryptionModule(code, pin, data){
-    const { key, iv, version } = deriveKey(code, pin); // version will be britney by default when no version given. 
+    const { key, iv, version } = deriveKey(code, pin, 'britney');
 
     return await decrypt({ key, iv, version }, data);
 }
