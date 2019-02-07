@@ -5,7 +5,8 @@ import {
   stringToArrayBuffer,
   toArrayBuffer
 } from "../lib/utilities";
-import { privateKey, publicKey } from "./rsa-oaep-keys.json";
+import privateKey from "raw-loader!./contact-data/privateKey.pkcs8.pem";
+import publicKey from "raw-loader!./contact-data/publicKey.spki.pem";
 
 it("should decrypt a value, given a private key and cipher key. All values are encoded on base64. All values are taken the contract.", async () => {
   const keyBuffer = toArrayBuffer(privateKey);
