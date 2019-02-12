@@ -34,13 +34,16 @@ describe("MedStickerEncryption", () => {
     expect(result).to.deep.equal(originalString);
   });
 
-  it("should return a signature in the form of sha256+${base64EncodedSignature}", async () => {
+  it("should return a signature in the form of britney-sha256:${base64EncodedSignature}", async () => {
     const { key, iv } = deriveKey("7i6XA2zz", "qmHuG263", BRITNEY);
     const salt = stringToArrayBuffer(
       "98C1EB4EE93476743763878FCB96A25FBC9A175074D64004779ECB5242F645E6"
     );
 
-    const signature = await accessSignature({ key, iv }, salt);
+    const signature = await accessSignature(
+      { key, iv, version: BRITNEY },
+      salt
+    );
     expect(signature).to.be.a("string");
   });
 });

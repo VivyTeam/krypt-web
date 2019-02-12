@@ -126,6 +126,11 @@ export function deriveKey(code, pin, version) {
  * @returns {Promise<string>}
  */
 export async function accessSignature({ key, iv, version }, salt) {
+  if (!version) {
+    throw new Error(
+      "Wrong version is being used. Use either 'adam' or 'britney'."
+    );
+  }
   const utf8Key = new Uint8Array(key);
   const utf8Iv = new Uint8Array(iv);
   const utf8Salt = new Uint8Array(stringToArrayBuffer(salt));
@@ -136,5 +141,6 @@ export async function accessSignature({ key, iv, version }, salt) {
   );
   const signatureString = arrayBufferToString(signatureArrayBuffer);
   const base64EncodedSignature = btoa(signatureString);
-  return `sha256${base64EncodedSignature}`;
+
+  return `${version}-sha256:${base64EncodedSignature}`;
 }
