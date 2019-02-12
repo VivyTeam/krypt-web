@@ -136,5 +136,15 @@ export async function accessSignature({ key, iv, version }, salt) {
   );
   const signatureString = arrayBufferToString(signatureArrayBuffer);
   const base64EncodedSignature = btoa(signatureString);
-  return `sha256${base64EncodedSignature}`;
+
+  switch (version) {
+    case ADAM:
+      return `sha256:${base64EncodedSignature}`;
+    case BRITNEY:
+      return `${BRITNEY}-sha256:${base64EncodedSignature}`;
+    default:
+      throw new Error(
+        "Wrong version is being used. Use either 'adam' or 'britney'."
+      );
+  }
 }

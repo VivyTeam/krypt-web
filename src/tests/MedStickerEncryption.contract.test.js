@@ -3,8 +3,7 @@ import {
   adamEncrypt,
   encrypt,
   decrypt,
-  deriveKey,
-  brinteyDeriveKey
+  deriveKey
 } from "../lib/MedStickerEncryption";
 import {
   arrayBufferToString,
@@ -105,10 +104,10 @@ it("Signature should be equal as the contracts", async () => {
   const pin = "qmHuG263";
   const { key, iv } = deriveKey(code, pin, BRITNEY);
   const signature = await accessSignature(
-    { key, iv, BRITNEY },
+    { key, iv, version: BRITNEY },
     "98C1EB4EE93476743763878FCB96A25FBC9A175074D64004779ECB5242F645E6"
   );
   expect(signature).to.deep.equal(
-    "sha256RonmY2BVOex5wlGRrLPkXn/MZV1Rhot4wRc9+cuK0zY="
+    "britney-sha256:RonmY2BVOex5wlGRrLPkXn/MZV1Rhot4wRc9+cuK0zY="
   );
 });
