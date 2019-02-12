@@ -104,6 +104,419 @@
     
 
     
+    <h4 class="name" id="accessSignature"><span class="type-signature"></span>accessSignature<span class="signature">(key, iv, version, salt)</span><span class="type-signature"> &rarr; {Promise.&lt;string>}</span></h4>
+    
+
+    
+
+
+
+
+
+
+
+
+
+
+
+    <h5>Parameters:</h5>
+    
+
+<table class="params">
+    <thead>
+    <tr>
+        
+        <th>Name</th>
+        
+
+        <th>Type</th>
+
+        
+
+        
+
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    
+
+        <tr>
+            
+                <td class="name"><code>key</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">ArrayBuffer</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last"></td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>iv</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">ArrayBuffer</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last"></td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>version</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">string</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last"></td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>salt</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">string</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last"></td>
+        </tr>
+
+    
+    </tbody>
+</table>
+
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="MedStickerEncryption.js.html">MedStickerEncryption.js</a>, <a href="MedStickerEncryption.js.html#line128">line 128</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+
+
+
+
+
+
+
+
+<h5>Returns:</h5>
+
+        
+
+
+<dl>
+    <dt>
+        Type
+    </dt>
+    <dd>
+        
+<span class="param-type">Promise.&lt;string></span>
+
+
+    </dd>
+</dl>
+
+    
+
+
+
+
+
+        
+            
+
+    
+
+    
+    <h4 class="name" id="adamEncrypt"><span class="type-signature"></span>adamEncrypt<span class="signature">(code, pin, toEncryptBytes)</span><span class="type-signature"> &rarr; {Promise.&lt;ArrayBuffer>}</span></h4>
+    
+
+    
+
+
+
+
+
+
+
+
+
+
+
+    <h5>Parameters:</h5>
+    
+
+<table class="params">
+    <thead>
+    <tr>
+        
+        <th>Name</th>
+        
+
+        <th>Type</th>
+
+        
+
+        
+
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    
+
+        <tr>
+            
+                <td class="name"><code>code</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">string</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last"></td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>pin</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">string</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last"></td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>toEncryptBytes</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">arrayBuffer</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last"></td>
+        </tr>
+
+    
+    </tbody>
+</table>
+
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="MedStickerEncryption.js.html">MedStickerEncryption.js</a>, <a href="MedStickerEncryption.js.html#line15">line 15</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+
+
+
+
+
+
+
+
+<h5>Returns:</h5>
+
+        
+
+
+<dl>
+    <dt>
+        Type
+    </dt>
+    <dd>
+        
+<span class="param-type">Promise.&lt;ArrayBuffer></span>
+
+
+    </dd>
+</dl>
+
+    
+
+
+
+
+
+        
+            
+
+    
+
+    
     <h4 class="name" id="decrypt"><span class="type-signature"></span>decrypt<span class="signature">(privKey, encryptedData)</span><span class="type-signature"> &rarr; {Promise.&lt;ArrayBuffer>}</span></h4>
     
 
@@ -280,7 +693,225 @@
     
 
     
-    <h4 class="name" id="decrypt"><span class="type-signature"></span>decrypt<span class="signature">(code, pin, encryptedData)</span><span class="type-signature"> &rarr; {Promise.&lt;ArrayBuffer>}</span></h4>
+    <h4 class="name" id="decrypt"><span class="type-signature"></span>decrypt<span class="signature">(key, iv, encryptedData, version)</span><span class="type-signature"> &rarr; {Promise.&lt;ArrayBuffer>}</span></h4>
+    
+
+    
+
+
+
+
+
+
+
+
+
+
+
+    <h5>Parameters:</h5>
+    
+
+<table class="params">
+    <thead>
+    <tr>
+        
+        <th>Name</th>
+        
+
+        <th>Type</th>
+
+        
+
+        
+
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    
+
+        <tr>
+            
+                <td class="name"><code>key</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">arrayBuffer</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last"></td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>iv</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">arrayBuffer</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last"></td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>encryptedData</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">arrayBuffer</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last"></td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>version</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">string</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last"></td>
+        </tr>
+
+    
+    </tbody>
+</table>
+
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="MedStickerEncryption.js.html">MedStickerEncryption.js</a>, <a href="MedStickerEncryption.js.html#line68">line 68</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+
+
+
+
+
+
+
+
+<h5>Returns:</h5>
+
+        
+
+
+<dl>
+    <dt>
+        Type
+    </dt>
+    <dd>
+        
+<span class="param-type">Promise.&lt;ArrayBuffer></span>
+
+
+    </dd>
+</dl>
+
+    
+
+
+
+
+
+        
+            
+
+    
+
+    
+    <h4 class="name" id="deriveKey"><span class="type-signature"></span>deriveKey<span class="signature">(code, pin, version)</span><span class="type-signature"> &rarr; {Object}</span></h4>
     
 
     
@@ -366,13 +997,13 @@
 
         <tr>
             
-                <td class="name"><code>encryptedData</code></td>
+                <td class="name"><code>version</code></td>
             
 
             <td class="type">
             
                 
-<span class="param-type">arrayBuffer</span>
+<span class="param-type">string</span>
 
 
             
@@ -423,7 +1054,7 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="MedStickerEncryption.js.html">MedStickerEncryption.js</a>, <a href="MedStickerEncryption.js.html#line27">line 27</a>
+        <a href="MedStickerEncryption.js.html">MedStickerEncryption.js</a>, <a href="MedStickerEncryption.js.html#line97">line 97</a>
     </li></ul></dd>
     
 
@@ -457,7 +1088,7 @@
     </dt>
     <dd>
         
-<span class="param-type">Promise.&lt;ArrayBuffer></span>
+<span class="param-type">Object</span>
 
 
     </dd>
@@ -794,7 +1425,7 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="MedStickerEncryption.js.html">MedStickerEncryption.js</a>, <a href="MedStickerEncryption.js.html#line12">line 12</a>
+        <a href="MedStickerEncryption.js.html">MedStickerEncryption.js</a>, <a href="MedStickerEncryption.js.html#line41">line 41</a>
     </li></ul></dd>
     
 
@@ -856,13 +1487,13 @@
 </div>
 
 <nav>
-    <h2><a href="index.html">Home</a></h2><h3>Global</h3><ul><li><a href="global.html#decrypt">decrypt</a></li><li><a href="global.html#encrypt">encrypt</a></li></ul>
+    <h2><a href="index.html">Home</a></h2><h3>Global</h3><ul><li><a href="global.html#accessSignature">accessSignature</a></li><li><a href="global.html#adamEncrypt">adamEncrypt</a></li><li><a href="global.html#decrypt">decrypt</a></li><li><a href="global.html#deriveKey">deriveKey</a></li><li><a href="global.html#encrypt">encrypt</a></li></ul>
 </nav>
 
 <br class="clear">
 
 <footer>
-    Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.5.5</a> on Mon Feb 04 2019 11:08:29 GMT+0100 (CET)
+    Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.5.5</a> on Tue Feb 12 2019 14:11:41 GMT+0100 (CET)
 </footer>
 
 <script> prettyPrint(); </script>

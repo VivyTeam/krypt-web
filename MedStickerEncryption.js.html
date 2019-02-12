@@ -27,9 +27,38 @@
     <section>
         <article>
             <pre class="prettyprint source linenums"><code>import create from "./factory";
+import { ADAM, BRITNEY } from "./constants";
+import { arrayBufferToString, stringToArrayBuffer } from "./utilities";
 
 const scrypt = create("scrypt");
 const cbc = create("AES-CBC");
+const gcm = create("AES-GCM");
+
+/**
+ * @param code {string}
+ * @param pin {string}
+ * @param toEncryptBytes {arrayBuffer}
+ * @returns {Promise&lt;ArrayBuffer>}
+ */
+export async function adamEncrypt(code, pin, toEncryptBytes) {
+  const { key, iv } = deriveKey(code, pin, ADAM);
+
+  const cryptoKey = await cbc.importKey(key);
+
+  try {
+    const data = await cbc.encrypt(cryptoKey, iv, toEncryptBytes);
+    return {
+      data,
+      MedStickerCipherAttr: {
+        key,
+        iv,
+        version: ADAM
+      }
+    };
+  } catch {
+    throw new Error("EncryptionFailed");
+  }
+}
 
 /**
  * @param code {string}
@@ -38,27 +67,104 @@ const cbc = create("AES-CBC");
  * @returns {Promise&lt;ArrayBuffer>}
  */
 export async function encrypt(code, pin, toEncryptBytes) {
-  const arrayBufferKey = scrypt.generateKey(code, pin);
-  const arrayBufferIv = scrypt.generateKey(code, pin, { dkLen: 16 });
+  const { key, iv } = deriveKey(code, pin, BRITNEY);
 
-  const key = await cbc.importKey(arrayBufferKey);
+  const cryptoKey = await gcm.importKey(key);
 
-  return await cbc.encrypt(key, arrayBufferIv, toEncryptBytes);
+  try {
+    const data = await gcm.encrypt(cryptoKey, iv, toEncryptBytes);
+    return {
+      data,
+      MedStickerCipherAttr: {
+        key,
+        iv,
+        version: BRITNEY
+      }
+    };
+  } catch {
+    throw new Error("EncryptionFailed");
+  }
+}
+
+/**
+ * @param key {arrayBuffer}
+ * @param iv {arrayBuffer}
+ * @param encryptedData {arrayBuffer}
+ * @param version {string}
+ * @returns {Promise&lt;ArrayBuffer>}
+ */
+export async function decrypt({ key, iv, version }, encryptedData) {
+  let encryption;
+  switch (version) {
+    case ADAM:
+      encryption = cbc;
+      break;
+    case BRITNEY:
+      encryption = gcm;
+      break;
+    default:
+      throw new Error(
+        "Wrong version is being used. Use either 'adam' or 'britney'."
+      );
+  }
+  const cryptoKey = await encryption.importKey(key);
+
+  try {
+    return await encryption.decrypt(cryptoKey, iv, encryptedData);
+  } catch {
+    throw new Error("DecryptionFailed");
+  }
 }
 
 /**
  * @param code {string}
  * @param pin {string}
- * @param encryptedData {arrayBuffer}
- * @returns {Promise&lt;ArrayBuffer>}
+ * @param version {string}
+ * @returns {{key: *, iv: *, version: string}}
  */
-export async function decrypt(code, pin, encryptedData) {
-  const arrayBufferKey = scrypt.generateKey(code, pin);
-  const arrayBufferIv = scrypt.generateKey(code, pin, { dkLen: 16 });
+export function deriveKey(code, pin, version) {
+  let key, iv;
+  switch (version) {
+    case ADAM:
+      key = scrypt.generateKey(pin, code);
+      iv = scrypt.generateKey(key, pin, { dkLen: 16 });
+      break;
+    case BRITNEY:
+      key = scrypt.generateKey(pin, code, { r: 10 });
+      iv = scrypt.generateKey(key, pin, { r: 10, dkLen: 16 });
+      break;
+    default:
+      throw new Error(
+        "Wrong version is being used. Use either 'adam' or 'britney'."
+      );
+  }
+  const utf8Key = new Uint8Array(key);
+  const utf8Iv = new Uint8Array(iv);
+  const keyBuffer = utf8Key.buffer;
+  const ivBuffer = utf8Iv.buffer;
 
-  const key = await cbc.importKey(arrayBufferKey);
+  return { key: keyBuffer, iv: ivBuffer, version };
+}
 
-  return await cbc.decrypt(key, arrayBufferIv, encryptedData);
+/**
+ * @param key {ArrayBuffer}
+ * @param iv {ArrayBuffer}
+ * @param version {string}
+ * @param salt {string}
+ * @returns {Promise&lt;string>}
+ */
+export async function accessSignature({ key, iv, version }, salt) {
+  const utf8Key = new Uint8Array(key);
+  const utf8Iv = new Uint8Array(iv);
+  const utf8Salt = new Uint8Array(stringToArrayBuffer(salt));
+  const signatureBytes = new Uint8Array([...utf8Key, ...utf8Iv, ...utf8Salt]);
+  const signatureArrayBuffer = await window.crypto.subtle.digest(
+    "SHA-256",
+    signatureBytes
+  );
+  const signatureString = arrayBufferToString(signatureArrayBuffer);
+  const base64EncodedSignature = btoa(signatureString);
+  return `sha256${base64EncodedSignature}`;
 }
 </code></pre>
         </article>
@@ -70,13 +176,13 @@ export async function decrypt(code, pin, encryptedData) {
 </div>
 
 <nav>
-    <h2><a href="index.html">Home</a></h2><h3>Global</h3><ul><li><a href="global.html#decrypt">decrypt</a></li><li><a href="global.html#encrypt">encrypt</a></li></ul>
+    <h2><a href="index.html">Home</a></h2><h3>Global</h3><ul><li><a href="global.html#accessSignature">accessSignature</a></li><li><a href="global.html#adamEncrypt">adamEncrypt</a></li><li><a href="global.html#decrypt">decrypt</a></li><li><a href="global.html#deriveKey">deriveKey</a></li><li><a href="global.html#encrypt">encrypt</a></li></ul>
 </nav>
 
 <br class="clear">
 
 <footer>
-    Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.5.5</a> on Mon Feb 04 2019 11:08:29 GMT+0100 (CET)
+    Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.5.5</a> on Tue Feb 12 2019 14:11:41 GMT+0100 (CET)
 </footer>
 
 <script> prettyPrint(); </script>
