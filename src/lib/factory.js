@@ -9,6 +9,7 @@ export default type => {
     case "aes-gcm":
       return {
         /**
+         * @private
          * @returns {PromiseLike<CryptoKey>}
          */
         generateKey: () =>
@@ -21,6 +22,7 @@ export default type => {
             ["encrypt", "decrypt"]
           ),
         /**
+         * @private
          * @param key {arrayBuffer}
          * @returns {PromiseLike<CryptoKey>}
          */
@@ -33,12 +35,13 @@ export default type => {
             ["encrypt", "decrypt"]
           ),
         /**
-         *
+         * @private
          * @param key {CryptoKey}
          * @returns {PromiseLike<ArrayBuffer>}
          */
         exportKey: key => window.crypto.subtle.exportKey("raw", key),
         /**
+         * @private
          * @param key {CryptoKey}
          * @param iv {arrayBuffer}
          * @param data {arrayBuffer}
@@ -54,6 +57,7 @@ export default type => {
             data
           ),
         /**
+         * @private
          * @param key {CryptoKey}
          * @param iv {arrayBuffer}
          * @param data {arrayBuffer}
@@ -72,6 +76,7 @@ export default type => {
     case "rsa-oaep":
       return {
         /**
+         * @private
          * @param bits {number}
          * @returns {PromiseLike<CryptoKeyPair>}
          */
@@ -87,7 +92,7 @@ export default type => {
             ["encrypt", "decrypt"]
           ),
         /**
-         *
+         * @private
          * @param key {arrayBuffer}
          * @returns {PromiseLike<CryptoKey>}
          */
@@ -100,12 +105,14 @@ export default type => {
             ["encrypt"]
           ),
         /**
+         * @private
          * @param publicKey {CryptoKey}
          * @returns {PromiseLike<ArrayBuffer>}
          */
         exportKey: publicKey =>
           window.crypto.subtle.exportKey("spki", publicKey),
         /**
+         * @private
          * @param publicKey {CryptoKey}
          * @param jsonString {string}
          * @returns {PromiseLike<ArrayBuffer>}
@@ -119,6 +126,7 @@ export default type => {
           );
         },
         /**
+         * @private
          * @param privateKey {CryptoKey}
          * @param arrayBuffer {arrayBuffer}
          * @returns {PromiseLike<ArrayBuffer>}
@@ -133,6 +141,7 @@ export default type => {
     case "aes-cbc":
       return {
         /**
+         * @private
          * @returns {PromiseLike<CryptoKey>}
          */
         generateKey: () =>
@@ -145,6 +154,7 @@ export default type => {
             ["encrypt", "decrypt"]
           ),
         /**
+         * @private
          * @param key {arrayBuffer}
          * @returns {PromiseLike<CryptoKey>}
          */
@@ -157,11 +167,13 @@ export default type => {
             ["encrypt", "decrypt"]
           ),
         /**
+         * @private
          * @param key {CryptoKey}
          * @returns {PromiseLike<ArrayBuffer>}
          */
         exportKey: key => window.crypto.subtle.exportKey("raw", key),
         /**
+         * @private
          * @param key {CryptoKey}
          * @param iv {arrayBuffer}
          * @param data {arrayBuffer}
@@ -177,6 +189,7 @@ export default type => {
             data
           ),
         /**
+         * @private
          * @param key {CryptoKey}
          * @param iv {arrayBuffer}
          * @param data {arrayBuffer}
@@ -195,6 +208,7 @@ export default type => {
     case "scrypt":
       return {
         /**
+         * @private
          * @param password {string}
          * @param salt {string}
          * @param options {object}
