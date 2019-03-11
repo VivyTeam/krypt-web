@@ -84,7 +84,7 @@ describe("MedStickerEncryption contract", () => {
     });
   });
 
-  it("Signature should be equal as the contracts", async () => {
+  it("Britney signature should be equal as the contracts", async () => {
     const code = "7i6XA2zz";
     const pin = "qmHuG263";
     const { key, iv } = deriveKey(code, pin, BRITNEY);
