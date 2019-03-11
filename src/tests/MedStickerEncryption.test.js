@@ -29,10 +29,13 @@ describe("MedStickerEncryption", () => {
 
     const { data } = await adamEncrypt("7i6XA2zz", "qmHuG263", buffer);
 
+    let error;
     try {
       await decrypt({ key, iv: new ArrayBuffer(0), version }, data);
     } catch (err) {
-      expect(err.message).to.be.equal("DecryptionFailed");
+      error = err;
+    } finally {
+      expect(error.message).to.be.equal("DecryptionFailed");
     }
   });
 
@@ -55,10 +58,13 @@ describe("MedStickerEncryption", () => {
 
     const { data } = await encrypt("7i6XA2zz", "qmHuG263", buffer);
 
+    let error;
     try {
       await decrypt({ key, iv: new ArrayBuffer(0), version }, data);
     } catch (err) {
-      expect(err.message).to.be.equal("DecryptionFailed");
+      error = err;
+    } finally {
+      expect(error.message).to.be.equal("DecryptionFailed");
     }
   });
 
