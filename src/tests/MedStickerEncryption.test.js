@@ -22,6 +22,20 @@ describe("MedStickerEncryption", () => {
     expect(result).to.deep.equal(originalString);
   });
 
+  it("ADAM: should throw error on decrypt with wrong iv", async () => {
+    const originalString = "Encrypted secret message from adam";
+    const buffer = stringToArrayBuffer(originalString);
+    const { key, version } = deriveKey("7i6XA2zz", "qmHuG263", ADAM);
+
+    const { data } = await adamEncrypt("7i6XA2zz", "qmHuG263", buffer);
+
+    try {
+      await decrypt({ key, iv: new ArrayBuffer(0), version }, data);
+    } catch (err) {
+      expect(err.message).to.be.equal("DecryptionFailed");
+    }
+  });
+
   it("BRITNEY: should encrypt data and decrypt it back", async () => {
     const originalString = "Encrypted secret message from britney";
     const buffer = stringToArrayBuffer(originalString);
@@ -32,6 +46,20 @@ describe("MedStickerEncryption", () => {
 
     const result = arrayBufferToString(arrayBufferData);
     expect(result).to.deep.equal(originalString);
+  });
+
+  it("BRITNEY: should throw error on decrypt with wrong iv", async () => {
+    const originalString = "Encrypted secret message from britney";
+    const buffer = stringToArrayBuffer(originalString);
+    const { key, iv, version } = deriveKey("7i6XA2zz", "qmHuG263", BRITNEY);
+
+    const { data } = await encrypt("7i6XA2zz", "qmHuG263", buffer);
+
+    try {
+      await decrypt({ key, iv: new ArrayBuffer(0), version }, data);
+    } catch (err) {
+      expect(err.message).to.be.equal("DecryptionFailed");
+    }
   });
 
   it("should return a signature in the form of britney-sha256:${base64EncodedSignature}", async () => {
