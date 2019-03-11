@@ -22,7 +22,7 @@ export async function encrypt(pubKey, toEncryptBytes) {
     const cipherKey = await encryptKeyIv(pubKey, key, iv);
     const data = await aes.encrypt(key, iv, toEncryptBytes);
     return { cipherKey, data, version: "OAEPGCM" };
-  } catch {
+  } catch (e) {
     throw new Error("EncryptionFailed");
   }
 }
@@ -39,7 +39,7 @@ export async function decrypt(privKey, { cipherKey, data }) {
 
   try {
     return await aes.decrypt(importedKey, iv, data);
-  } catch {
+  } catch (e) {
     throw new Error("DecryptionFailed");
   }
 }

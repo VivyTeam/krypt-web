@@ -1,6 +1,7 @@
 import create from "./factory";
 import { ADAM, BRITNEY } from "./constants";
 import { arrayBufferToString, stringToArrayBuffer } from "./utilities";
+import britney from "../../../../mock-service/api/britney";
 
 const scrypt = create("scrypt");
 const cbc = create("AES-CBC");
@@ -27,7 +28,7 @@ export async function adamEncrypt(code, pin, toEncryptBytes) {
         version: ADAM
       }
     };
-  } catch {
+  } catch (e) {
     throw new Error("EncryptionFailed");
   }
 }
@@ -53,7 +54,7 @@ export async function encrypt(code, pin, toEncryptBytes) {
         version: BRITNEY
       }
     };
-  } catch {
+  } catch (e) {
     throw new Error("EncryptionFailed");
   }
 }
@@ -83,7 +84,7 @@ export async function decrypt({ key, iv, version }, encryptedData) {
 
   try {
     return await encryption.decrypt(cryptoKey, iv, encryptedData);
-  } catch {
+  } catch (e) {
     throw new Error("DecryptionFailed");
   }
 }
