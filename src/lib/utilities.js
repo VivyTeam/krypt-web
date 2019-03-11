@@ -57,9 +57,9 @@ export const decode = data => atob(data);
 export const concatenateUint8Arrays = (...arrays) => {
   const totalLength = arrays.reduce((acc, array) => acc + array.length, 0);
   const result = new Uint8Array(totalLength);
-  arrays.reduce((acc, array) => {
-    result.set(array, acc);
-    return acc + array.length;
+  arrays.reduce((currentLength, array) => {
+    result.set(array, currentLength);
+    return currentLength + array.length;
   }, 0);
   return result;
 };
