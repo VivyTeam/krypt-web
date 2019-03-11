@@ -9,8 +9,8 @@ import { ADAM, BRITNEY } from "../lib/constants";
 import { arrayBufferToString, stringToArrayBuffer } from "../lib/utilities";
 
 const algorithm = {
-  [BRITNEY]: { encryption: encrypt },
-  [ADAM]: { encryption: adamEncrypt }
+  [ADAM]: { encrypt: adamEncrypt },
+  [BRITNEY]: { encrypt }
 };
 describe("MedStickerEncryption", () => {
   const { expect } = window;
@@ -25,7 +25,7 @@ describe("MedStickerEncryption", () => {
         versionName
       );
 
-      const { data } = await algorithm[versionName].encryption(
+      const { data } = await algorithm[versionName].encrypt(
         "7i6XA2zz",
         "qmHuG263",
         buffer
@@ -41,7 +41,7 @@ describe("MedStickerEncryption", () => {
       const buffer = stringToArrayBuffer(originalString);
       const { key, version } = deriveKey("7i6XA2zz", "qmHuG263", ADAM);
 
-      const { data } = await algorithm[versionName].encryption(
+      const { data } = await algorithm[versionName].encrypt(
         "7i6XA2zz",
         "qmHuG263",
         buffer
