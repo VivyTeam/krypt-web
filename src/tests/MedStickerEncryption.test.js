@@ -8,76 +8,65 @@ import {
 import { ADAM, BRITNEY } from "../lib/constants";
 import { arrayBufferToString, stringToArrayBuffer } from "../lib/utilities";
 
+const algorithm = {
+  [BRITNEY]: { encryption: encrypt },
+  [ADAM]: { encryption: adamEncrypt }
+};
 describe("MedStickerEncryption", () => {
-  const expect = window.expect;
-  it("ADAM: should encrypt data and decrypt it back", async () => {
-    const originalString = "Encrypted secret message from adam";
-    const buffer = stringToArrayBuffer(originalString);
-    const { key, iv, version } = deriveKey("7i6XA2zz", "qmHuG263", ADAM);
+  const { expect } = window;
 
-    const { data } = await adamEncrypt("7i6XA2zz", "qmHuG263", buffer);
-    const arrayBufferData = await decrypt({ key, iv, version }, data);
+  Object.keys(algorithm).forEach(versionName => {
+    it(`${versionName}: should encrypt data and decrypt it back`, async () => {
+      const originalString = "Encrypted secret message from adam";
+      const buffer = stringToArrayBuffer(originalString);
+      const { key, iv, version } = deriveKey(
+        "7i6XA2zz",
+        "qmHuG263",
+        versionName
+      );
 
-    const result = arrayBufferToString(arrayBufferData);
-    expect(result).to.deep.equal(originalString);
-  });
+      const { data } = await algorithm[versionName].encryption(
+        "7i6XA2zz",
+        "qmHuG263",
+        buffer
+      );
+      const arrayBufferData = await decrypt({ key, iv, version }, data);
 
-  it("ADAM: should throw error on decrypt with wrong iv", async () => {
-    const originalString = "Encrypted secret message from adam";
-    const buffer = stringToArrayBuffer(originalString);
-    const { key, version } = deriveKey("7i6XA2zz", "qmHuG263", ADAM);
+      const result = arrayBufferToString(arrayBufferData);
+      expect(result).to.deep.equal(originalString);
+    });
 
-    const { data } = await adamEncrypt("7i6XA2zz", "qmHuG263", buffer);
+    it(`${versionName}: should throw error on decrypt with wrong iv`, async () => {
+      const originalString = "Encrypted secret message from adam";
+      const buffer = stringToArrayBuffer(originalString);
+      const { key, version } = deriveKey("7i6XA2zz", "qmHuG263", ADAM);
 
-    let error;
-    try {
-      await decrypt({ key, iv: new ArrayBuffer(0), version }, data);
-    } catch (err) {
-      error = err;
-    } finally {
-      expect(error.message).to.be.equal("DecryptionFailed");
-    }
-  });
+      const { data } = await algorithm[versionName].encryption(
+        "7i6XA2zz",
+        "qmHuG263",
+        buffer
+      );
 
-  it("BRITNEY: should encrypt data and decrypt it back", async () => {
-    const originalString = "Encrypted secret message from britney";
-    const buffer = stringToArrayBuffer(originalString);
-    const { key, iv, version } = deriveKey("7i6XA2zz", "qmHuG263", BRITNEY);
+      let error;
+      try {
+        await decrypt({ key, iv: new ArrayBuffer(0), version }, data);
+      } catch (err) {
+        error = err;
+      } finally {
+        expect(error.message).to.be.equal("DecryptionFailed");
+      }
+    });
 
-    const { data } = await encrypt("7i6XA2zz", "qmHuG263", buffer);
-    const arrayBufferData = await decrypt({ key, iv, version }, data);
-
-    const result = arrayBufferToString(arrayBufferData);
-    expect(result).to.deep.equal(originalString);
-  });
-
-  it("BRITNEY: should throw error on decrypt with wrong iv", async () => {
-    const originalString = "Encrypted secret message from britney";
-    const buffer = stringToArrayBuffer(originalString);
-    const { key, iv, version } = deriveKey("7i6XA2zz", "qmHuG263", BRITNEY);
-
-    const { data } = await encrypt("7i6XA2zz", "qmHuG263", buffer);
-
-    let error;
-    try {
-      await decrypt({ key, iv: new ArrayBuffer(0), version }, data);
-    } catch (err) {
-      error = err;
-    } finally {
-      expect(error.message).to.be.equal("DecryptionFailed");
-    }
-  });
-
-  it("should return a signature in the form of britney-sha256:${base64EncodedSignature}", async () => {
-    const { key, iv } = deriveKey("7i6XA2zz", "qmHuG263", BRITNEY);
-    const salt = stringToArrayBuffer(
-      "98C1EB4EE93476743763878FCB96A25FBC9A175074D64004779ECB5242F645E6"
-    );
-
-    const signature = await accessSignature(
-      { key, iv, version: BRITNEY },
-      salt
-    );
-    expect(signature).to.be.a("string");
+    it(`${versionName}: should return a signature in the form of {versionName}-sha256:{base64EncodedSignature}`, async () => {
+      const { key, iv } = deriveKey("7i6XA2zz", "qmHuG263", versionName);
+      const salt = stringToArrayBuffer(
+        "98C1EB4EE93476743763878FCB96A25FBC9A175074D64004779ECB5242F645E6"
+      );
+      const signature = await accessSignature(
+        { key, iv, version: versionName },
+        salt
+      );
+      expect(signature).to.be.a("string");
+    });
   });
 });
