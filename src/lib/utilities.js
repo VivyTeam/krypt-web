@@ -53,3 +53,13 @@ export function base64ToArrayBuffer(base64) {
 export const encode = data => btoa(data);
 
 export const decode = data => atob(data);
+
+export const concatenateUint8Arrays = (...arrays) => {
+  const totalLength = arrays.reduce((acc, array) => acc + array.length, 0);
+  const result = new Uint8Array(totalLength);
+  arrays.reduce((acc, array) => {
+    result.set(array, acc);
+    return acc + array.length;
+  }, 0);
+  return result;
+};
