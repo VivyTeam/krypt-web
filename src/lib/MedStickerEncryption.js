@@ -1,6 +1,10 @@
 import create from "./factory";
 import { ADAM, BRITNEY } from "./constants";
-import { arrayBufferToString, stringToArrayBuffer } from "./utilities";
+import {
+  arrayBufferToString,
+  stringToArrayBuffer,
+  concatenateUint8Arrays
+} from "./utilities";
 
 const scrypt = create("scrypt");
 const cbc = create("AES-CBC");
@@ -27,7 +31,7 @@ export async function adamEncrypt(code, pin, toEncryptBytes) {
         version: ADAM
       }
     };
-  } catch {
+  } catch (e) {
     throw new Error("EncryptionFailed");
   }
 }
@@ -53,7 +57,7 @@ export async function encrypt(code, pin, toEncryptBytes) {
         version: BRITNEY
       }
     };
-  } catch {
+  } catch (e) {
     throw new Error("EncryptionFailed");
   }
 }
@@ -83,7 +87,7 @@ export async function decrypt({ key, iv, version }, encryptedData) {
 
   try {
     return await encryption.decrypt(cryptoKey, iv, encryptedData);
-  } catch {
+  } catch (e) {
     throw new Error("DecryptionFailed");
   }
 }
@@ -134,7 +138,7 @@ export async function accessSignature({ key, iv, version }, salt) {
   const utf8Key = new Uint8Array(key);
   const utf8Iv = new Uint8Array(iv);
   const utf8Salt = new Uint8Array(stringToArrayBuffer(salt));
-  const signatureBytes = new Uint8Array([...utf8Key, ...utf8Iv, ...utf8Salt]);
+  const signatureBytes = concatenateUint8Arrays(utf8Key, utf8Iv, utf8Salt);
   const signatureArrayBuffer = await window.crypto.subtle.digest(
     "SHA-256",
     signatureBytes
