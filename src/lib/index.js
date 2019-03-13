@@ -1,8 +1,8 @@
 import {
-  encrypt,
-  decrypt,
-  accessSignature,
-  deriveKey
+  encrypt as medEncrypt,
+  decrypt as medDecrypt,
+  accessSignature as medAccessSignature,
+  deriveKey as medDeriveKey
 } from "./MedStickerEncryption";
 
-export default { encrypt, decrypt, accessSignature, deriveKey };
+export default { medEncrypt, medDecrypt, medAccessSignature, medDeriveKey };
