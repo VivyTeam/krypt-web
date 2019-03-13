@@ -17,7 +17,6 @@
     "build:package": "webpack --env dev && webpack --env build",
     "prebuild": "rimraf dist",
     "build:documentation": "jsdoc src/lib && git-directory-deploy --directory out/",
-    "linter:fix": "prettier --write '{,!(node_modules|.git)/**/}*.{js,json,md}'",
     "linter:check": "eslint src/**/*",
     "test": "karma start --single-run --browsers ChromeHeadless karma.conf.js",
     "test:watch": "karma start --auto-watch --browsers ChromeHeadless karma.conf.js"
