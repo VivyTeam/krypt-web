@@ -1,27 +1,15 @@
 const webpack = require("webpack");
 const path = require("path");
-const env = require("yargs").argv.env;
-
-const libraryName = "krypt-web";
 
 let outputFile;
-let mode;
-
-if (env === "build") {
-  mode = "production";
-  outputFile = `${libraryName}.min.js`;
-} else {
-  mode = "development";
-  outputFile = `${libraryName}.js`;
-}
 
 const config = {
-  mode,
+  mode: "production",
   entry: `${__dirname}/src/lib/index.js`,
   output: {
     path: `${__dirname}/dist`,
     filename: outputFile,
-    library: libraryName,
+    library: "krypt-web",
     libraryTarget: "umd",
     umdNamedDefine: true,
     globalObject: "this"
