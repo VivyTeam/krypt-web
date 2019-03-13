@@ -7,7 +7,4 @@ node_modules
 # coverage
 coverage
 
-# dist
-dist
-
 /out

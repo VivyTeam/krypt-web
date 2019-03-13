@@ -2,5 +2,9 @@
   "parser": "babel-eslint",
   "extends": ["prettier"],
   "plugins": ["prettier"],
-  "rules": {}
+  "globals": {
+    "window": false,
+    "atob": false,
+    "btoa": false
+  }
 }
