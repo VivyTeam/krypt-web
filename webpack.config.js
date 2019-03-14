@@ -1,16 +1,14 @@
-const webpack = require("webpack");
 const path = require("path");
 
 const name = "krypt-web";
 const config = {
   mode: "production",
-  entry: `${__dirname}/src/lib/index.js`,
+  entry: `./src/lib/index.js`,
   output: {
-    path: `${__dirname}/dist`,
+    path: path.resolve(__dirname, "dist"),
     filename: `${name}.min.js`,
     library: name,
     libraryTarget: "umd",
-    umdNamedDefine: true,
     globalObject: "this"
   },
   module: {
@@ -18,18 +16,14 @@ const config = {
       {
         test: /(\.jsx|\.js)$/,
         loader: "babel-loader",
-        exclude: /(node_modules|bower_components)/
+        exclude: /(node_modules)/
       },
       {
-        test: /(\.jsx|\.js)$/,
+        test: /(\.js)$/,
         loader: "eslint-loader",
         exclude: /node_modules/
       }
     ]
-  },
-  resolve: {
-    modules: [path.resolve("./node_modules"), path.resolve("./src")],
-    extensions: [".json", ".js"]
   }
 };
 
