@@ -13,38 +13,6 @@ const gcm = create("AES-GCM");
 /**
  * @param code {string}
  * @param pin {string}
- * @param version {string}
- * @returns {{key: *, iv: *, version: string}}
- */
-export function deriveKey(code, pin, version) {
-  let key;
-  let iv;
-
-  switch (version) {
-    case ADAM:
-      key = scrypt.generateKey(pin, code);
-      iv = scrypt.generateKey(key, pin, { dkLen: 16 });
-      break;
-    case BRITNEY:
-      key = scrypt.generateKey(pin, code, { r: 10 });
-      iv = scrypt.generateKey(key, pin, { r: 10, dkLen: 16 });
-      break;
-    default:
-      throw new Error(
-        "Wrong version is being used. Use either 'adam' or 'britney'."
-      );
-  }
-  const utf8Key = new Uint8Array(key);
-  const utf8Iv = new Uint8Array(iv);
-  const keyBuffer = utf8Key.buffer;
-  const ivBuffer = utf8Iv.buffer;
-
-  return { key: keyBuffer, iv: ivBuffer, version };
-}
-
-/**
- * @param code {string}
- * @param pin {string}
  * @param toEncryptBytes {arrayBuffer}
  * @returns {Promise<ArrayBuffer>}
  */
@@ -55,7 +23,6 @@ export async function adamEncrypt(code, pin, toEncryptBytes) {
 
   try {
     const data = await cbc.encrypt(cryptoKey, iv, toEncryptBytes);
-
     return {
       data,
       MedStickerCipherAttr: {
@@ -82,7 +49,6 @@ export async function encrypt(code, pin, toEncryptBytes) {
 
   try {
     const data = await gcm.encrypt(cryptoKey, iv, toEncryptBytes);
-
     return {
       data,
       MedStickerCipherAttr: {
@@ -105,7 +71,6 @@ export async function encrypt(code, pin, toEncryptBytes) {
  */
 export async function decrypt({ key, iv, version }, encryptedData) {
   let encryption;
-
   switch (version) {
     case ADAM:
       encryption = cbc;
@@ -125,6 +90,36 @@ export async function decrypt({ key, iv, version }, encryptedData) {
   } catch (e) {
     throw new Error("DecryptionFailed");
   }
+}
+
+/**
+ * @param code {string}
+ * @param pin {string}
+ * @param version {string}
+ * @returns {{key: *, iv: *, version: string}}
+ */
+export function deriveKey(code, pin, version) {
+  let key, iv;
+  switch (version) {
+    case ADAM:
+      key = scrypt.generateKey(pin, code);
+      iv = scrypt.generateKey(key, pin, { dkLen: 16 });
+      break;
+    case BRITNEY:
+      key = scrypt.generateKey(pin, code, { r: 10 });
+      iv = scrypt.generateKey(key, pin, { r: 10, dkLen: 16 });
+      break;
+    default:
+      throw new Error(
+        "Wrong version is being used. Use either 'adam' or 'britney'."
+      );
+  }
+  const utf8Key = new Uint8Array(key);
+  const utf8Iv = new Uint8Array(iv);
+  const keyBuffer = utf8Key.buffer;
+  const ivBuffer = utf8Iv.buffer;
+
+  return { key: keyBuffer, iv: ivBuffer, version };
 }
 
 /**

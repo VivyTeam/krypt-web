@@ -1,7 +1,3 @@
-export const encode = data => btoa(data);
-
-export const decode = data => atob(data);
-
 export function stringToArrayBuffer(data) {
   const arrayLength = data.length;
   const bytes = new Uint8Array(arrayLength);
@@ -18,17 +14,7 @@ export function arrayBufferToString(buffer) {
 }
 
 export async function generateInitialVector(bytes = 12) {
-  return window.crypto.getRandomValues(new Uint8Array(bytes));
-}
-
-export function base64ToArrayBuffer(base64) {
-  const decoded = decode(base64);
-  return stringToArrayBuffer(decoded);
-}
-
-export function arrayBufferToBase64(buffer) {
-  const string = arrayBufferToString(buffer);
-  return encode(string);
+  return await window.crypto.getRandomValues(new Uint8Array(bytes));
 }
 
 export function toPem(keyAsArrayBuffer) {
@@ -53,6 +39,20 @@ export function toArrayBuffer(keyAsPem) {
 
   return base64ToArrayBuffer(key);
 }
+
+export function arrayBufferToBase64(buffer) {
+  const string = arrayBufferToString(buffer);
+  return encode(string);
+}
+
+export function base64ToArrayBuffer(base64) {
+  const decoded = decode(base64);
+  return stringToArrayBuffer(decoded);
+}
+
+export const encode = data => btoa(data);
+
+export const decode = data => atob(data);
 
 export const concatenateUint8Arrays = (...arrays) => {
   const totalLength = arrays.reduce((acc, array) => acc + array.length, 0);
