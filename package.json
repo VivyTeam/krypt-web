@@ -14,7 +14,7 @@
     "README.md"
   ],
   "scripts": {
-    "build:package": "webpack --env build",
+    "build:package": "webpack",
     "deploy": "npm run build:package && git-directory-deploy --directory dist/ --branch minified-source  --message Builds minified krypt-web",
     "prebuild": "rimraf dist",
     "build:documentation": "jsdoc src/lib && git-directory-deploy --directory out/",
