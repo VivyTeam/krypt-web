@@ -1,15 +1,14 @@
 const webpack = require("webpack");
 const path = require("path");
 
-let outputFile;
-
+const name = "krypt-web";
 const config = {
   mode: "production",
   entry: `${__dirname}/src/lib/index.js`,
   output: {
     path: `${__dirname}/dist`,
-    filename: outputFile,
-    library: "krypt-web",
+    filename: `${name}.min.js`,
+    library: name,
     libraryTarget: "umd",
     umdNamedDefine: true,
     globalObject: "this"
