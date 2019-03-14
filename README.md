@@ -53,6 +53,11 @@ async function myDecryptionModule(code, pin, data){
 
 todo Add with an example of actual using a function that is being imported.
 
+## Deploy process
+
+We deploy the minifed version of the code in a separate branch to keep our `master` branch clean from code that is not needed.
+To deploy use `npm run deploy` this will trigger a build and push the minified files to `minified-source` branch.
+
 ## Running the tests
 
 #### Single test tun
