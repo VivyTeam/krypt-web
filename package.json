@@ -15,8 +15,9 @@
   ],
   "scripts": {
     "build:package": "webpack --env build",
+    "deploy": "git-directory-deploy --directory dist --branch minified",
     "prebuild": "rimraf dist",
-    "build:documentation": "jsdoc src/lib && git-directory-deploy --directory out/",
+    "build:documentation": "jsdoc src/lib && git-directory-deploy --directory out/ --message Builds minified krypt-web",
     "linter:check": "eslint src/**/*",
     "test": "karma start --single-run --browsers ChromeHeadless karma.conf.js",
     "test:watch": "karma start --auto-watch --browsers ChromeHeadless karma.conf.js"
