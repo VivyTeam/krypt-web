@@ -1,11 +1,11 @@
-import { stringToArrayBuffer } from "./utilities";
 import scrypt from "scrypt-async";
+import { stringToArrayBuffer } from "./utilities";
 
-export default type => {
+export default algorithm => {
   const types = ["aes-gcm", "rsa-oaep", "aes-cbc", "scrypt"];
-  type = type.toLowerCase();
+  const algorithmType = algorithm.toLowerCase();
 
-  switch (type) {
+  switch (algorithmType) {
     case "aes-gcm":
       return {
         /**
@@ -234,10 +234,10 @@ export default type => {
         }
       };
     default:
-      throw {
-        type: "Not found",
-        message: `The algorithm you requested is not currently supported. 
-        Supported are ${types.map(type => ` ${type}`)}.`
-      };
+      throw new Error(
+        `The algorithm you requested is not currently supported. Supported are ${types.map(
+          type => ` ${type}`
+        )}.`
+      );
   }
 };
