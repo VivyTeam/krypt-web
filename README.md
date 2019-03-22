@@ -1,20 +1,20 @@
 # **krypt-web**
 
-Web crypto library Vivy GmbH is using got encryption/decription on the Browsers. description goes here
+A web crypto library used by Vivy GmbH for encryption/decryption in browser.
 
 ## How to use
 
-####Install it
+### Installation
 
 ```
 npm i krypt-web
 ```
 
-####Import it into your module
+### Usage
 
-- EHREncryption example
+#### EHREncryption example
 
-```
+```javascript
 import create from 'krypt-web/factory.js'
 import { encrypt, decrypt, accessSignature, deriveKey } from 'krypt-web/EHREncryption.js'
 
@@ -29,9 +29,9 @@ async function myDecryptionModule(privateKey, data){
 }
 ```
 
-- MedStickerEncryption.js example
+#### MedStickerEncryption example
 
-```
+```javascript
 import create from 'krypt-web/factory.js'
 import { encrypt, decrypt, deriveKey } from 'krypt-web/MedStickerEncryption.js'
 
@@ -51,14 +51,14 @@ async function myDecryptionModule(code, pin, data){
 }
 ```
 
-todo Add with an example of actual using a function that is being imported.
+## Development 
 
-## Deploy process
+### Deployment process
 
 We deploy the minifed version of the code in a separate branch to keep our `master` branch clean from code that is not needed.
 To deploy use `npm run deploy` this will trigger a build and push the minified files to `minified-source` branch.
 
-## Running the tests
+### Running the tests
 
 #### Single test tun
 
