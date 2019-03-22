@@ -1,5 +1,5 @@
 import create from "./factory";
-import { decrypt as ehrDecrypt } from "./EHREncryption";
+import { decrypt as ehrDecrypt, encrypt as ehrEncrypt } from "./EHREncryption";
 import {
   decrypt as medDecrypt,
   accessSignature as medAccessSignature,
@@ -10,13 +10,13 @@ import {
   toArrayBuffer,
   arrayBufferToBase64,
   base64ToArrayBuffer,
-  generateInitialVector,
-  pemToArrayBuffer
+  generateInitialVector
 } from "./utilities";
 
 export default {
   create,
 
+  ehrEncrypt,
   ehrDecrypt,
 
   medDecrypt,
@@ -27,6 +27,5 @@ export default {
   base64ToArrayBuffer,
   toPem,
   toArrayBuffer,
-  generateInitialVector,
-  pemToArrayBuffer
+  generateInitialVector
 };
