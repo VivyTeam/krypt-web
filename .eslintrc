@@ -1,7 +1,15 @@
 {
   "parser": "babel-eslint",
-  "extends": ["prettier"],
+  "extends": ["prettier", "airbnb-base"],
   "plugins": ["prettier"],
+  "rules": {
+    "quotes": ["error", "double"],
+    "comma-dangle": 0,
+    "arrow-parens": 0,
+    "function-paren-newline": 1,
+    "object-curly-newline": 0,
+    "implicit-arrow-linebreak": 0
+  },
   "globals": {
     "window": false,
     "atob": false,

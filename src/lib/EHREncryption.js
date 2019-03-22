@@ -9,39 +9,26 @@ const aes = create("AES-GCM");
 const rsa = create("RSA-OAEP");
 
 /**
- * Encrypts aesKey and iv using RSA-OAEP to create a so called 'envelope'. Encrypts data using AES-GCM.
- * @param pubKey {arrayBuffer}
- * @param toEncryptBytes {arrayBuffer}
- * @returns {Promise<{cipherKey: (*|PromiseLike<ArrayBuffer>), data: ArrayBuffer, version: string}>}
+ * Transforms key array buffer to base 64 string.
+ * @private
+ * @param key {arrayBuffer}
+ * @returns {string}
  */
-export async function encrypt(pubKey, toEncryptBytes) {
-  const iv = await generateInitialVector();
-  const key = await aes.generateKey();
-
-  try {
-    const cipherKey = await encryptKeyIv(pubKey, key, iv);
-    const data = await aes.encrypt(key, iv, toEncryptBytes);
-    return { cipherKey, data, version: "OAEPGCM" };
-  } catch (e) {
-    throw new Error("EncryptionFailed");
-  }
+function transformKeyToBase64(key) {
+  const string = arrayBufferToString(key);
+  return window.btoa(string);
 }
 
 /**
- * Decrypts data
- * @param privKey {arrayBuffer}
- * @param encryptedData {object}
- * @returns {Promise<ArrayBuffer>}
+ * Transforms iv array buffer to base 64 string.
+ * @private
+ * @param iv {arrayBuffer}
+ * @returns {string}
  */
-export async function decrypt(privKey, { cipherKey, data }) {
-  const { key, iv } = await decryptKeyIv(privKey, cipherKey);
-  const importedKey = await aes.importKey(key);
-
-  try {
-    return await aes.decrypt(importedKey, iv, data);
-  } catch (e) {
-    throw new Error("DecryptionFailed");
-  }
+function transformIvToBase64(iv) {
+  const { buffer } = iv;
+  const string = arrayBufferToString(buffer);
+  return window.btoa(string);
 }
 
 /**
@@ -81,24 +68,38 @@ async function decryptKeyIv(privateKey, cipher) {
 }
 
 /**
- * Transforms key array buffer to base 64 string.
- * @private
- * @param key {arrayBuffer}
- * @returns {string}
+ * Encrypts aesKey and iv using RSA-OAEP to create a so called 'envelope'.
+ * Encrypts data using AES-GCM.
+ * @param pubKey {arrayBuffer}
+ * @param toEncryptBytes {arrayBuffer}
+ * @returns {Promise<{cipherKey: (*|PromiseLike<ArrayBuffer>), data: ArrayBuffer, version: string}>}
  */
-function transformKeyToBase64(key) {
-  const string = arrayBufferToString(key);
-  return window.btoa(string);
+export async function encrypt(pubKey, toEncryptBytes) {
+  const iv = await generateInitialVector();
+  const key = await aes.generateKey();
+
+  try {
+    const cipherKey = await encryptKeyIv(pubKey, key, iv);
+    const data = await aes.encrypt(key, iv, toEncryptBytes);
+    return { cipherKey, data, version: "OAEPGCM" };
+  } catch (e) {
+    throw new Error("EncryptionFailed");
+  }
 }
 
 /**
- * Transforms iv array buffer to base 64 string.
- * @private
- * @param iv {arrayBuffer}
- * @returns {string}
+ * Decrypts data
+ * @param privKey {arrayBuffer}
+ * @param encryptedData {object}
+ * @returns {Promise<ArrayBuffer>}
  */
-function transformIvToBase64(iv) {
-  const buffer = iv.buffer;
-  const string = arrayBufferToString(buffer);
-  return window.btoa(string);
+export async function decrypt(privKey, { cipherKey, data }) {
+  const { key, iv } = await decryptKeyIv(privKey, cipherKey);
+  const importedKey = await aes.importKey(key);
+
+  try {
+    return await aes.decrypt(importedKey, iv, data);
+  } catch (e) {
+    throw new Error("DecryptionFailed");
+  }
 }
