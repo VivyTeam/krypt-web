@@ -2,7 +2,6 @@ import privateKey from "raw-loader!./contact-data/privateKey.pkcs8.pem"; // esli
 import publicKey from "raw-loader!./contact-data/publicKey.spki.pem"; // eslint-disable-line
 import { decrypt, encrypt } from "../lib/EHREncryption";
 import {
-  arrayBufferToBase64,
   arrayBufferToString,
   base64ToArrayBuffer,
   stringToArrayBuffer,
