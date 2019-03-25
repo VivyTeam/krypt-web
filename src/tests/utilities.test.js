@@ -1,8 +1,6 @@
 import { stringToArrayBuffer, arrayBufferToString } from "../lib/utilities";
 
 describe("basic utilities", () => {
-  const { expect } = window;
-
   it("should convert a String to ArrayBuffer and back. Result should be equal.", async () => {
     const originalString = "Mock secret message";
     const arrayBuffer = stringToArrayBuffer(originalString);

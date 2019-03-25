@@ -14,8 +14,6 @@ const algorithms = [
 ];
 
 describe("MedStickerEncryption", () => {
-  const { expect } = window;
-
   algorithms.forEach(algorithm => {
     describe(`version ${algorithm.name}`, () => {
       it("should encrypt data and decrypt it back", async () => {

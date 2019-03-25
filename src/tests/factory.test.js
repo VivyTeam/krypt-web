@@ -8,7 +8,6 @@ import {
 } from "../lib/utilities";
 
 describe("aes-gcm", () => {
-  const { expect } = window;
   let aes = null;
   let mockKey = null;
   let mockIv = null;
@@ -57,7 +56,6 @@ describe("aes-gcm", () => {
 });
 
 describe("rsa-oaep", () => {
-  const { expect } = window;
   let rsa = null;
   let mockPrivateKey = null;
   let mockPublicKey = null;
