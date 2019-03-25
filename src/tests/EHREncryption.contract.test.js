@@ -1,3 +1,5 @@
+import privateKey from "raw-loader!./contact-data/privateKey.pkcs8.pem"; // eslint-disable-line
+import publicKey from "raw-loader!./contact-data/publicKey.spki.pem"; // eslint-disable-line
 import { decrypt, encrypt } from "../lib/EHREncryption";
 import {
   arrayBufferToString,
@@ -5,8 +7,6 @@ import {
   stringToArrayBuffer,
   toArrayBuffer
 } from "../lib/utilities";
-import privateKey from "raw-loader!./contact-data/privateKey.pkcs8.pem";
-import publicKey from "raw-loader!./contact-data/publicKey.spki.pem";
 
 describe("EHREncryption contract", () => {
   it("should decrypt a value, given a private key and cipher key. All values are encoded on base64. All values are taken the contract.", async () => {
@@ -33,7 +33,7 @@ describe("EHREncryption contract", () => {
     expect(string).to.deep.equal("A Healthier Life is a Happier Life");
   });
 
-  it("should encrypt a message, given a public key and decrypt it back give the contract key provided", async () => {
+  it("should encrypt a message, given a public key and decrypt it back given the contract key provided", async () => {
     const originalString = "A Healthier Life is a Happier Life";
     const buffer = stringToArrayBuffer(originalString);
     const publicKeyBuffer = toArrayBuffer(publicKey);
