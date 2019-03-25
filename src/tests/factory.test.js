@@ -1,4 +1,4 @@
-import create from "../../src/lib/factory";
+import create from "../lib/factory";
 import {
   arrayBufferToString,
   stringToArrayBuffer,
@@ -8,7 +8,7 @@ import {
 } from "../lib/utilities";
 
 describe("aes-gcm", () => {
-  const expect = window.expect;
+  const { expect } = window;
   let aes = null;
   let mockKey = null;
   let mockIv = null;
@@ -57,7 +57,7 @@ describe("aes-gcm", () => {
 });
 
 describe("rsa-oaep", () => {
-  const expect = window.expect;
+  const { expect } = window;
   let rsa = null;
   let mockPrivateKey = null;
   let mockPublicKey = null;

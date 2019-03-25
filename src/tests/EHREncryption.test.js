@@ -3,7 +3,7 @@ import { arrayBufferToString, stringToArrayBuffer } from "../lib/utilities";
 import create from "../lib/factory";
 
 describe("EHREncryption", () => {
-  const expect = window.expect;
+  const { expect } = window;
   let rsa = null;
 
   before(async () => {
