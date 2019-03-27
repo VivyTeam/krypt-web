@@ -1,5 +1,4 @@
 import scrypt from "scrypt-async";
-import { stringToArrayBuffer } from "./utilities";
 
 export default algorithm => {
   const types = ["aes-gcm", "rsa-oaep", "aes-cbc", "scrypt"];

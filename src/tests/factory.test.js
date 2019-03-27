@@ -4,8 +4,7 @@ import {
   stringToArrayBuffer,
   generateInitialVector,
   toPem,
-  toArrayBuffer,
-  arrayBufferToBase64
+  toArrayBuffer
 } from "../lib/utilities";
 
 describe("aes-gcm", () => {
@@ -71,7 +70,7 @@ describe("rsa-oaep", () => {
   });
 
   async function encryptStringIntoBase64(originalString, key = mockPublicKey) {
-    const stringArrayBuffer = stringToArrayBuffer(originalString)
+    const stringArrayBuffer = stringToArrayBuffer(originalString);
     const cipherText = await rsa.encrypt(key, stringArrayBuffer);
     const string = arrayBufferToString(cipherText);
     return window.btoa(string);
