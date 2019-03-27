@@ -47,8 +47,9 @@ async function encryptKeyIv(publicKey, key, iv) {
     base64EncodedIV,
     base64EncodedKey
   });
+  const jsonArrayBuffer = stringToArrayBuffer(jsonStringSecrets);
 
-  return rsa.encrypt(publicKey, jsonStringSecrets);
+  return rsa.encrypt(publicKey, jsonArrayBuffer);
 }
 
 /**
@@ -81,7 +82,7 @@ export async function encrypt(pubKey, toEncryptBytes) {
   try {
     const cipherKey = await encryptKeyIv(pubKey, key, iv);
     const data = await aes.encrypt(key, iv, toEncryptBytes);
-    return { cipherKey, data, version: "OAEPGCM" };
+    return { cipherKey, data, version: "oeapgcm" };
   } catch (e) {
     throw new Error("EncryptionFailed");
   }
