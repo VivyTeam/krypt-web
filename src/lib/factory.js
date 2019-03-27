@@ -117,14 +117,8 @@ export default algorithm => {
          * @param jsonString {string}
          * @returns {PromiseLike<ArrayBuffer>}
          */
-        encrypt: (publicKey, jsonString) => {
-          const arrayBuffer = stringToArrayBuffer(jsonString);
-          return window.crypto.subtle.encrypt(
-            { name: "RSA-OAEP" },
-            publicKey,
-            arrayBuffer
-          );
-        },
+        encrypt: (publicKey, buffer) =>
+          window.crypto.subtle.encrypt({ name: "RSA-OAEP" }, publicKey, buffer),
         /**
          * @private
          * @param privateKey {CryptoKey}

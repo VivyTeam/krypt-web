@@ -4,7 +4,8 @@ import {
   stringToArrayBuffer,
   generateInitialVector,
   toPem,
-  toArrayBuffer
+  toArrayBuffer,
+  arrayBufferToBase64
 } from "../lib/utilities";
 
 describe("aes-gcm", () => {
@@ -35,10 +36,12 @@ describe("aes-gcm", () => {
   }
 
   it("should encrypt a plain text, then decrypt the result. Result should be the same with original.", async () => {
+    // given
     const originalString = "Encrypted secret message";
+    // when
     const encryptedMessage = await encryptStringIntoBase64(originalString);
+    // then
     const result = await decryptBase64IntoString(encryptedMessage);
-
     expect(result).to.equal(originalString);
   });
 
@@ -68,7 +71,8 @@ describe("rsa-oaep", () => {
   });
 
   async function encryptStringIntoBase64(originalString, key = mockPublicKey) {
-    const cipherText = await rsa.encrypt(key, originalString);
+    const stringArrayBuffer = stringToArrayBuffer(originalString)
+    const cipherText = await rsa.encrypt(key, stringArrayBuffer);
     const string = arrayBufferToString(cipherText);
     return window.btoa(string);
   }
