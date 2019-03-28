@@ -35,12 +35,12 @@ describe("aes-gcm", () => {
   }
 
   it("should encrypt a plain text, then decrypt the result. Result should be the same with original.", async () => {
-    // given
     const originalString = "Encrypted secret message";
-    // when
+
     const encryptedMessage = await encryptStringIntoBase64(originalString);
-    // then
+
     const result = await decryptBase64IntoString(encryptedMessage);
+
     expect(result).to.equal(originalString);
   });
 
