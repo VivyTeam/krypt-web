@@ -15,47 +15,45 @@ npm i krypt-web
 #### EHREncryption example
 
 ```javascript
-import create from 'krypt-web/factory.js'
-import { encrypt, decrypt, accessSignature, deriveKey } from 'krypt-web/EHREncryption.js'
+import krypt from "krypt-web";
 
-async function myEncryptionModule(publicKey, bytesToEncrypt){
-    return await encrypt(publicKey, bytesToEncrypt);
+async function myEncryptionModule(publicKey, bytesToEncrypt) {
+  return await krypt.ehrEncrypt(publicKey, bytesToEncrypt);
 }
 
-....
+// ....
 
-async function myDecryptionModule(privateKey, data){
-    return await decrypt(privateKey, data)
+async function myDecryptionModule(privateKey, data) {
+  return await krypt.ehrDecrypt(privateKey, data);
 }
 ```
 
 #### MedStickerEncryption example
 
 ```javascript
-import create from 'krypt-web/factory.js'
-import { encrypt, decrypt, deriveKey } from 'krypt-web/MedStickerEncryption.js'
+import krypt from "krypt-web";
 
-async function myEncryptionModule(code, pin, bytesToEncrypt){
-    const { key, iv } = deriveKey(code, pin);
+async function myEncryptionModule(code, pin, bytesToEncrypt) {
+  const { key, iv } = krypt.medDeriveKey(code, pin);
 
-    const { data } = await encrypt(code, pin, bytesToEncrypt);
-    return { encryptedData: data }
+  const { data } = await krypt.medEncrypt(code, pin, bytesToEncrypt);
+  return { encryptedData: data };
 }
 
-....
+// ....
 
-async function myDecryptionModule(code, pin, data){
-    const { key, iv, version } = deriveKey(code, pin, 'britney');
+async function myDecryptionModule(code, pin, data) {
+  const { key, iv, version } = krypt.medDeriveKey(code, pin, "britney");
 
-    return await decrypt({ key, iv, version }, data);
+  return await krypt.medDecrypt({ key, iv, version }, data);
 }
 ```
 
-## Development 
+## Development
 
 ### Deployment process
 
-We deploy the minifed version of the code in a separate branch to keep our `master` branch clean from code that is not needed.
+We deploy the minified version of the code in a separate branch to keep our `master` branch clean from code that is not needed.
 To deploy use `npm run deploy` this will trigger a build and push the minified files to `minified-source` branch.
 
 ### Running the tests
