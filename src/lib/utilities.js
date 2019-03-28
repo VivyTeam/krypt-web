@@ -17,7 +17,7 @@ export function arrayBufferToString(buffer) {
   return String.fromCharCode.apply(null, new Uint8Array(buffer));
 }
 
-export async function generateInitialVector(bytes = 16) {
+export async function generateInitialVector(bytes = 12) {
   return window.crypto.getRandomValues(new Uint8Array(bytes));
 }
 
