@@ -113,7 +113,7 @@ export default algorithm => {
         /**
          * @private
          * @param publicKey {CryptoKey}
-         * @param jsonString {string}
+         * @param buffer {arrayBuffer}
          * @returns {PromiseLike<ArrayBuffer>}
          */
         encrypt: (publicKey, buffer) =>
