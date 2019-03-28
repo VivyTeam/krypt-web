@@ -82,7 +82,7 @@ export async function encrypt(pubKey, toEncryptBytes) {
   try {
     const cipherKey = await encryptKeyIv(pubKey, key, iv);
     const data = await aes.encrypt(key, iv, toEncryptBytes);
-    return { cipherKey, data, version: "oeapgcm" };
+    return { cipherKey, data, version: "OEAPGCM" };
   } catch (e) {
     throw new Error("EncryptionFailed");
   }
