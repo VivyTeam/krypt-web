@@ -1,5 +1,4 @@
 import scrypt from "scrypt-async";
-import { stringToArrayBuffer } from "./utilities";
 
 export default algorithm => {
   const types = ["aes-gcm", "rsa-oaep", "aes-cbc", "scrypt"];
@@ -114,17 +113,11 @@ export default algorithm => {
         /**
          * @private
          * @param publicKey {CryptoKey}
-         * @param jsonString {string}
+         * @param buffer {arrayBuffer}
          * @returns {PromiseLike<ArrayBuffer>}
          */
-        encrypt: (publicKey, jsonString) => {
-          const arrayBuffer = stringToArrayBuffer(jsonString);
-          return window.crypto.subtle.encrypt(
-            { name: "RSA-OAEP" },
-            publicKey,
-            arrayBuffer
-          );
-        },
+        encrypt: (publicKey, buffer) =>
+          window.crypto.subtle.encrypt({ name: "RSA-OAEP" }, publicKey, buffer),
         /**
          * @private
          * @param privateKey {CryptoKey}

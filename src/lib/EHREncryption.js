@@ -47,8 +47,9 @@ async function encryptKeyIv(publicKey, key, iv) {
     base64EncodedIV,
     base64EncodedKey
   });
+  const jsonArrayBuffer = stringToArrayBuffer(jsonStringSecrets);
 
-  return rsa.encrypt(publicKey, jsonStringSecrets);
+  return rsa.encrypt(publicKey, jsonArrayBuffer);
 }
 
 /**
