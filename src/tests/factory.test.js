@@ -68,8 +68,8 @@ describe("rsa-oaep", () => {
   });
 
   async function encryptStringIntoBase64(originalString, key = mockPublicKey) {
-    const stringArrayBuffer = stringToArrayBuffer(originalString);
-    const cipherText = await rsa.encrypt(key, stringArrayBuffer);
+    const buffer = stringToArrayBuffer(originalString);
+    const cipherText = await rsa.encrypt(key, buffer);
     const string = arrayBufferToString(cipherText);
     return window.btoa(string);
   }
