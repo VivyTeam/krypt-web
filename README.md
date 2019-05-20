@@ -7,7 +7,7 @@ A web crypto library used by Vivy GmbH for encryption/decryption in browser.
 ### Installation
 
 ```
-npm i krypt-web
+npm i @vivy/krypt-web
 ```
 
 ### Usage
@@ -53,8 +53,13 @@ async function myDecryptionModule(code, pin, data) {
 
 ### Deployment process
 
-We deploy the minified version of the code in a separate branch to keep our `master` branch clean from code that is not needed.
-To deploy use `npm run deploy` this will trigger a build and push the minified files to `minified-source` branch.
+`krypt-web` is deployed to npm, and new releases are deployed by CircleCI after creating a Github release.
+
+To create a new release:
+
+1. Ensure your changes are merged to master
+1. Create a new Github release with the correct name (Release x.x.x) and tag (x.x.x). Your release **must** include a description of the changes included in the release
+1. CircleCI will then pick up the new tag and automatically build, test and publish the new version.
 
 ### Running the tests
 

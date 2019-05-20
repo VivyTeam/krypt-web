@@ -1,22 +1,20 @@
 {
   "name": "@vivy/krypt-web",
   "version": "0.0.0",
+  "description": "Vivy GmbH crypto library used for encryption/decryption in browser",
   "private": false,
   "repository": {
     "type": "git",
-    "url": "git://github.com/UvitaTeam/krypt-web"
+    "url": "https://github.com/VivyTeam/krypt-web.git"
   },
-  "main": "dist/index.js",
+  "main": "dist/krypt-web.min.js",
   "license": "MIT",
   "files": [
-    "/dist",
-    "index.js",
-    "README.md"
+    "/dist"
   ],
   "scripts": {
     "build:package": "rimraf dist && webpack",
-    "deploy": "npm run build:package && git-directory-deploy --directory dist/ --branch minified-source  --message 'Builds minified krypt-web'",
-    "build:documentation": "jsdoc src/lib && git-directory-deploy --directory out/",
+    "deploy:documentation": "jsdoc src/lib && git-directory-deploy --directory out/",
     "linter:check": "eslint src/**/*.js",
     "test": "karma start --single-run --browsers ChromeHeadless karma.conf.js",
     "test:watch": "karma start --auto-watch --browsers ChromeHeadless karma.conf.js"
