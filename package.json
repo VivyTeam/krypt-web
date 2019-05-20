@@ -1,17 +1,16 @@
 {
   "name": "@vivy/krypt-web",
   "version": "0.0.0",
+  "description": "Vivy GmbH crypto library used for encryption/decryption in browser",
   "private": false,
   "repository": {
     "type": "git",
-    "url": "git://github.com/UvitaTeam/krypt-web"
+    "url": "https://github.com/VivyTeam/krypt-web.git"
   },
-  "main": "dist/index.js",
+  "main": "dist/krypt-web.min.js",
   "license": "MIT",
   "files": [
-    "/dist",
-    "index.js",
-    "README.md"
+    "/dist"
   ],
   "scripts": {
     "build:package": "rimraf dist && webpack",
