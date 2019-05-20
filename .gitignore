@@ -1,14 +1,14 @@
 .idea
 .DS_Store
-node_modules
+/node_modules
 
 # logs
 *.log
 
 # coverage
-coverage
+/coverage
 
 # dist
-dist
+/dist
 
 /out
