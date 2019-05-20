@@ -22,6 +22,10 @@ jobs:
             - node_modules
           key: v1-dependencies-{{ checksum "package.json" }}
 
+      - persist_to_workspace:
+          root: ~/repo
+          paths: .
+
   build:
     docker:
       - image: circleci/node:8.11.1
@@ -29,21 +33,14 @@ jobs:
     working_directory: ~/repo
 
     steps:
-      - checkout
-      - restore_cache:
-          keys:
-            - v1-dependencies-{{ checksum "package.json" }}
-            # fallback to using the latest cache if no exact match is found
-            - v1-dependencies-
+      - attach_workspace:
+          at: ~/repo
 
-      - run: npm install
       - run: npm run build:package
-      - run: ls ./dist
 
-      - save_cache:
-          paths:
-            - node_modules
-          key: v1-dependencies-{{ checksum "package.json" }}
+      - persist_to_workspace:
+          root: ~/repo
+          paths: .
 
   publish:
     docker:
@@ -52,16 +49,11 @@ jobs:
     working_directory: ~/repo
 
     steps:
-      - checkout
-      - restore_cache:
-          keys:
-            - v1-dependencies-{{ checksum "package.json" }}
-            # fallback to using the latest cache if no exact match is found
-            - v1-dependencies-
+      - attach_workspace:
+          at: ~/repo
 
       # Update package.json version
       - run: npm version $CIRCLE_TAG && git push origin HEAD:master
-      - run: npm install
       - run: npm run build:package
       - run: npm run deploy:documentation
       - run: echo '//registry.npmjs.org/:_authToken=${NPM_TOKEN}' > ~/repo/.npmrc
@@ -69,7 +61,7 @@ jobs:
 
 workflows:
   version: 2
-  test-build--publish:
+  test-build-publish:
     jobs:
       - test:
           filters:
@@ -77,11 +69,15 @@ workflows:
               ignore:
                 - master
       - build:
+          requires:
+            - test
           filters:
             branches:
               ignore:
                 - master
       - publish:
+          requires:
+            - build
           filters:
             tags:
               only: /.*/
