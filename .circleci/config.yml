@@ -51,9 +51,13 @@ jobs:
     steps:
       - attach_workspace:
           at: ~/repo
+
+      # Add the public deploy key from the repository
+      # and call checkout to ensure git uses ssh not https
       - add_ssh_keys:
           fingerprints:
             - "cf:9f:64:b3:02:33:f3:f9:13:9e:86:2c:40:f1:cf:66"
+      - checkout
 
       # Update package.json version
       - run: npm version $CIRCLE_TAG && git push origin HEAD:master
