@@ -65,6 +65,8 @@ workflows:
     jobs:
       - test:
           filters:
+            tags:
+              only: /\d+\.\d+\.\d+/
             branches:
               ignore:
                 - master
@@ -72,6 +74,8 @@ workflows:
           requires:
             - test
           filters:
+            tags:
+              only: /\d+\.\d+\.\d+/
             branches:
               ignore:
                 - master
@@ -80,6 +84,6 @@ workflows:
             - build
           filters:
             tags:
-              only: /.*/
+              only: /\d+\.\d+\.\d+/
             branches:
               ignore: /.*/
