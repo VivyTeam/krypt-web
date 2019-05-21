@@ -2,7 +2,7 @@ version: 2
 jobs:
   test:
     docker:
-      - image: circleci/node:8.11.1-browsers
+      - image: circleci/node:12.2-browsers
 
     working_directory: ~/repo
 
@@ -28,7 +28,7 @@ jobs:
 
   build:
     docker:
-      - image: circleci/node:8.11.1
+      - image: circleci/node:12.2
 
     working_directory: ~/repo
 
@@ -44,7 +44,7 @@ jobs:
 
   publish:
     docker:
-      - image: circleci/node:8.11.1
+      - image: circleci/node:12.2
 
     working_directory: ~/repo
 
