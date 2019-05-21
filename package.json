@@ -7,28 +7,44 @@
     "type": "git",
     "url": "https://github.com/VivyTeam/krypt-web.git"
   },
-  "main": "dist/krypt-web.min.js",
   "license": "MIT",
-  "files": [
-    "/dist"
-  ],
   "scripts": {
-    "build:package": "rimraf dist && webpack",
+    "build:package": "pack build",
     "deploy:documentation": "jsdoc src/lib && git-directory-deploy --directory out/",
     "linter:check": "eslint src/**/*.js",
-    "test": "karma start --single-run --browsers ChromeHeadless karma.conf.js",
-    "test:watch": "karma start --auto-watch --browsers ChromeHeadless karma.conf.js"
+    "test": "karmatic",
+    "test:watch": "karmatic watch"
+  },
+  "@pika/pack": {
+    "pipeline": [
+      [
+        "@pika/plugin-standard-pkg",
+        {
+          "exclude": [
+            "tests/**/*"
+          ]
+        }
+      ],
+      [
+        "@pika/plugin-build-node"
+      ],
+      [
+        "@pika/plugin-build-web"
+      ],
+      [
+        "@pika/plugin-build-types"
+      ]
+    ]
   },
   "dependencies": {
     "scrypt-async": "2.0.1"
   },
   "devDependencies": {
-    "babel-core": "6.26.3",
-    "babel-eslint": "^8.2.6",
-    "babel-loader": "^7.1.5",
-    "babel-plugin-transform-runtime": "^6.23.0",
-    "babel-preset-env": "^1.7.0",
-    "babel-preset-stage-0": "^6.24.1",
+    "@pika/pack": "^0.3.7",
+    "@pika/plugin-build-node": "^0.3.16",
+    "@pika/plugin-build-types": "^0.3.16",
+    "@pika/plugin-build-web": "^0.3.16",
+    "@pika/plugin-standard-pkg": "^0.3.16",
     "chai": "^4.2.0",
     "eslint": "^5.3.0",
     "eslint-config-airbnb-base": "^13.1.0",
