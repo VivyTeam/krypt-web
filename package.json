@@ -1,6 +1,6 @@
 {
   "name": "@vivy/krypt-web",
-  "version": "1.0.6",
+  "version": "2.0.0",
   "description": "Vivy GmbH crypto library used for encryption/decryption in browser",
   "private": false,
   "repository": {
