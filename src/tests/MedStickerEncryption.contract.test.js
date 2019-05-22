@@ -92,6 +92,8 @@ describe("MedStickerEncryption contract", () => {
       { key, iv, version: BRITNEY },
       "98C1EB4EE93476743763878FCB96A25FBC9A175074D64004779ECB5242F645E6"
     );
-    expect(signature).toEqual("britney-sha256:RonmY2BVOex5wlGRrLPkXn/MZV1Rhot4wRc9+cuK0zY=");
+    expect(signature).toEqual(
+      "britney-sha256:RonmY2BVOex5wlGRrLPkXn/MZV1Rhot4wRc9+cuK0zY="
+    );
   });
 });
