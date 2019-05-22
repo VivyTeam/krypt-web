@@ -64,7 +64,7 @@ jobs:
       - run: npm run build:package
       - run: npm run deploy:documentation
       - run: echo '//registry.npmjs.org/:_authToken=${NPM_TOKEN}' > ~/repo/.npmrc
-      - run: npm publish --access public
+      - run: npm publish ./pkg --access public
 
 workflows:
   version: 2

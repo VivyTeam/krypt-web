@@ -9,6 +9,6 @@
 /coverage
 
 # dist
-/dist
+/pkg
 
 /out

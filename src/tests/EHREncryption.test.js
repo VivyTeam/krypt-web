@@ -5,7 +5,7 @@ import create from "../lib/factory";
 describe("EHREncryption", () => {
   let rsa = null;
 
-  before(async () => {
+  beforeAll(async () => {
     rsa = create("RSA-OAEP");
   });
 
@@ -18,6 +18,6 @@ describe("EHREncryption", () => {
     const arrayBufferData = await decrypt(privateKey, { cipherKey, data });
 
     const result = arrayBufferToString(arrayBufferData);
-    expect(result).to.deep.equal(originalString);
+    expect(result).toEqual(originalString);
   });
 });

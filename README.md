@@ -15,37 +15,37 @@ npm i @vivy/krypt-web
 #### EHREncryption example
 
 ```javascript
-import krypt from "krypt-web";
+import { ehrEncrypt, ehrDecrypt } from "@vivy/krypt-web";
 
 async function myEncryptionModule(publicKey, bytesToEncrypt) {
-  return await krypt.ehrEncrypt(publicKey, bytesToEncrypt);
+  return await ehrEncrypt(publicKey, bytesToEncrypt);
 }
 
 // ....
 
 async function myDecryptionModule(privateKey, data) {
-  return await krypt.ehrDecrypt(privateKey, data);
+  return await ehrDecrypt(privateKey, data);
 }
 ```
 
 #### MedStickerEncryption example
 
 ```javascript
-import krypt from "krypt-web";
+import { medDeriveKey, medEncrypt, medDecrypt } from "@vivy/krypt-web";
 
 async function myEncryptionModule(code, pin, bytesToEncrypt) {
-  const { key, iv } = krypt.medDeriveKey(code, pin);
+  const { key, iv } = medDeriveKey(code, pin);
 
-  const { data } = await krypt.medEncrypt(code, pin, bytesToEncrypt);
+  const { data } = await medEncrypt(code, pin, bytesToEncrypt);
   return { encryptedData: data };
 }
 
 // ....
 
 async function myDecryptionModule(code, pin, data) {
-  const { key, iv, version } = krypt.medDeriveKey(code, pin, "britney");
+  const { key, iv, version } = medDeriveKey(code, pin, "britney");
 
-  return await krypt.medDecrypt({ key, iv, version }, data);
+  return await medDecrypt({ key, iv, version }, data);
 }
 ```
 

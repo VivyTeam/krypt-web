@@ -6,7 +6,7 @@ describe("basic utilities", () => {
     const arrayBuffer = stringToArrayBuffer(originalString);
     const result = arrayBufferToString(arrayBuffer);
 
-    expect(result).to.equal(originalString);
+    expect(result).toBe(originalString);
   });
 
   it("should convert an ArrayBuffer to String and back. Result should be the equal", async () => {
@@ -14,6 +14,6 @@ describe("basic utilities", () => {
     const string = arrayBufferToString(originalArrayBuffer);
     const result = stringToArrayBuffer(string);
 
-    expect(result).to.deep.equal(originalArrayBuffer);
+    expect(result).toEqual(originalArrayBuffer);
   });
 });

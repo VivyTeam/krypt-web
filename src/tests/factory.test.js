@@ -12,7 +12,7 @@ describe("aes-gcm", () => {
   let mockKey = null;
   let mockIv = null;
 
-  before(async () => {
+  beforeAll(async () => {
     aes = create("aes-gcm");
     const iv = await generateInitialVector();
     const key = await aes.generateKey();
@@ -39,7 +39,7 @@ describe("aes-gcm", () => {
     const encryptedMessage = await encryptStringIntoBase64(originalString);
     const result = await decryptBase64IntoString(encryptedMessage);
 
-    expect(result).to.equal(originalString);
+    expect(result).toBe(originalString);
   });
 
   it("should generate key. encrypt. export it. import key. decrypt.", async () => {
@@ -51,7 +51,7 @@ describe("aes-gcm", () => {
 
     const result = await decryptBase64IntoString(encryptedMessage, importedKey);
 
-    expect(result).to.equal(originalString);
+    expect(result).toBe(originalString);
   });
 });
 
@@ -60,7 +60,7 @@ describe("rsa-oaep", () => {
   let mockPrivateKey = null;
   let mockPublicKey = null;
 
-  before(async () => {
+  beforeAll(async () => {
     rsa = create("RSA-OAEP");
     const { privateKey, publicKey } = await rsa.generateKey();
     mockPrivateKey = privateKey;
@@ -86,7 +86,7 @@ describe("rsa-oaep", () => {
     const encryptedMessage = await encryptStringIntoBase64(originalString);
     const result = await decryptBase64IntoString(encryptedMessage);
 
-    expect(result).to.equal(originalString);
+    expect(result).toBe(originalString);
   });
 
   it("should generate key. encrypt. export it. transform it to pem. transform it back to buffer. import key. decrypt.", async () => {
@@ -101,6 +101,6 @@ describe("rsa-oaep", () => {
 
     const result = await decryptBase64IntoString(encryptedMessage, importedKey);
 
-    expect(result).to.equal(originalString);
+    expect(result).toBe(originalString);
   });
 });
