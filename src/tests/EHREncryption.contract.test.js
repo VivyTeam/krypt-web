@@ -30,7 +30,7 @@ describe("EHREncryption contract", () => {
 
     const string = arrayBufferToString(decrypted);
 
-    expect(string).to.deep.equal("A Healthier Life is a Happier Life");
+    expect(string).toEqual("A Healthier Life is a Happier Life");
   });
 
   it("should encrypt a message, given a public key and decrypt it back given the contract key provided", async () => {
@@ -60,6 +60,6 @@ describe("EHREncryption contract", () => {
       data
     });
 
-    expect(arrayBufferToString(arrayBufferData)).to.deep.equal(originalString);
+    expect(arrayBufferToString(arrayBufferData)).toEqual(originalString);
   });
 });

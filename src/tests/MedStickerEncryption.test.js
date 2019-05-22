@@ -33,7 +33,7 @@ describe("MedStickerEncryption", () => {
         const arrayBufferData = await decrypt({ key, iv, version }, data);
 
         const result = arrayBufferToString(arrayBufferData);
-        expect(result).to.deep.equal(originalString);
+        expect(result).toEqual(originalString);
       });
 
       it("should throw error on decrypt with wrong iv", async () => {
@@ -53,7 +53,7 @@ describe("MedStickerEncryption", () => {
         } catch (err) {
           error = err;
         } finally {
-          expect(error.message).to.be.equal("DecryptionFailed");
+          expect(error.message).toBe("DecryptionFailed");
         }
       });
 
@@ -66,7 +66,7 @@ describe("MedStickerEncryption", () => {
           { key, iv, version: algorithm.name },
           salt
         );
-        expect(signature).to.have.string(`${algorithm.name}-sha256:`);
+        expect(signature).toContain(`${algorithm.name}-sha256:`);
       });
     });
   });

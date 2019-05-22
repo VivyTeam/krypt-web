@@ -49,8 +49,8 @@ describe("MedStickerEncryption contract", () => {
         const keyBase64 = arrayBufferToBase64(key);
         const ivBase64 = arrayBufferToBase64(iv);
 
-        expect(keyBase64).to.deep.equal(algorithm.givenKeyBase64);
-        expect(ivBase64).to.deep.equal(algorithm.givenIvBase64);
+        expect(keyBase64).toEqual(algorithm.givenKeyBase64);
+        expect(ivBase64).toEqual(algorithm.givenIvBase64);
       });
 
       it("encrypted data should match the values on the contract", async () => {
@@ -63,7 +63,7 @@ describe("MedStickerEncryption contract", () => {
         );
         const dataBase64 = arrayBufferToBase64(data);
 
-        expect(dataBase64).to.deep.equal(algorithm.givenEncryptedDataBase64);
+        expect(dataBase64).toEqual(algorithm.givenEncryptedDataBase64);
       });
 
       it("decrypted data should match the values on the contract", async () => {
@@ -79,7 +79,7 @@ describe("MedStickerEncryption contract", () => {
         );
         const plainText = arrayBufferToString(data);
 
-        expect(plainText).to.deep.equal("A Healthier Life is a Happier Life");
+        expect(plainText).toEqual("A Healthier Life is a Happier Life");
       });
     });
   });
@@ -92,8 +92,6 @@ describe("MedStickerEncryption contract", () => {
       { key, iv, version: BRITNEY },
       "98C1EB4EE93476743763878FCB96A25FBC9A175074D64004779ECB5242F645E6"
     );
-    expect(signature).to.deep.equal(
-      "britney-sha256:RonmY2BVOex5wlGRrLPkXn/MZV1Rhot4wRc9+cuK0zY="
-    );
+    expect(signature).toEqual("britney-sha256:RonmY2BVOex5wlGRrLPkXn/MZV1Rhot4wRc9+cuK0zY=");
   });
 });
