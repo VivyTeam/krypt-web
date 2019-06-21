@@ -36,7 +36,7 @@ describe("MedStickerEncryption", () => {
         expect(result).toEqual(originalString);
       });
 
-      it("should throw error on decrypt with wrong iv", async () => {
+      it("should throw error on decrypt when iv is different that on used for encryption", async () => {
         const originalString = "Encrypted secret message";
         const buffer = stringToArrayBuffer(originalString);
         const { key, version } = deriveKey("7i6XA2zz", "qmHuG263", ADAM);
