@@ -1,4 +1,6 @@
 import create from "./factory";
+import { arrayBufferToString, encode } from "./utilities";
+import { CHARLIE } from "./constants";
 
 const scrypt = create("scrypt");
 const gcm = create("AES-GCM");
@@ -7,15 +9,24 @@ const gcm = create("AES-GCM");
  *
  * @param secret
  * @param salt
- * @param options
  * @returns {PromiseLike<CryptoKeyPair> | PromiseLike<CryptoKey> | PromiseLike<CryptoKeyPair | CryptoKey>}
  */
-export async function hash(secret, salt, options) {
+export async function hash(secret, salt) {
   try {
-    return await scrypt.generateKey(secret, salt, options);
+    return await scrypt.generateKey(secret, salt);
   } catch (e) {
     throw new Error("HashFailed");
   }
+}
+
+/**
+ *
+ * @param hashed
+ * @returns {Promise<string>}
+ */
+export function fingerprintSecret(hashed) {
+  const base64EncodedFingerprintSecret = encode(arrayBufferToString(hashed));
+  return `${CHARLIE}-sha256:${base64EncodedFingerprintSecret}`;
 }
 
 /**
@@ -26,11 +37,11 @@ export async function hash(secret, salt, options) {
 export function splitKeys(array) {
   const arrayLength = array.length;
   const cryptoKey = array.slice(0, arrayLength / 2);
-  const accessKey = array.slice(arrayLength / 2, arrayLength);
+  const fingerprintFile = array.slice(arrayLength / 2, arrayLength);
 
   return {
-    cryptoKey: new Uint8Array(cryptoKey).buffer,
-    accessKey: new Uint8Array(accessKey).buffer
+    key: new Uint8Array(cryptoKey).buffer,
+    fingerprintFile: new Uint8Array(fingerprintFile).buffer
   };
 }
 
