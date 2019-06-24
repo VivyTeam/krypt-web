@@ -41,12 +41,12 @@ export function fingerprintSecret(hashed) {
  */
 export function splitKeys(array) {
   const arrayLength = array.length;
-  const cryptoKey = array.slice(0, arrayLength / 2);
+  const key = array.slice(0, arrayLength / 2);
   const fingerprintFile = array.slice(arrayLength / 2, arrayLength);
   const fingerprintArrayBuffer = new Uint8Array(fingerprintFile).buffer;
   const hexFingerprintSecret = fingerprintSecret(fingerprintArrayBuffer);
   return {
-    key: new Uint8Array(cryptoKey).buffer,
+    key: new Uint8Array(key).buffer,
     fingerprintFile: hexFingerprintSecret
   };
 }
