@@ -6,33 +6,38 @@ const scrypt = create("scrypt");
 const gcm = create("AES-GCM");
 
 /**
- *
- * @param secret
- * @param salt
- * @returns {PromiseLike<CryptoKeyPair> | PromiseLike<CryptoKey> | PromiseLike<CryptoKeyPair | CryptoKey>}
+ * @param secret {string}
+ * @param salt {string}
+ * @returns {Promise<CryptoKeyPair | CryptoKey>}
  */
-export async function hash(secret, salt) {
+export function hash(secret, salt) {
   try {
-    return await scrypt.generateKey(secret, salt);
+    return scrypt.generateKey(secret, salt);
   } catch (e) {
     throw new Error("HashFailed");
   }
 }
 
 /**
- *
- * @param hashed
- * @returns {Promise<string>}
+ * Given a hashed string, returns a concatenated string
+ * that contains the version of the encryption its being
+ * used and the incoming string in hex format
+ * @param hashed {string}
+ * @returns {string}
  */
+
 export function fingerprintSecret(hashed) {
   const hexFingerprintSecret = arrayBufferToHex(hashed);
   return `${CHARLIE}:${hexFingerprintSecret}`;
 }
 
 /**
- *
- * @param array
- * @returns {{cryptoKey: ArrayBufferLike, accessKey: ArrayBufferLike}}
+ * Takes an array, splits it in half,
+ * from the first bit creates an ArrayBuffer
+ * from the second bit creates a string that
+ * contains a secret but also indicates the version of the algorithm used
+ * @param array {Array}
+ * @returns {{fingerprintFile: string, key: ArrayBufferLike}}
  */
 export function splitKeys(array) {
   const arrayLength = array.length;
@@ -47,22 +52,19 @@ export function splitKeys(array) {
 }
 
 /**
- *
- * @returns {string}
+ * @returns {Uint8Array}
  */
 export function generateRandomAesIv() {
-  const initializationVector = new Uint8Array(12);
-  return window.crypto.getRandomValues(initializationVector);
+  throw new Error("Function not implemented");
 }
 
 /**
- *
+ * @param key {CryptoKey}
+ * @param iv {Uint8Array}
  * @param toEncryptBytes
- * @param key
- * @param iv
- * @returns {PromiseLike<ArrayBuffer>}
+ * @returns {Promise<ArrayBuffer>}
  */
-export async function encrypt(toEncryptBytes, key, iv) {
+export async function encrypt(key, iv, toEncryptBytes) {
   try {
     return await gcm.encrypt(key, iv, toEncryptBytes);
   } catch (e) {
@@ -71,15 +73,14 @@ export async function encrypt(toEncryptBytes, key, iv) {
 }
 
 /**
- *
- * @param encryptedData
- * @param key
- * @param iv
- * @returns {PromiseLike<ArrayBuffer>}
+ * @param key {CryptoKey}
+ * @param iv {Uint8Array}
+ * @param encryptedBytes
+ * @returns {Promise<ArrayBuffer>}
  */
-export async function decrypt(encryptedData, key, iv) {
+export async function decrypt(key, iv, encryptedBytes) {
   try {
-    return await gcm.decrypt(key, iv, encryptedData);
+    return await gcm.decrypt(key, iv, encryptedBytes);
   } catch (e) {
     throw new Error("DecryptionFailed");
   }
