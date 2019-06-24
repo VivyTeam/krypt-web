@@ -8,6 +8,7 @@ import {
 } from "../lib/MedStickerEncryptionV2";
 import { arrayBufferToString, stringToArrayBuffer } from "../lib/utilities";
 import create from "../lib/factory";
+import { charlieStaticSalt } from "../lib/constants";
 
 const gcm = create("AES-GCM");
 
@@ -17,11 +18,10 @@ describe("second version of MedStickerEncryption", () => {
   const pin = "pinNormally24Characters!";
   const pinSecret = "pinSecret";
   const secret = pin + pinSecret;
-  const salt = "5f1288159017d636c13c1c1b2835b8a871780bc2";
 
   it("should encrypt data and decrypt it back", async () => {
     const iv = generateRandomAesIv();
-    const pinFingerprint = await hash(secret, salt);
+    const pinFingerprint = await hash(secret, charlieStaticSalt);
     const { key } = splitKeys(pinFingerprint);
     const cryptoKey = await gcm.importKey(key);
 
@@ -34,7 +34,7 @@ describe("second version of MedStickerEncryption", () => {
 
   it("should throw error on decrypt when iv is different that on used for encryption", async () => {
     const iv = generateRandomAesIv();
-    const pinFingerprint = await hash(secret, salt);
+    const pinFingerprint = await hash(secret, charlieStaticSalt);
     const { key } = splitKeys(pinFingerprint);
     const cryptoKey = await gcm.importKey(key);
 
@@ -52,7 +52,7 @@ describe("second version of MedStickerEncryption", () => {
   });
 
   it("should return a fingerprint in the form of {name}-sha256:{base64Fingerprint}", async () => {
-    const fingerprint = await hash(secret, salt);
+    const fingerprint = await hash(secret, charlieStaticSalt);
     const fingerprintSecretString = fingerprintSecret(fingerprint);
 
     expect(fingerprintSecretString).toContain(`charlie-sha256:`);
