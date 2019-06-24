@@ -52,13 +52,6 @@ export function splitKeys(array) {
 }
 
 /**
- * @returns {Uint8Array}
- */
-export function generateRandomAesIv() {
-  throw new Error("Function not implemented");
-}
-
-/**
  * @param key {CryptoKey}
  * @param iv {Uint8Array}
  * @param toEncryptBytes
