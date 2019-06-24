@@ -51,10 +51,17 @@ describe("second version of MedStickerEncryption", () => {
     }
   });
 
-  it("should return a fingerprint in the form of {name}-sha256:{base64Fingerprint}", async () => {
+  it("should return a string in the form of charlie:{fingerprint}", async () => {
     const fingerprint = await hash(secret, charlieStaticSalt);
     const fingerprintSecretString = fingerprintSecret(fingerprint);
 
-    expect(fingerprintSecretString).toContain(`charlie-sha256:`);
+    expect(fingerprintSecretString).toContain(`charlie:`);
+  });
+
+  it("should split the keys of the hashed value and validate that the `fingerprintFile` that is being returned is in the form of charlie:{fingerprint}", async () => {
+    const fingerprint = await hash(secret, charlieStaticSalt);
+    const { fingerprintFile } = splitKeys(fingerprint);
+
+    expect(fingerprintFile).toContain(`charlie:`);
   });
 });

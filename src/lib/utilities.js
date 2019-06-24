@@ -63,3 +63,30 @@ export const concatenateUint8Arrays = (...arrays) => {
   }, 0);
   return result;
 };
+
+export const arrayBufferToHex = buffer => {
+  if (buffer.buffer instanceof ArrayBuffer && buffer.byteLength !== undefined) {
+    throw new TypeError("Expected input to be an ArrayBuffer");
+  }
+  return Array.prototype.map
+    .call(new Uint8Array(buffer), x => `00${x.toString(16)}`.slice(-2))
+    .join("");
+};
+
+export const hexToArrayBuffer = hex => {
+  if (typeof hex !== "string") {
+    throw new TypeError("Expected input to be a string");
+  }
+
+  if (hex.length % 2 !== 0) {
+    throw new RangeError("Expected string to be an even number of characters");
+  }
+
+  const view = new Uint8Array(hex.length / 2);
+
+  for (let i = 0; i < hex.length; i += 2) {
+    view[i / 2] = parseInt(hex.substring(i, i + 2), 16);
+  }
+
+  return view.buffer;
+};

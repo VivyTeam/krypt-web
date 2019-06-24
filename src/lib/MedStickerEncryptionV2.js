@@ -1,5 +1,5 @@
 import create from "./factory";
-import { arrayBufferToString, encode } from "./utilities";
+import { arrayBufferToHex } from "./utilities";
 import { CHARLIE } from "./constants";
 
 const scrypt = create("scrypt");
@@ -25,8 +25,8 @@ export async function hash(secret, salt) {
  * @returns {Promise<string>}
  */
 export function fingerprintSecret(hashed) {
-  const base64EncodedFingerprintSecret = encode(arrayBufferToString(hashed));
-  return `${CHARLIE}-sha256:${base64EncodedFingerprintSecret}`;
+  const hexFingerprintSecret = arrayBufferToHex(hashed);
+  return `${CHARLIE}:${hexFingerprintSecret}`;
 }
 
 /**
@@ -38,10 +38,11 @@ export function splitKeys(array) {
   const arrayLength = array.length;
   const cryptoKey = array.slice(0, arrayLength / 2);
   const fingerprintFile = array.slice(arrayLength / 2, arrayLength);
-
+  const fingerprintArrayBuffer = new Uint8Array(fingerprintFile).buffer;
+  const hexFingerprintSecret = fingerprintSecret(fingerprintArrayBuffer);
   return {
     key: new Uint8Array(cryptoKey).buffer,
-    fingerprintFile: new Uint8Array(fingerprintFile).buffer
+    fingerprintFile: hexFingerprintSecret
   };
 }
 

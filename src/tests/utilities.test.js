@@ -1,4 +1,9 @@
-import { stringToArrayBuffer, arrayBufferToString } from "../lib/utilities";
+import {
+  stringToArrayBuffer,
+  arrayBufferToString,
+  arrayBufferToHex,
+  hexToArrayBuffer
+} from "../lib/utilities";
 
 describe("basic utilities", () => {
   it("should convert a String to ArrayBuffer and back. Result should be equal.", async () => {
@@ -13,6 +18,14 @@ describe("basic utilities", () => {
     const originalArrayBuffer = new ArrayBuffer(100);
     const string = arrayBufferToString(originalArrayBuffer);
     const result = stringToArrayBuffer(string);
+
+    expect(result).toEqual(originalArrayBuffer);
+  });
+
+  it("should convert an ArrayBuffer to Hex and back. Result should be the equal", async () => {
+    const originalArrayBuffer = new ArrayBuffer(100);
+    const hex = arrayBufferToHex(originalArrayBuffer);
+    const result = hexToArrayBuffer(hex);
 
     expect(result).toEqual(originalArrayBuffer);
   });
