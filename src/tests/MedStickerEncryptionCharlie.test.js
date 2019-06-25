@@ -3,7 +3,7 @@ import {
   decrypt,
   hash,
   splitKeys,
-  fingerprintSecret
+  fingerprint
 } from "../lib/MedStickerEncryptionCharlie";
 import { arrayBufferToString, stringToArrayBuffer } from "../lib/utilities";
 import create from "../lib/factory";
@@ -51,15 +51,15 @@ describe("second version of MedStickerEncryption", () => {
   });
 
   it("should return a string in the form of charlie:{fingerprint}", async () => {
-    const fingerprint = hash(secret, CHARLIE_STATIC_SALT);
-    const fingerprintSecretString = fingerprintSecret(fingerprint);
+    const hashed = hash(secret, CHARLIE_STATIC_SALT);
+    const fingerprintString = fingerprint(hashed);
 
-    expect(fingerprintSecretString).toContain(`charlie:`);
+    expect(fingerprintString).toContain(`charlie:`);
   });
 
   it("should split the keys of the hashed value and validate that the `fingerprintFile` that is being returned is in the form of charlie:{fingerprint}", async () => {
-    const fingerprint = hash(secret, CHARLIE_STATIC_SALT);
-    const { fingerprintFile } = splitKeys(fingerprint);
+    const hashed = hash(secret, CHARLIE_STATIC_SALT);
+    const { fingerprintFile } = splitKeys(hashed);
 
     expect(fingerprintFile).toContain(`charlie:`);
   });
