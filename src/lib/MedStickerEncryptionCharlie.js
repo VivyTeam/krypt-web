@@ -8,7 +8,7 @@ const gcm = create("AES-GCM");
 /**
  * @param secret {string}
  * @param salt {string}
- * @returns {Promise<CryptoKeyPair | CryptoKey>}
+ * @returns {Array}
  */
 export function hash(secret, salt) {
   try {
@@ -54,7 +54,7 @@ export function splitKeys(array) {
 /**
  * @param key {CryptoKey}
  * @param iv {Uint8Array}
- * @param toEncryptBytes
+ * @param toEncryptBytes {ArrayBuffer}
  * @returns {Promise<ArrayBuffer>}
  */
 export async function encrypt(key, iv, toEncryptBytes) {
@@ -67,8 +67,8 @@ export async function encrypt(key, iv, toEncryptBytes) {
 
 /**
  * @param key {CryptoKey}
- * @param iv {Uint8Array}
- * @param encryptedBytes
+ * @param iv {ArrayBuffer}
+ * @param encryptedBytes {ArrayBuffer}
  * @returns {Promise<ArrayBuffer>}
  */
 export async function decrypt(key, iv, encryptedBytes) {
