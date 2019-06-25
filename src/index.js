@@ -17,7 +17,7 @@ export {
   decrypt as charlieDecrypt,
   hash as charlieHash,
   splitKeys as charlieSplitKeys,
-  fingerprintSecret as charlieFingerprintSecret
+  fingerprint as charlieFingerprint
 } from "./lib/MedStickerEncryptionCharlie";
 
 export {

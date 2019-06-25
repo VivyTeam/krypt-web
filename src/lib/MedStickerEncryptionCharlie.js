@@ -26,7 +26,7 @@ export function hash(secret, salt) {
  * @returns {string}
  */
 
-export function fingerprintSecret(hashed) {
+export function fingerprint(hashed) {
   const hexFingerprintSecret = arrayBufferToHex(hashed);
   return `${CHARLIE}:${hexFingerprintSecret}`;
 }
@@ -44,7 +44,7 @@ export function splitKeys(array) {
   const key = array.slice(0, arrayLength / 2);
   const fingerprintFile = array.slice(arrayLength / 2, arrayLength);
   const fingerprintArrayBuffer = new Uint8Array(fingerprintFile).buffer;
-  const hexFingerprintSecret = fingerprintSecret(fingerprintArrayBuffer);
+  const hexFingerprintSecret = fingerprint(fingerprintArrayBuffer);
   return {
     key: new Uint8Array(key).buffer,
     fingerprintFile: hexFingerprintSecret
