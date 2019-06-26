@@ -8,7 +8,7 @@ const gcm = create("AES-GCM");
 /**
  * @param secret {string}
  * @param salt {string}
- * @returns {ArrayBufferLike}
+ * @returns {ArrayBuffer}
  */
 export function hash(secret, salt) {
   try {
@@ -23,7 +23,7 @@ export function hash(secret, salt) {
  * Given a hashed ArrayBuffer, returns a concatenated string
  * that contains the version of the encryption its being
  * used and the incoming string in hex format
- * @param hashed {ArrayBufferLike | ArrayBuffer}
+ * @param hashed {ArrayBuffer}
  * @returns {string}
  */
 export function fingerprint(hashed) {
@@ -36,8 +36,8 @@ export function fingerprint(hashed) {
  * from the first bit creates an ArrayBuffer
  * from the second bit creates a string that
  * contains a secret but also indicates the version of the algorithm used
- * @param arrayBuffer {ArrayBufferLike | ArrayBuffer}
- * @returns {{fingerprintFile: string, key: ArrayBufferLike}}
+ * @param arrayBuffer {ArrayBuffer}
+ * @returns {{fingerprintFile: string, key: ArrayBuffer}}
  */
 export function splitKeys(arrayBuffer) {
   const key = arrayBuffer.slice(0, arrayBuffer.byteLength / 2);

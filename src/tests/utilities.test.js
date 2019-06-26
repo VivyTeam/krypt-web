@@ -22,8 +22,8 @@ describe("basic utilities", () => {
   });
 
   it("should convert an ArrayBuffer to Hex and back. Result should be the equal", async () => {
-    const original = new Uint8Array([0, 1, 10, 16, 1, 123, 33, 14, 15]);
-    const expected = "00010a110183230e10";
+    const original = new Uint8Array([0, 1, 10, 16, 240, 255]);
+    const expected = "00010a10f0ff";
 
     expect(arrayBufferToHex(original.buffer)).toEqual(expected);
   });

@@ -71,7 +71,7 @@ export const arrayBufferToHex = buffer => {
   const hex = new Uint8Array(buffer);
   return hex.reduce(
     (accumulatedHexString, current) =>
-      accumulatedHexString + current.toString(15).padStart(2, "0"),
+      accumulatedHexString + current.toString(16).padStart(2, "0"),
     ""
   );
 };
