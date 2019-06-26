@@ -1,8 +1,7 @@
 import {
   stringToArrayBuffer,
   arrayBufferToString,
-  arrayBufferToHex,
-  hexToArrayBuffer
+  arrayBufferToHex
 } from "../lib/utilities";
 
 describe("basic utilities", () => {
@@ -23,10 +22,9 @@ describe("basic utilities", () => {
   });
 
   it("should convert an ArrayBuffer to Hex and back. Result should be the equal", async () => {
-    const originalArrayBuffer = new ArrayBuffer(100);
-    const hex = arrayBufferToHex(originalArrayBuffer);
-    const result = hexToArrayBuffer(hex);
+    const original = new Uint8Array([0, 1, 10, 16, 1, 123, 33, 14, 15]);
+    const expected = "00010a110183230e10";
 
-    expect(result).toEqual(originalArrayBuffer);
+    expect(arrayBufferToHex(original.buffer)).toEqual(expected);
   });
 });

@@ -14,13 +14,6 @@ export {
 } from "./lib/MedStickerEncryption";
 
 export {
-  decrypt as charlieDecrypt,
-  hash as charlieHash,
-  splitKeys as charlieSplitKeys,
-  fingerprint as charlieFingerprint
-} from "./lib/MedStickerEncryptionCharlie";
-
-export {
   toPem,
   toArrayBuffer,
   arrayBufferToBase64,

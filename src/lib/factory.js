@@ -205,15 +205,9 @@ export default algorithm => {
          * @param password {string}
          * @param salt {string}
          * @param options {object}
-         * @returns {arrayBuffer}
+         * @returns {ArrayBuffer}
          */
         generateKey: (password, salt, options = {}) => {
-          if (options.interruptStep) {
-            throw new Error(
-              "interruptStep option is not being supported and will be overwritten to `0`. For requesting this feature please post an issue here: https://github.com/VivyTeam/krypt-web/issues"
-            );
-          }
-
           let derivedKey = null;
           scrypt(
             password,
@@ -223,8 +217,7 @@ export default algorithm => {
               r: 8,
               p: 1,
               dkLen: 32,
-              ...options,
-              interruptStep: 0
+              ...options
             },
             key => {
               derivedKey = key;

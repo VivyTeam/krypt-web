@@ -8,24 +8,24 @@ const gcm = create("AES-GCM");
 /**
  * @param secret {string}
  * @param salt {string}
- * @returns {Array}
+ * @returns {Promise<ArrayBufferLike>}
  */
-export function hash(secret, salt) {
+export async function hash(secret, salt) {
   try {
-    return scrypt.generateKey(secret, salt);
+    const key = await scrypt.generateKey(secret, salt, { dkLen: 64, r: 10 });
+    return new Uint8Array(key).buffer;
   } catch (e) {
     throw new Error("HashFailed");
   }
 }
 
 /**
- * Given a hashed string, returns a concatenated string
+ * Given a hashed ArrayBuffer, returns a concatenated string
  * that contains the version of the encryption its being
  * used and the incoming string in hex format
- * @param hashed {string}
+ * @param hashed {ArrayBufferLike | ArrayBuffer}
  * @returns {string}
  */
-
 export function fingerprint(hashed) {
   const hexFingerprintSecret = arrayBufferToHex(hashed);
   return `${CHARLIE}:${hexFingerprintSecret}`;
@@ -36,18 +36,18 @@ export function fingerprint(hashed) {
  * from the first bit creates an ArrayBuffer
  * from the second bit creates a string that
  * contains a secret but also indicates the version of the algorithm used
- * @param array {Array}
+ * @param arrayBuffer {ArrayBufferLike | ArrayBuffer}
  * @returns {{fingerprintFile: string, key: ArrayBufferLike}}
  */
-export function splitKeys(array) {
-  const arrayLength = array.length;
-  const key = array.slice(0, arrayLength / 2);
-  const fingerprintFile = array.slice(arrayLength / 2, arrayLength);
-  const fingerprintArrayBuffer = new Uint8Array(fingerprintFile).buffer;
-  const hexFingerprintSecret = fingerprint(fingerprintArrayBuffer);
+export function splitKeys(arrayBuffer) {
+  const key = arrayBuffer.slice(0, arrayBuffer.byteLength / 2);
+  const fingerprintFile = fingerprint(
+    arrayBuffer.slice(arrayBuffer.byteLength / 2, arrayBuffer.byteLength)
+  );
+
   return {
     key: new Uint8Array(key).buffer,
-    fingerprintFile: hexFingerprintSecret
+    fingerprintFile
   };
 }
 
