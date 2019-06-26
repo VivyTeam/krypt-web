@@ -6,7 +6,6 @@ export {
   decrypt as ehrDecrypt,
   encrypt as ehrEncrypt
 } from "./lib/EHREncryption";
-
 export {
   decrypt as medDecrypt,
   accessSignature as medAccessSignature,
