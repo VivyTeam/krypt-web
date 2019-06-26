@@ -20,7 +20,7 @@ describe("MedStickerEncryption, version charlie", () => {
 
   it("should encrypt data and decrypt it back", async () => {
     const iv = new ArrayBuffer(128);
-    const pinFingerprint = await hash(secret, CHARLIE_STATIC_SALT);
+    const pinFingerprint = hash(secret, CHARLIE_STATIC_SALT);
     const { key } = splitKeys(pinFingerprint);
     const cryptoKey = await gcm.importKey(key);
 
@@ -33,7 +33,7 @@ describe("MedStickerEncryption, version charlie", () => {
 
   it("should throw error on decrypt when the IV used is not the same as the one used for encryption", async () => {
     const iv = new ArrayBuffer(128);
-    const pinFingerprint = await hash(secret, CHARLIE_STATIC_SALT);
+    const pinFingerprint = hash(secret, CHARLIE_STATIC_SALT);
     const { key } = splitKeys(pinFingerprint);
     const cryptoKey = await gcm.importKey(key);
 
@@ -50,15 +50,15 @@ describe("MedStickerEncryption, version charlie", () => {
     }
   });
 
-  it("should return a string in the form of charlie:{fingerprint}", async () => {
-    const hashed = await hash(secret, CHARLIE_STATIC_SALT);
+  it("should return a string in the form of charlie:{fingerprint}", () => {
+    const hashed = hash(secret, CHARLIE_STATIC_SALT);
     const fingerprintString = fingerprint(hashed);
 
     expect(fingerprintString).toContain(`charlie:`);
   });
 
-  it("should split the keys of the hashed value and validate that the `fingerprintFile` that is being returned is in the form of charlie:{fingerprint}", async () => {
-    const hashed = await hash(secret, CHARLIE_STATIC_SALT);
+  it("should split the keys of the hashed value and validate that the `fingerprintFile` that is being returned is in the form of charlie:{fingerprint}", () => {
+    const hashed = hash(secret, CHARLIE_STATIC_SALT);
     const { fingerprintFile } = splitKeys(hashed);
 
     expect(fingerprintFile).toContain(`charlie:`);

@@ -8,11 +8,11 @@ const gcm = create("AES-GCM");
 /**
  * @param secret {string}
  * @param salt {string}
- * @returns {Promise<ArrayBufferLike>}
+ * @returns {ArrayBufferLike}
  */
-export async function hash(secret, salt) {
+export function hash(secret, salt) {
   try {
-    const key = await scrypt.generateKey(secret, salt, { dkLen: 64, r: 10 });
+    const key = scrypt.generateKey(secret, salt, { dkLen: 64, r: 10 });
     return new Uint8Array(key).buffer;
   } catch (e) {
     throw new Error("HashFailed");

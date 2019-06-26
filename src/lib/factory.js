@@ -205,7 +205,7 @@ export default algorithm => {
          * @param password {string}
          * @param salt {string}
          * @param options {object}
-         * @returns {ArrayBuffer}
+         * @returns {Array}
          */
         generateKey: (password, salt, options = {}) => {
           let derivedKey = null;
