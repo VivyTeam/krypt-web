@@ -63,3 +63,15 @@ export const concatenateUint8Arrays = (...arrays) => {
   }, 0);
   return result;
 };
+
+export const arrayBufferToHex = buffer => {
+  if (buffer.buffer instanceof ArrayBuffer && buffer.byteLength !== undefined) {
+    throw new TypeError("Expected input to be an ArrayBuffer");
+  }
+  const hex = new Uint8Array(buffer);
+  return hex.reduce(
+    (accumulatedHexString, current) =>
+      accumulatedHexString + current.toString(16).padStart(2, "0"),
+    ""
+  );
+};
