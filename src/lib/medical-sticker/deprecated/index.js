@@ -1,10 +1,10 @@
-import create from "./factory";
-import { ADAM, BRITNEY } from "./constants";
+import create from "../../factory";
+import { ADAM, BRITNEY } from "../../constants";
 import {
   arrayBufferToString,
   stringToArrayBuffer,
   concatenateUint8Arrays
-} from "./utilities";
+} from "../../utilities";
 
 const scrypt = create("scrypt");
 const cbc = create("AES-CBC");

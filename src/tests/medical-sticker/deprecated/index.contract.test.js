@@ -4,14 +4,14 @@ import {
   encrypt,
   decrypt,
   deriveKey
-} from "../lib/MedStickerEncryption";
+} from "../../../lib/medical-sticker/deprecated";
 import {
   arrayBufferToString,
   arrayBufferToBase64,
   base64ToArrayBuffer,
   stringToArrayBuffer
-} from "../lib/utilities";
-import { ADAM, BRITNEY } from "../lib/constants";
+} from "../../../lib/utilities";
+import { ADAM, BRITNEY } from "../../../lib/constants";
 
 const algorithms = [
   {
@@ -36,7 +36,7 @@ const algorithms = [
   }
 ];
 
-describe("MedStickerEncryption contract", () => {
+describe("Medical-id contract", () => {
   algorithms.forEach(algorithm => {
     describe(`version ${algorithm.name}`, () => {
       it("deriveKey value should match the value on the contract", async () => {

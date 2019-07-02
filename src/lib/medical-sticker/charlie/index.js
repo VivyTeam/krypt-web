@@ -1,6 +1,6 @@
-import create from "./factory";
-import { arrayBufferToHex } from "./utilities";
-import { CHARLIE } from "./constants";
+import create from "../../factory";
+import { arrayBufferToHex } from "../../utilities";
+import { CHARLIE } from "../../constants";
 
 const scrypt = create("scrypt");
 const gcm = create("AES-GCM");

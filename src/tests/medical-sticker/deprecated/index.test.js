@@ -4,16 +4,19 @@ import {
   decrypt,
   deriveKey,
   accessSignature
-} from "../lib/MedStickerEncryption";
-import { ADAM, BRITNEY } from "../lib/constants";
-import { arrayBufferToString, stringToArrayBuffer } from "../lib/utilities";
+} from "../../../lib/medical-sticker/deprecated";
+import { ADAM, BRITNEY } from "../../../lib/constants";
+import {
+  arrayBufferToString,
+  stringToArrayBuffer
+} from "../../../lib/utilities";
 
 const algorithms = [
   { name: ADAM, encrypt: adamEncrypt },
   { name: BRITNEY, encrypt }
 ];
 
-describe("MedStickerEncryption", () => {
+describe("Medical-id Encryption", () => {
   algorithms.forEach(algorithm => {
     describe(`version ${algorithm.name}`, () => {
       it("should encrypt data and decrypt it back", async () => {

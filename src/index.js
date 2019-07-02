@@ -1,16 +1,9 @@
-import create from "./lib/factory";
-
-export { create };
+export { default as create } from "./lib/factory";
 
 export {
   decrypt as ehrDecrypt,
   encrypt as ehrEncrypt
 } from "./lib/EHREncryption";
-export {
-  decrypt as medDecrypt,
-  accessSignature as medAccessSignature,
-  deriveKey as medDeriveKey
-} from "./lib/MedStickerEncryption";
 
 export {
   toPem,
