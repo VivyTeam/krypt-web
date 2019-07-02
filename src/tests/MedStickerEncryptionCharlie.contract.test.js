@@ -38,7 +38,6 @@ describe("MedStickerEncryption contract, version charlie", () => {
   const BACKEND_SECRET = "someRandomBackendSecret";
   const BACKEND_SALT = "someRandomSecondSalt";
   const IV = stringToArrayBuffer("AAAAAAAAAAAAAAAA");
-
   const HEX_ENCRYPTED =
     "70caa3b9cf21a495a0bb8269c3b7908fdbf26832a2d81bda1d686ed1212085270df3ba";
   const FINGERPRINT_FILE =
