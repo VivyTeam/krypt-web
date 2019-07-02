@@ -6,10 +6,7 @@ import {
   fingerprint
 } from "../lib/MedStickerEncryptionCharlie";
 import { arrayBufferToString, stringToArrayBuffer } from "../lib/utilities";
-import create from "../lib/factory";
 import { CHARLIE_STATIC_SALT } from "../lib/constants";
-
-const gcm = create("AES-GCM");
 
 describe("MedStickerEncryption, version charlie", () => {
   const originalString = "Encrypted secret message";
@@ -22,10 +19,9 @@ describe("MedStickerEncryption, version charlie", () => {
     const iv = new ArrayBuffer(128);
     const pinFingerprint = hash(secret, CHARLIE_STATIC_SALT);
     const { key } = splitKeys(pinFingerprint);
-    const cryptoKey = await gcm.importKey(key);
 
-    const encryptedArrayBuffer = await encrypt(cryptoKey, iv, buffer);
-    const arrayBufferData = await decrypt(cryptoKey, iv, encryptedArrayBuffer);
+    const encryptedArrayBuffer = await encrypt(key, iv, buffer);
+    const arrayBufferData = await decrypt(key, iv, encryptedArrayBuffer);
     const result = arrayBufferToString(arrayBufferData);
 
     expect(result).toEqual(originalString);
@@ -35,14 +31,13 @@ describe("MedStickerEncryption, version charlie", () => {
     const iv = new ArrayBuffer(128);
     const pinFingerprint = hash(secret, CHARLIE_STATIC_SALT);
     const { key } = splitKeys(pinFingerprint);
-    const cryptoKey = await gcm.importKey(key);
 
-    const encryptedArrayBuffer = await encrypt(cryptoKey, iv, buffer);
+    const encryptedArrayBuffer = await encrypt(key, iv, buffer);
     const anotherIv = new ArrayBuffer(1);
 
     let error;
     try {
-      await decrypt(cryptoKey, anotherIv, encryptedArrayBuffer);
+      await decrypt(key, anotherIv, encryptedArrayBuffer);
     } catch (err) {
       error = err;
     } finally {

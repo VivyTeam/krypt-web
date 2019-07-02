@@ -52,28 +52,30 @@ export function splitKeys(arrayBuffer) {
 }
 
 /**
- * @param key {CryptoKey}
- * @param iv {Uint8Array}
+ * @param key {ArrayBuffer}
+ * @param iv {ArrayBuffer}
  * @param toEncryptBytes {ArrayBuffer}
  * @returns {Promise<ArrayBuffer>}
  */
 export async function encrypt(key, iv, toEncryptBytes) {
   try {
-    return await gcm.encrypt(key, iv, toEncryptBytes);
+    const cryptoKey = await gcm.importKey(key);
+    return await gcm.encrypt(cryptoKey, iv, toEncryptBytes);
   } catch (e) {
     throw new Error("EncryptionFailed");
   }
 }
 
 /**
- * @param key {CryptoKey}
+ * @param key {ArrayBuffer}
  * @param iv {ArrayBuffer}
  * @param encryptedBytes {ArrayBuffer}
  * @returns {Promise<ArrayBuffer>}
  */
 export async function decrypt(key, iv, encryptedBytes) {
   try {
-    return await gcm.decrypt(key, iv, encryptedBytes);
+    const cryptoKey = await gcm.importKey(key);
+    return await gcm.decrypt(cryptoKey, iv, encryptedBytes);
   } catch (e) {
     throw new Error("DecryptionFailed");
   }
