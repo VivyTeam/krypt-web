@@ -4,7 +4,7 @@ import {
   encrypt,
   decrypt,
   deriveKey
-} from "../../../lib/medical-sticker/deprecated";
+} from "../../../lib/medical-id/deprecated";
 import {
   arrayBufferToString,
   arrayBufferToBase64,

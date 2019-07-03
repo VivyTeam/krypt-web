@@ -4,7 +4,7 @@ import {
   decrypt,
   deriveKey,
   accessSignature
-} from "../../../lib/medical-sticker/deprecated";
+} from "../../../lib/medical-id/deprecated";
 import { ADAM, BRITNEY } from "../../../lib/constants";
 import {
   arrayBufferToString,

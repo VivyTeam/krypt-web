@@ -4,7 +4,7 @@ import {
   hash,
   splitKeys,
   fingerprint
-} from "../../../lib/medical-sticker/charlie";
+} from "../../../lib/medical-id/charlie";
 import {
   arrayBufferToString,
   stringToArrayBuffer
