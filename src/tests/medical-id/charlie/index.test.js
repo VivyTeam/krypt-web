@@ -4,11 +4,14 @@ import {
   hash,
   splitKeys,
   fingerprint
-} from "../lib/MedStickerEncryptionCharlie";
-import { arrayBufferToString, stringToArrayBuffer } from "../lib/utilities";
-import { CHARLIE_STATIC_SALT } from "../lib/constants";
+} from "../../../lib/medical-id/charlie";
+import {
+  arrayBufferToString,
+  stringToArrayBuffer
+} from "../../../lib/utilities";
+import { CHARLIE_STATIC_SALT } from "../../../lib/constants";
 
-describe("MedStickerEncryption, version charlie", () => {
+describe("Medical-id, version charlie", () => {
   const originalString = "Encrypted secret message";
   const buffer = stringToArrayBuffer(originalString);
   const pin = "pinNormally24Characters!";

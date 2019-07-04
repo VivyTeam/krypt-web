@@ -4,13 +4,13 @@ import {
   hash,
   splitKeys,
   fingerprint
-} from "../lib/MedStickerEncryptionCharlie";
+} from "../../../lib/medical-id/charlie";
 import {
   arrayBufferToHex,
   arrayBufferToString,
   stringToArrayBuffer
-} from "../lib/utilities";
-import { CHARLIE_STATIC_SALT } from "../lib/constants";
+} from "../../../lib/utilities";
+import { CHARLIE_STATIC_SALT } from "../../../lib/constants";
 
 const hexToArrayBuffer = hex => {
   const view = new Uint8Array(hex.length / 2);
@@ -30,7 +30,7 @@ describe("test utilities ", () => {
   });
 });
 
-describe("MedStickerEncryption contract, version charlie", () => {
+describe("Medical-id contract, version charlie", () => {
   // Shared constant contract values which should always be used for Charlie encryption
   const ORIGINAL_STRING = "MyVeryImportantData";
   const ENCRYPTED_PAYLOAD = stringToArrayBuffer(ORIGINAL_STRING);
