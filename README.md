@@ -31,7 +31,10 @@ async function myDecryptionModule(privateKey, data) {
 #### MedStickerEncryption example
 
 ```javascript
-import { medDeriveKey, medEncrypt, medDecrypt } from "@vivy/krypt-web";
+import { medicalId } from "@vivy/krypt-web";
+const {
+  deprecated: { deriveKey: medDeriveKey, decrypt: medDecrypt }
+} = medicalId;
 
 async function myEncryptionModule(code, pin, bytesToEncrypt) {
   const { key, iv } = medDeriveKey(code, pin);

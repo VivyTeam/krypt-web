@@ -1,3 +1,5 @@
+import * as medicalId from "./lib/medical-id";
+
 export { default as create } from "./lib/factory";
 
 export {
@@ -12,3 +14,5 @@ export {
   base64ToArrayBuffer,
   generateInitialVector
 } from "./lib/utilities";
+
+export { medicalId };
