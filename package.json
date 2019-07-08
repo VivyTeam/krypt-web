@@ -30,9 +30,6 @@
       ],
       [
         "@pika/plugin-build-web"
-      ],
-      [
-        "@pika/plugin-build-types"
       ]
     ]
   },
@@ -42,7 +39,6 @@
   "devDependencies": {
     "@pika/pack": "^0.4.0",
     "@pika/plugin-build-node": "^0.4.0",
-    "@pika/plugin-build-types": "^0.4.0",
     "@pika/plugin-build-web": "^0.4.0",
     "@pika/plugin-standard-pkg": "^0.4.0",
     "eslint": "^6.0.1",
