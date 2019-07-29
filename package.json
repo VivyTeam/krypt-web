@@ -53,6 +53,9 @@
     "rimraf": "^2.6.3",
     "webpack": "^4.35.2"
   },
+  "resolutions": {
+    "karmatic/karma-webpack": "^2.0.13"
+  },
   "husky": {
     "hooks": {
       "pre-commit": "npm run linter:check && npm test && pretty-quick --staged"
