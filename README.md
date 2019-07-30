@@ -7,7 +7,7 @@ A web crypto library used by Vivy GmbH for encryption/decryption in browser.
 ### Installation
 
 ```
-npm i @vivy/krypt-web
+yarn add @vivy/krypt-web
 ```
 
 ### Usage
@@ -69,13 +69,13 @@ To create a new release:
 #### Single test tun
 
 ```
-npm run test
+yarn test
 ```
 
 #### Watch changes
 
 ```
-npm run test:watch
+yarn test:watch
 ```
 
 ## Contributing

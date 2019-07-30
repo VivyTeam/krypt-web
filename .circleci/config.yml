@@ -15,7 +15,7 @@ jobs:
             - v1-dependencies-
 
       - run: yarn
-      - run: npm test
+      - run: yarn test
 
       - save_cache:
           paths:
@@ -36,7 +36,7 @@ jobs:
       - attach_workspace:
           at: ~/repo
 
-      - run: npm run build:package
+      - run: yarn build:package
 
       - persist_to_workspace:
           root: ~/repo
@@ -61,8 +61,8 @@ jobs:
 
       # Update package.json version
       - run: npm version $CIRCLE_TAG && git push origin HEAD:master
-      - run: npm run build:package
-      - run: npm run deploy:documentation
+      - run: yarn build:package
+      - run: yarn deploy:documentation
       - run: echo '//registry.npmjs.org/:_authToken=${NPM_TOKEN}' > ~/repo/.npmrc
       - run: npm publish ./pkg --access public
 
