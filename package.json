@@ -59,7 +59,7 @@
   },
   "husky": {
     "hooks": {
-      "pre-commit": "npm run linter:check && npm test && pretty-quick --staged"
+      "pre-commit": "yarn linter:check && yarn test && pretty-quick --staged"
     }
   }
 }

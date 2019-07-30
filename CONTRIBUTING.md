@@ -2,8 +2,8 @@
 
 Fork this repository to your own GitHub account and then clone it to your local device.
 
-1. Install the dependencies: `npm i`
-2. Run test and identify code changes `npm test:watch`
+1. Install the dependencies: `yarn`
+2. Run test and identify code changes `yarn test:watch`
 
 ## Pull Request Process
 
