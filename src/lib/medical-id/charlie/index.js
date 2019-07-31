@@ -1,10 +1,11 @@
 import create from "../../factory";
 import { arrayBufferToHex } from "../../utilities";
-import { CHARLIE } from "../../constants";
+import { CHARLIE, CHARLIE_STATIC_SALT } from "../../constants";
 
 const scrypt = create("scrypt");
 const gcm = create("AES-GCM");
 
+export { CHARLIE_STATIC_SALT };
 /**
  * @param secret {string}
  * @param salt {string}
