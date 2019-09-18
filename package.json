@@ -40,7 +40,7 @@
     "@pika/pack": "^0.4.0",
     "@pika/plugin-build-node": "^0.4.0",
     "@pika/plugin-build-web": "^0.4.0",
-    "@pika/plugin-standard-pkg": "^0.4.0",
+    "@pika/plugin-standard-pkg": "^0.6.1",
     "eslint": "^6.0.1",
     "eslint-config-vivy": "^1.0.8",
     "git-directory-deploy": "1.5.1",
