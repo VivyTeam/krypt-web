@@ -44,7 +44,7 @@
     "eslint": "^6.0.1",
     "eslint-config-vivy": "^1.0.8",
     "git-directory-deploy": "1.5.1",
-    "husky": "3.0.5",
+    "husky": "3.0.7",
     "jsdoc": "^3.6.3",
     "karmatic": "^1.3.1",
     "prettier": "^1.18.2",
