@@ -828,19 +828,14 @@
     rollup "^1.1.0"
     rollup-plugin-babel "^4.3.0"
 
-"@pika/plugin-build-web@^0.4.0":
-  version "0.4.0"
-  resolved "https://registry.yarnpkg.com/@pika/plugin-build-web/-/plugin-build-web-0.4.0.tgz#4d4b1ee6907813d016880763790cd747fc2ce7ae"
-  integrity sha512-uUxIYe5GL6IitQ/jX9PCuqRf7L/n81NeJp9lGE3ePzY4ZtAM9TpCdqKuyPPtsyuhAIrCcMO91raxWojczbbtOw==
+"@pika/plugin-build-web@^0.8.1":
+  version "0.8.1"
+  resolved "https://registry.yarnpkg.com/@pika/plugin-build-web/-/plugin-build-web-0.8.1.tgz#ba519fcd29eed20c1d1091d4083d0be21aa6a5f3"
+  integrity sha512-mRs3kquDb2DS8y7URvMefsZUlz+uhO0n4ykutGmZ+6EslvW1ZjGefOiaQ0qiDDFHF4ir4jg4od7Vo3TU32DGcg==
   dependencies:
-    "@babel/core" "^7.0.0"
-    "@babel/plugin-syntax-dynamic-import" "^7.2.0"
-    "@babel/plugin-syntax-import-meta" "^7.2.0"
-    "@babel/preset-env" "^7.2.3"
-    "@pika/types" "^0.4.0"
+    "@pika/types" "^0.8.1"
     "@types/node" "^10.12.18"
     rollup "^1.1.0"
-    rollup-plugin-babel "^4.3.0"
 
 "@pika/plugin-standard-pkg@^0.4.0":
   version "0.4.0"
@@ -860,6 +855,11 @@
   version "0.4.0"
   resolved "https://registry.yarnpkg.com/@pika/types/-/types-0.4.0.tgz#e55f4ddca4d1e6362b7f43ee7afc494c114a7d58"
   integrity sha512-vgNcz+tvlWtHzLRmuGfpUU8I3tRTfv4YFnhrx8ZXag2kE3kPw/DnC4yMVCx9wgimI1iptyXGDTNYui+kyBGoDg==
+
+"@pika/types@^0.8.1":
+  version "0.8.1"
+  resolved "https://registry.yarnpkg.com/@pika/types/-/types-0.8.1.tgz#ac24b9a73e6712d638cbc124b6b1d6a1ade51bb0"
+  integrity sha512-xQNGUA9CAHmbI6tO9weu088pX3PbrRgYZs68FXAqkJXodNyEy7Ju8LU191MZOS6MZreA1PElPd2evsgQ6Wl/cA==
 
 "@samverschueren/stream-to-observable@^0.3.0":
   version "0.3.0"
