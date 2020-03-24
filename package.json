@@ -9,7 +9,7 @@
   },
   "license": "MIT",
   "scripts": {
-    "build:package": "pack build",
+    "build:package": "pika build",
     "deploy:documentation": "jsdoc src/lib && git-directory-deploy --directory out/",
     "linter:check": "eslint src/**/*.js",
     "test": "karmatic",
