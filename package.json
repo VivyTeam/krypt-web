@@ -9,7 +9,7 @@
   },
   "license": "MIT",
   "scripts": {
-    "build:package": "pack build",
+    "build:package": "pika build",
     "deploy:documentation": "jsdoc src/lib && git-directory-deploy --directory out/",
     "linter:check": "eslint src/**/*.js",
     "test": "karmatic",
@@ -37,7 +37,7 @@
     "scrypt-async": "2.0.1"
   },
   "devDependencies": {
-    "@pika/pack": "^0.4.0",
+    "@pika/pack": "^0.5.0",
     "@pika/plugin-build-node": "^0.4.0",
     "@pika/plugin-build-web": "^0.4.0",
     "@pika/plugin-standard-pkg": "^0.4.0",
