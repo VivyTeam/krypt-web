@@ -1,7 +1,7 @@
 import {
   stringToArrayBuffer,
   arrayBufferToString,
-  arrayBufferToHex
+  arrayBufferToHex,
 } from "../lib/utilities";
 
 describe("basic utilities", () => {

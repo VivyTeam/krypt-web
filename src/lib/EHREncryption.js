@@ -1,7 +1,7 @@
 import {
   generateInitialVector,
   arrayBufferToString,
-  stringToArrayBuffer
+  stringToArrayBuffer,
 } from "./utilities";
 import create from "./factory";
 
@@ -45,7 +45,7 @@ async function encryptKeyIv(publicKey, key, iv) {
   const base64EncodedKey = transformKeyToBase64(aesExportedKey);
   const jsonStringSecrets = JSON.stringify({
     base64EncodedIV,
-    base64EncodedKey
+    base64EncodedKey,
   });
   const jsonArrayBuffer = stringToArrayBuffer(jsonStringSecrets);
 

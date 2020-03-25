@@ -4,7 +4,7 @@ import {
   stringToArrayBuffer,
   generateInitialVector,
   toPem,
-  toArrayBuffer
+  toArrayBuffer,
 } from "../lib/utilities";
 
 describe("aes-gcm", () => {
