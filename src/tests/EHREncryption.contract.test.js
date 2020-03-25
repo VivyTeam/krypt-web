@@ -5,7 +5,7 @@ import {
   arrayBufferToString,
   base64ToArrayBuffer,
   stringToArrayBuffer,
-  toArrayBuffer
+  toArrayBuffer,
 } from "../lib/utilities";
 
 describe("EHREncryption contract", () => {
@@ -57,7 +57,7 @@ describe("EHREncryption contract", () => {
     const { cipherKey, data } = await encrypt(cryptoPublicKey, buffer);
     const arrayBufferData = await decrypt(cryptoPrivateKey, {
       cipherKey,
-      data
+      data,
     });
 
     expect(arrayBufferToString(arrayBufferData)).toEqual(originalString);

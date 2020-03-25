@@ -1,6 +1,6 @@
-export const encode = data => btoa(data);
+export const encode = (data) => btoa(data);
 
-export const decode = data => atob(data);
+export const decode = (data) => atob(data);
 
 export function stringToArrayBuffer(data) {
   const arrayLength = data.length;
@@ -64,7 +64,7 @@ export const concatenateUint8Arrays = (...arrays) => {
   return result;
 };
 
-export const arrayBufferToHex = buffer => {
+export const arrayBufferToHex = (buffer) => {
   if (buffer.buffer instanceof ArrayBuffer && buffer.byteLength !== undefined) {
     throw new TypeError("Expected input to be an ArrayBuffer");
   }

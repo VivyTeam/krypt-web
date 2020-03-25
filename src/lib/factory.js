@@ -1,6 +1,6 @@
 import scrypt from "scrypt-async";
 
-export default algorithm => {
+export default (algorithm) => {
   const types = ["aes-gcm", "rsa-oaep", "aes-cbc", "scrypt"];
   const algorithmType = algorithm.toLowerCase();
 
@@ -15,7 +15,7 @@ export default algorithm => {
           window.crypto.subtle.generateKey(
             {
               name: "AES-GCM",
-              length: 256
+              length: 256,
             },
             true,
             ["encrypt", "decrypt"]
@@ -25,7 +25,7 @@ export default algorithm => {
          * @param key {arrayBuffer}
          * @returns {PromiseLike<CryptoKey>}
          */
-        importKey: key =>
+        importKey: (key) =>
           window.crypto.subtle.importKey(
             "raw",
             key,
@@ -38,7 +38,7 @@ export default algorithm => {
          * @param key {CryptoKey}
          * @returns {PromiseLike<ArrayBuffer>}
          */
-        exportKey: key => window.crypto.subtle.exportKey("raw", key),
+        exportKey: (key) => window.crypto.subtle.exportKey("raw", key),
         /**
          * @private
          * @param key {CryptoKey}
@@ -50,7 +50,7 @@ export default algorithm => {
           window.crypto.subtle.encrypt(
             {
               name: "AES-GCM",
-              iv
+              iv,
             },
             key,
             data
@@ -66,11 +66,11 @@ export default algorithm => {
           window.crypto.subtle.decrypt(
             {
               name: "AES-GCM",
-              iv: new Uint8Array(iv)
+              iv: new Uint8Array(iv),
             },
             key,
             data
-          )
+          ),
       };
     case "rsa-oaep":
       return {
@@ -85,7 +85,7 @@ export default algorithm => {
               name: "RSA-OAEP",
               modulusLength: bits,
               publicExponent: new Uint8Array([0x01, 0x00, 0x01]),
-              hash: { name: "SHA-256" }
+              hash: { name: "SHA-256" },
             },
             false,
             ["encrypt", "decrypt"]
@@ -95,7 +95,7 @@ export default algorithm => {
          * @param key {arrayBuffer}
          * @returns {PromiseLike<CryptoKey>}
          */
-        importKey: key =>
+        importKey: (key) =>
           window.crypto.subtle.importKey(
             "spki",
             key,
@@ -108,7 +108,7 @@ export default algorithm => {
          * @param publicKey {CryptoKey}
          * @returns {PromiseLike<ArrayBuffer>}
          */
-        exportKey: publicKey =>
+        exportKey: (publicKey) =>
           window.crypto.subtle.exportKey("spki", publicKey),
         /**
          * @private
@@ -129,7 +129,7 @@ export default algorithm => {
             { name: "RSA-OAEP" },
             privateKey,
             arrayBuffer
-          )
+          ),
       };
     case "aes-cbc":
       return {
@@ -141,7 +141,7 @@ export default algorithm => {
           window.crypto.subtle.generateKey(
             {
               name: "AES-CBC",
-              length: 256
+              length: 256,
             },
             true,
             ["encrypt", "decrypt"]
@@ -151,7 +151,7 @@ export default algorithm => {
          * @param key {arrayBuffer}
          * @returns {PromiseLike<CryptoKey>}
          */
-        importKey: key =>
+        importKey: (key) =>
           window.crypto.subtle.importKey(
             "raw",
             key,
@@ -164,7 +164,7 @@ export default algorithm => {
          * @param key {CryptoKey}
          * @returns {PromiseLike<ArrayBuffer>}
          */
-        exportKey: key => window.crypto.subtle.exportKey("raw", key),
+        exportKey: (key) => window.crypto.subtle.exportKey("raw", key),
         /**
          * @private
          * @param key {CryptoKey}
@@ -176,7 +176,7 @@ export default algorithm => {
           window.crypto.subtle.encrypt(
             {
               name: "AES-CBC",
-              iv
+              iv,
             },
             key,
             data
@@ -192,11 +192,11 @@ export default algorithm => {
           window.crypto.subtle.decrypt(
             {
               name: "AES-CBC",
-              iv: new Uint8Array(iv)
+              iv: new Uint8Array(iv),
             },
             key,
             data
-          )
+          ),
       };
     case "scrypt":
       return {
@@ -217,19 +217,19 @@ export default algorithm => {
               r: 8,
               p: 1,
               dkLen: 32,
-              ...options
+              ...options,
             },
-            key => {
+            (key) => {
               derivedKey = key;
             }
           );
           return derivedKey;
-        }
+        },
       };
     default:
       throw new Error(
         `The algorithm you requested is not currently supported. Supported are ${types.map(
-          type => ` ${type}`
+          (type) => ` ${type}`
         )}.`
       );
   }
