@@ -55,7 +55,8 @@
   },
   "resolutions": {
     "karmatic/karma-webpack": "^2.0.13",
-    "karmatic/karma/expand-braces/braces": "^2.3.2"
+    "karmatic/karma/expand-braces/braces": "^2.3.2",
+    "karmatic/karma/optimist/minimist": "^1.2.2"
   },
   "husky": {
     "hooks": {
